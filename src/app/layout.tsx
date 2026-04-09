@@ -26,9 +26,9 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Taitung.md \u2014 \u8d70\u9032\u53f0\u6771",
+  title: "Taitung.md \— \走\進\台\東",
   description:
-    "\u4e00\u5ea7\u958b\u6e90\u7684\u53f0\u6771\u77e5\u8b58\u5eab\u3002\u5f9e\u81fa\u6771\u5927\u5b78\u51fa\u767c\uff0c\u70ba\u6240\u6709\u60f3\u8a8d\u8b58\u53f0\u6771\u7684\u4eba\u800c\u5efa\u3002",
+    "\一\座\開\源\的\台\東\知\識\庫\。\從\臺\東\大\學\出\發\，\為\所\有\想\認\識\台\東\的\人\而\建\。",
 };
 
 export default function RootLayout({

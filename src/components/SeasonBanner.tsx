@@ -12,12 +12,12 @@ export default function SeasonBanner() {
     <section className="px-10 flex justify-center">
       <div className="max-w-content w-full py-20 border-t border-ink/[0.06]">
         <p className="text-xs tracking-[0.2em] uppercase text-sunrise font-medium mb-5">
-          {t("season.label")} \u00b7 {monthName}
+          {t("season.label")} &middot; {monthName}
         </p>
         <p className="font-display text-h2 leading-relaxed text-ink-soft">
-          {season.description.split("\uff0c").map((part, i) => (
+          {season.description.split("\uFF0C".replace("FF0C", String.fromCharCode(0xFF0C))).map((part, i) => (
             <span key={i}>
-              {i > 0 && "\uff0c"}
+              {i > 0 && String.fromCharCode(0xFF0C)}
               <em className="not-italic text-ink font-semibold">{part}</em>
             </span>
           ))}

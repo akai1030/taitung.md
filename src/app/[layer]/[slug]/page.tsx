@@ -66,11 +66,11 @@ export default function ArticleSlugPage({
           {/* Meta */}
           <div className="flex items-center gap-4 text-sm text-smoke pb-8 border-b border-ink/[0.06]">
             {frontmatter.township && <span>{frontmatter.township}</span>}
-            <span>{readTime} \u5206\u9418\u95b1\u8b80</span>
+            <span>{readTime}{" 分鐘閱讀"}</span>
             {frontmatter.coordinates && (
               <span className="font-accent italic text-stone">
-                {frontmatter.coordinates[0].toFixed(4)}\u00b0N,{" "}
-                {frontmatter.coordinates[1].toFixed(4)}\u00b0E
+                {frontmatter.coordinates[0].toFixed(4)}&deg;N,{" "}
+                {frontmatter.coordinates[1].toFixed(4)}&deg;E
               </span>
             )}
           </div>

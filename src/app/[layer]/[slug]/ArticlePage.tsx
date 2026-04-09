@@ -77,7 +77,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
           {frontmatter.tags && frontmatter.tags.length > 0 && (
             <div className="mb-8">
               <h4 className="text-xs tracking-[0.15em] uppercase text-stone mb-3">
-                \u6a19\u7c64
+                {"標籤"}
               </h4>
               <div className="flex flex-wrap gap-2">
                 {frontmatter.tags.map((tag) => (
@@ -96,7 +96,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
           {frontmatter.sources && frontmatter.sources.length > 0 && (
             <div className="mb-8">
               <h4 className="text-xs tracking-[0.15em] uppercase text-stone mb-3">
-                \u53c3\u8003\u4f86\u6e90
+                {"參考來源"}
               </h4>
               <ul className="space-y-2">
                 {frontmatter.sources.map((source, i) => (
@@ -123,7 +123,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
           {frontmatter.related && frontmatter.related.length > 0 && (
             <div>
               <h4 className="text-xs tracking-[0.15em] uppercase text-stone mb-3">
-                \u76f8\u95dc\u6587\u7ae0
+                {"相關文章"}
               </h4>
               <ul className="space-y-2">
                 {frontmatter.related.map((path) => (

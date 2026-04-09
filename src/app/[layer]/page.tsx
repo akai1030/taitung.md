@@ -45,7 +45,7 @@ export default function LayerPage({
               style={{ backgroundColor: layer.color }}
             />
             <p className="text-smoke text-lg max-w-prose">
-              {articles.length} \u7bc7\u6587\u7ae0
+              {articles.length}{" 篇文章"}
             </p>
           </div>
         </section>
@@ -66,12 +66,12 @@ export default function LayerPage({
               </ScrollReveal>
             ) : (
               <div className="text-center py-20">
-                <p className="text-smoke text-lg">\u9084\u6c92\u6709\u6587\u7ae0\u3002\u6210\u70ba\u7b2c\u4e00\u500b\u8ca2\u737b\u8005\uff1f</p>
+                <p className="text-smoke text-lg">{"還沒有文章。成為第一個貢獻者？"}</p>
                 <Link
                   href="/contribute"
                   className="inline-block mt-4 text-pacific font-accent italic border-b border-pacific hover:gap-3 transition-all"
                 >
-                  \u4e86\u89e3\u5982\u4f55\u53c3\u8207 \u2192
+                  {"了解如何參與 →"}
                 </Link>
               </div>
             )}

@@ -41,7 +41,6 @@ export default function TaitungMap({
 
     map.current.on("load", () => {
       setLoaded(true);
-
       if (!interactive) {
         map.current!.scrollZoom.disable();
         map.current!.dragPan.disable();
@@ -64,11 +63,9 @@ export default function TaitungMap({
   useEffect(() => {
     if (!map.current || !loaded) return;
 
-    // Remove existing markers
     const existingMarkers = document.querySelectorAll(".map-marker");
     existingMarkers.forEach((el) => el.remove());
 
-    // Add points
     const filteredPoints = activeLayers
       ? points.filter((p) => activeLayers.includes(p.layer))
       : points;
@@ -117,7 +114,7 @@ export default function TaitungMap({
       <div ref={mapContainer} className="w-full h-full" />
       {!loaded && (
         <div className="absolute inset-0 bg-sand flex items-center justify-center">
-          <span className="text-smoke text-sm">\u5730\u5716\u8f09\u5165\u4e2d...</span>
+          <span className="text-smoke text-sm">地圖載入中...</span>
         </div>
       )}
     </div>

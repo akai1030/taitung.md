@@ -13,7 +13,7 @@ export default function SearchPage() {
       <main className="pt-40 pb-32 px-10">
         <div className="max-w-content mx-auto">
           <h1 className="font-display text-h1 font-bold tracking-tight mb-8">
-            \u641c\u5c0b
+            \搜\尋
           </h1>
 
           <div className="relative mb-16">
@@ -21,7 +21,7 @@ export default function SearchPage() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="\u8f38\u5165\u95dc\u9375\u5b57\u641c\u5c0b\u53f0\u6771\u7684\u6545\u4e8b..."
+              placeholder="\輸\入\關\鍵\字\搜\尋\台\東\的\故\事..."
               className="w-full px-6 py-4 text-lg bg-sand border border-ink/[0.06] rounded-button font-body focus:outline-none focus:border-pacific transition-colors"
             />
             <span className="absolute right-6 top-1/2 -translate-y-1/2 text-stone">
@@ -41,7 +41,7 @@ export default function SearchPage() {
 
           <div className="text-center py-20">
             <p className="text-smoke">
-              \u641c\u5c0b\u529f\u80fd\u5c07\u7531 Pagefind \u9a45\u52d5\uff0c\u5efa\u7f6e\u6642\u81ea\u52d5\u7d22\u5f15\u5168\u90e8\u5167\u5bb9\u3002
+              \搜\尋\功\能\將\由 Pagefind \驅\動\，\建\置\時\自\動\索\引\全\部\內\容\。
             </p>
           </div>
         </div>

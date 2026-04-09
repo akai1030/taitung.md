@@ -10,11 +10,11 @@ interface VoiceSwitcherProps {
 }
 
 const voiceIcons: Record<VoiceType, string> = {
-  academic: "\ud83d\udcd6",
-  "oral-history": "\ud83c\udfa4",
-  "field-note": "\ud83d\udcdd",
-  "youth-action": "\ud83c\udf31",
-  visitor: "\ud83c\udf0d",
+  academic: "📖",
+  "oral-history": "🎤",
+  "field-note": "📝",
+  "youth-action": "🌱",
+  visitor: "🌍",
 };
 
 const voiceColors: Record<VoiceType, string> = {

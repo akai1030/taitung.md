@@ -30,13 +30,13 @@ export default function MapPage() {
         href="/"
         className="fixed top-6 left-6 z-[100] bg-cream/90 backdrop-blur-lg rounded-full px-4 py-2 text-sm text-smoke no-underline hover:text-ink border border-ink/[0.08] transition-all"
       >
-        \u2190 Taitung.md
+        {"← Taitung.md"}
       </Link>
 
       {/* Layer toggle panel */}
       <div className="fixed top-6 right-6 z-[100] bg-cream/90 backdrop-blur-lg rounded-card p-4 border border-ink/[0.08] max-h-[80vh] overflow-y-auto">
         <h3 className="text-xs tracking-[0.15em] uppercase text-stone mb-3">
-          \u5730\u666f\u5c64
+          {"地景層"}
         </h3>
         <div className="space-y-2">
           {layers.map((layer) => (

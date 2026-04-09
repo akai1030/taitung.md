@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Article } from "@/lib/types";
 import LayerTag from "./LayerTag";
+import { getLayerById } from "@/lib/layers";
 
 interface ArticleCardProps {
   article: Article;
@@ -13,6 +14,9 @@ export default function ArticleCard({
 }: ArticleCardProps) {
   const { frontmatter, slug, layer } = article;
   const readTime = Math.max(1, Math.ceil(article.content.length / 500));
+  const primaryLayer = frontmatter.layer?.[0] || layer;
+  const layerInfo = getLayerById(primaryLayer);
+  const icon = layerInfo?.icon || "📝";
 
   if (variant === "horizontal") {
     return (
@@ -22,27 +26,7 @@ export default function ArticleCard({
         style={{ transitionTimingFunction: "cubic-bezier(.23,1,.32,1)" }}
       >
         <div className="w-full h-[260px] bg-sand-deep rounded overflow-hidden mb-5 flex items-center justify-center">
-          <span className="text-5xl opacity-30">
-            {frontmatter.layer?.[0]
-              ? (() => {
-                  const icons: Record<string, string> = {
-                    land: "\ud83d\uddfa\ufe0f",
-                    time: "\ud83c\udfdb\ufe0f",
-                    people: "\ud83d\udc65",
-                    knowledge: "\ud83c\udf93",
-                    living: "\ud83c\udf5a",
-                    celebration: "\ud83c\udfad",
-                    experience: "\ud83c\udfc4",
-                    youth: "\ud83c\udf31",
-                    design: "\ud83c\udfa8",
-                    education: "\ud83d\udcda",
-                    sustainability: "\ud83c\udf3f",
-                    connection: "\ud83d\ude82",
-                  };
-                  return icons[frontmatter.layer[0]] || "\ud83d\udcdd";
-                })()
-              : "\ud83d\udcdd"}
-          </span>
+          <span className="text-5xl opacity-30">{icon}</span>
         </div>
         <div className="flex gap-2 mb-2.5">
           {frontmatter.layer?.slice(0, 2).map((l) => (
@@ -54,7 +38,8 @@ export default function ArticleCard({
         </h3>
         <p className="text-sm text-stone">
           {frontmatter.township && `${frontmatter.township} \u00b7 `}
-          {readTime} \u5206\u9418\u95b1\u8b80
+          {readTime}
+          {" 分鐘閱讀"}
         </p>
       </Link>
     );
@@ -67,27 +52,7 @@ export default function ArticleCard({
     >
       <div className="bg-sand/50 rounded-card overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:border-pacific border border-transparent">
         <div className="w-full h-48 bg-sand-deep flex items-center justify-center">
-          <span className="text-4xl opacity-30">
-            {frontmatter.layer?.[0]
-              ? (() => {
-                  const icons: Record<string, string> = {
-                    land: "\ud83d\uddfa\ufe0f",
-                    time: "\ud83c\udfdb\ufe0f",
-                    people: "\ud83d\udc65",
-                    knowledge: "\ud83c\udf93",
-                    living: "\ud83c\udf5a",
-                    celebration: "\ud83c\udfad",
-                    experience: "\ud83c\udfc4",
-                    youth: "\ud83c\udf31",
-                    design: "\ud83c\udfa8",
-                    education: "\ud83d\udcda",
-                    sustainability: "\ud83c\udf3f",
-                    connection: "\ud83d\ude82",
-                  };
-                  return icons[frontmatter.layer[0]] || "\ud83d\udcdd";
-                })()
-              : "\ud83d\udcdd"}
-          </span>
+          <span className="text-4xl opacity-30">{icon}</span>
         </div>
         <div className="p-5">
           <div className="flex gap-2 mb-2.5">
@@ -100,7 +65,8 @@ export default function ArticleCard({
           </h3>
           <p className="text-sm text-stone">
             {frontmatter.township && `${frontmatter.township} \u00b7 `}
-            {readTime} \u5206\u9418\u95b1\u8b80
+            {readTime}
+            {" 分鐘閱讀"}
           </p>
         </div>
       </div>

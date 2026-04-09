@@ -10,44 +10,44 @@ export default function AboutPage() {
         <div className="max-w-prose mx-auto">
           <ScrollReveal>
             <h1 className="font-display text-h1 font-bold tracking-tight mb-8">
-              \u95dc\u65bc Taitung.md
+              {"關於"} Taitung.md
             </h1>
 
             <div className="prose-taitung font-body">
               <p>
-                Taitung.md \u662f\u4e00\u5ea7\u958b\u6e90\u7684\u53f0\u6771\u77e5\u8b58\u5eab\u3002\u5f9e\u81fa\u6771\u5927\u5b78\u51fa\u767c\uff0c\u70ba\u6240\u6709\u60f3\u8a8d\u8b58\u53f0\u6771\u7684\u4eba\u800c\u5efa\u3002
+                {"Taitung.md 是一座開源的台東知識庫。從臺東大學出發，為所有想認識台東的人而建。"}
               </p>
 
-              <h2>\u4e0d\u662f wiki\uff0c\u4e0d\u662f\u90e8\u843d\u683c</h2>
+              <h2>{"不是 wiki，不是部落格"}</h2>
               <p>
-                \u5b83\u662f\u4e00\u500b\u4ee5\u5730\u7406\u5ea7\u6a19\u70ba\u9328\u9ede\u7684\u4e92\u52d5\u5f0f\u7d00\u9304\u7247\u9ad4\u9a57\u3002\u53f0\u6771\u7684\u77e5\u8b58\u5929\u7136\u5e36\u6709\u7a7a\u9593\u6027\u2014\u2014\u6bcf\u500b\u90e8\u843d\u3001\u6bcf\u689d\u6eaa\u6d41\u3001\u6bcf\u5ea7\u5c71\u90fd\u662f\u4e00\u500b\u6545\u4e8b\u7684\u9328\u9ede\u3002
-                \u4f7f\u7528\u8005\u4e0d\u61c9\u8a72\u50cf\u7ffb\u767e\u79d1\u5168\u66f8\u4e00\u6a23\u95b1\u8b80\u53f0\u6771\uff0c\u800c\u662f\u50cf\u8d70\u9032\u53f0\u6771\u4e00\u6a23\u63a2\u7d22\u5b83\u3002
+                {"它是一個以地理座標為錨點的互動式紀錄片體驗。台東的知識天然帶有空間性——每個部落、每條溪流、每座山都是一個故事的錨點。"}
+                {"使用者不應該像翻百科全書一樣閱讀台東，而是像走進台東一樣探索它。"}
               </p>
 
-              <h2>\u6838\u5fc3\u7406\u5ff5</h2>
+              <h2>{"核心理念"}</h2>
               <p>
-                <strong>\u5730\u5716\u512a\u5148</strong>\uff1a\u6240\u6709\u5167\u5bb9\u90fd\u639b\u5728\u5730\u7406\u5ea7\u6a19\u4e0a\uff0c\u5730\u5716\u662f\u4e3b\u8981\u5c0e\u822a\u65b9\u5f0f\u3002
+                <strong>{"地圖優先"}</strong>{"：所有內容都掛在地理座標上，地圖是主要導航方式。"}
               </p>
               <p>
-                <strong>\u591a\u8072\u9053</strong>\uff1a\u540c\u4e00\u500b\u5730\u65b9\u53ef\u80fd\u6709\u5b78\u8853\u7814\u7a76\u3001\u90e8\u843d\u8006\u8001\u53e3\u8ff0\u3001\u5b78\u751f\u7530\u91ce\u7b46\u8a18\u3001\u9752\u5e74\u884c\u52d5\u7d00\u9304\uff0c\u5168\u90e8\u4e26\u5b58\u3002
+                <strong>{"多聲道"}</strong>{"：同一個地方可能有學術研究、部落耆老口述、學生田野筆記、青年行動紀錄，全部並存。"}
               </p>
               <p>
-                <strong>\u6d3b\u7684\u5167\u5bb9</strong>\uff1a\u5b63\u7bc0\u3001\u796d\u5178\u3001\u6c23\u5019\u6703\u6539\u8b8a\u53f0\u6771\u7684\u9762\u8c8c\uff0c\u77e5\u8b58\u5eab\u4e5f\u8ddf\u8457\u547c\u5438\u3002
+                <strong>{"活的內容"}</strong>{"：季節、祭典、氣候會改變台東的面貌，知識庫也跟著呼吸。"}
               </p>
               <p>
-                <strong>\u9752\u5e74\u53c3\u8207</strong>\uff1a\u9752\u5e74\u4e0d\u53ea\u662f\u4f7f\u7528\u8005\uff0c\u66f4\u662f\u6838\u5fc3\u8ca2\u737b\u8005\u548c\u7b56\u5c55\u4eba\u3002
-              </p>
-
-              <h2>\u53f0\u6771\u4e03\u65cf</h2>
-              <p>
-                \u53f0\u6771\u64c1\u6709\u4e03\u500b\u539f\u4f4f\u6c11\u65cf\u7fa4\uff1a\u963f\u7f8e\u65cf\u3001\u6392\u7063\u65cf\u3001\u5e03\u8fb2\u65cf\u3001\u5351\u5357\u65cf\u3001\u9b6f\u51f1\u65cf\u3001\u9054\u609f\u65cf\u3001\u564e\u746a\u862d\u65cf\u3002
-                \u9019\u5ea7\u77e5\u8b58\u5eab\u5c0d\u539f\u4f4f\u6c11\u6587\u5316\u61f7\u6709\u6700\u6df1\u7684\u656c\u610f\u2014\u2014\u7e54\u7d0b\u548c\u5716\u9a30\u4e0d\u662f\u88dd\u98fe\u54c1\uff0c\u800c\u662f\u6709\u610f\u7fa9\u5730\u51fa\u73fe\u5728\u5c0d\u61c9\u7684\u6587\u5316\u5340\u584a\u3002
+                <strong>{"青年參與"}</strong>{"：青年不只是使用者，更是核心貢獻者和策展人。"}
               </p>
 
-              <h2>\u6280\u8853</h2>
+              <h2>{"台東七族"}</h2>
               <p>
-                \u5efa\u69cb\u5728 Next.js + TypeScript + Tailwind CSS + MapLibre GL JS \u4e4b\u4e0a\u3002
-                \u5167\u5bb9\u7528 Markdown + YAML Frontmatter \u64b0\u5beb\uff0cGit \u53cb\u5584\uff0cAI \u53ef\u8b80\u3002
+                {"台東擁有七個原住民族群：阿美族、排灣族、布農族、卑南族、魯凱族、達悟族、噶瑪蘭族。"}
+                {"這座知識庫對原住民文化懷有最深的敬意——織紋和圖騰不是裝飾品，而是有意義地出現在對應的文化區塊。"}
+              </p>
+
+              <h2>{"技術"}</h2>
+              <p>
+                {"建構在 Next.js + TypeScript + Tailwind CSS + MapLibre GL JS 之上。"}
+                {"內容用 Markdown + YAML Frontmatter 撰寫，Git 友善，AI 可讀。"}
               </p>
             </div>
           </ScrollReveal>
