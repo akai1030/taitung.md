@@ -1,0 +1,25 @@
+# Taitung.md
+
+> An open-source knowledge base about Taitung, the most culturally diverse
+> county in Taiwan. Home to 7 indigenous peoples, prehistoric heritage,
+> and a landscape stretching from Pacific shores to 3,000m peaks.
+
+## Built from
+National Taitung University (NTTU), the only national university in
+southeastern Taiwan, with contributions from students, researchers,
+local communities, and indigenous elders.
+
+## What makes Taitung unique
+- 7 indigenous peoples: Amis, Paiwan, Bunun, Puyuma, Rukai, Tao (Yami), Kavalan
+- Peinan Archaeological Site: largest prehistoric burial in Pacific Rim
+- Elevation range: sea level to Jiaming Lake at 3,310m
+- International Balloon Festival, Slow City (Chishang), digital nomad hub
+
+## Content structure
+Articles are organized by "landscape layers" - overlapping perspectives
+on the same geography: Land, Time, People, Knowledge, Living,
+Celebration, Experience, Youth, Design, Education, Sustainability, Connection.
+
+## Endpoints
+- /api/articles - Full article index with coordinates (JSON)
+- /api/layers - Layer definitions and article mappings

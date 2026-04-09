@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --sand: #F5F0E8;
+  --sand-deep: #E8E0D0;
+  --cream: #FAF8F3;
+  --ink: #1E1D1A;
+  --ink-soft: #3D3B35;
+  --smoke: #8A8578;
+  --stone: #B8B0A2;
+  --pacific: #1B5E7B;
+  --pacific-faint: #EEF5F8;
+  --valley: #3A6B42;
+  --valley-faint: #EDF5EE;
+  --sunrise: #C8782A;
+  --sunrise-faint: #FBF3EA;
+  --youth-green: #5BAD6F;
+  --youth-faint: #EFF8F1;
+  --volcano: #C53D3D;
+  --contour: rgba(30, 29, 26, 0.06);
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
+}
+
+/* Noise overlay — 紙張質感 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s cubic-bezier(.23, 1, .32, 1),
+              transform 0.9s cubic-bezier(.23, 1, .32, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scroll hint float animation */
+@keyframes float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* 隱藏水平捲動 scrollbar */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { scrollbar-width: none; }
+
+/* Article prose styling */
+.prose-taitung {
+  font-size: 1.125rem;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  max-width: 680px;
+}
+.prose-taitung p {
+  margin-bottom: 1.5em;
+}
+.prose-taitung h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2.5em 0 1em;
+  letter-spacing: -0.01em;
+}
+.prose-taitung h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 2em 0 0.8em;
+}
+.prose-taitung blockquote {
+  border-left: 3px solid var(--sunrise);
+  padding-left: 1.25em;
+  margin: 2em 0;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+.prose-taitung ul,
+.prose-taitung ol {
+  padding-left: 1.5em;
+  margin-bottom: 1.5em;
+}
+.prose-taitung li {
+  margin-bottom: 0.5em;
+}
+.prose-taitung a {
+  color: var(--pacific);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-taitung a:hover {
+  color: var(--ink);
+}
+
+/* MapLibre 基本樣式 */
+.maplibregl-map {
+  font-family: inherit;
+}
+
+/* Focus 樣式 — 太平洋藍 */
+:focus-visible {
+  outline: 2px solid var(--pacific);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
