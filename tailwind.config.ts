@@ -17,6 +17,7 @@ const config: Config = {
         pacific: { DEFAULT: "#1B5E7B", faint: "#EEF5F8" },
         valley: { DEFAULT: "#3A6B42", faint: "#EDF5EE" },
         sunrise: { DEFAULT: "#C8782A", faint: "#FBF3EA" },
+        gold: { DEFAULT: "#d4a44a", light: "#e0b458" },
         volcano: "#C53D3D",
         // 地景層色
         layer: {

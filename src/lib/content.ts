@@ -5,51 +5,52 @@ import { Article, ArticleFrontmatter, LayerId, MapPoint } from "./types";
 
 const contentDirectory = path.join(process.cwd(), "content");
 
-function getMarkdownFiles(dir: string): string[] {
-  if (!fs.existsSync(dir)) return [];
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  const files: string[] = [];
-  for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      files.push(...getMarkdownFiles(fullPath));
-    } else if (entry.name.endsWith(".md") && !entry.name.startsWith("_")) {
-      files.push(fullPath);
-    }
-  }
-  return files;
-}
-
 export function getAllArticles(): Article[] {
-  const files = getMarkdownFiles(contentDirectory);
-  return files
-    .map((filePath) => {
+  if (!fs.existsSync(contentDirectory)) return [];
+  const entries = fs.readdirSync(contentDirectory, { withFileTypes: true });
+  const articles: Article[] = [];
+
+  for (const entry of entries) {
+    if (!entry.isFile() || !entry.name.endsWith(".md")) continue;
+    const filePath = path.join(contentDirectory, entry.name);
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+    const { data, content } = matter(fileContent);
+    const frontmatter = data as ArticleFrontmatter;
+    const slug = frontmatter.slug || path.basename(entry.name, ".md");
+    const primaryLayer = Array.isArray(frontmatter.layer)
+      ? frontmatter.layer[0]
+      : frontmatter.layer || "land";
+    articles.push({ frontmatter, content, slug, layer: primaryLayer });
+  }
+
+  // Also check subdirectories for backward compat during migration
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const subdir = path.join(contentDirectory, entry.name);
+    const subEntries = fs.readdirSync(subdir, { withFileTypes: true });
+    for (const sub of subEntries) {
+      if (!sub.isFile() || !sub.name.endsWith(".md")) continue;
+      const filePath = path.join(subdir, sub.name);
       const fileContent = fs.readFileSync(filePath, "utf-8");
       const { data, content } = matter(fileContent);
       const frontmatter = data as ArticleFrontmatter;
-      const relativePath = path.relative(contentDirectory, filePath);
-      const parts = relativePath.replace(/\\/g, "/").split("/");
-      const primaryLayer = parts[0];
-      return {
-        frontmatter,
-        content,
-        slug: frontmatter.slug || path.basename(filePath, ".md"),
-        layer: primaryLayer,
-      };
-    })
-    .sort(
-      (a, b) =>
-        new Date(b.frontmatter.created || "").getTime() -
-        new Date(a.frontmatter.created || "").getTime()
-    );
+      const slug = frontmatter.slug || path.basename(sub.name, ".md");
+      // Skip if already found at root level
+      if (articles.some((a) => a.slug === slug)) continue;
+      const primaryLayer = entry.name;
+      articles.push({ frontmatter, content, slug, layer: primaryLayer });
+    }
+  }
+
+  return articles.sort(
+    (a, b) =>
+      new Date(b.frontmatter.created || "").getTime() -
+      new Date(a.frontmatter.created || "").getTime()
+  );
 }
 
-export function getArticleBySlug(
-  layer: string,
-  slug: string
-): Article | undefined {
-  const articles = getAllArticles();
-  return articles.find((a) => a.layer === layer && a.slug === slug);
+export function getArticleBySlug(slug: string): Article | undefined {
+  return getAllArticles().find((a) => a.slug === slug);
 }
 
 export function getArticlesByLayer(layer: string): Article[] {
@@ -68,14 +69,4 @@ export function getMapPoints(): MapPoint[] {
       layer: (a.frontmatter.layer?.[0] || a.layer) as LayerId,
       township: a.frontmatter.township,
     }));
-}
-
-export function getAllLayers(): string[] {
-  const articles = getAllArticles();
-  const layerSet = new Set<string>();
-  articles.forEach((a) => {
-    layerSet.add(a.layer);
-    a.frontmatter.layer?.forEach((l) => layerSet.add(l));
-  });
-  return Array.from(layerSet);
 }

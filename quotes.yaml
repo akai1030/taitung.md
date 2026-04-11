@@ -1,0 +1,307 @@
+# Taitung.md — 台東文學語錄資料庫
+# 收錄與台東有關的作家、文學作品、經典語錄
+# 用途：首頁引言輪播、文章頁裝飾引言、語錄探索頁
+
+# ═══════════════════════════════════════
+# 作家資料
+# ═══════════════════════════════════════
+
+authors:
+
+  - id: syaman-rapongan
+    name: 夏曼·藍波安
+    nameEn: Syaman Rapongan
+    hanName: 施努來
+    ethnicity: 達悟族（Tao）
+    hometown: 蘭嶼·紅頭部落
+    township: 蘭嶼鄉
+    coordinates: [22.0417, 121.5483]
+    born: 1957
+    role: 海洋文學作家、人類學者
+    bio: 達悟族首屈一指的文學家。以身體經驗為起點書寫海洋，作品深受傳統詩歌、划船、捕飛魚、潛水的影響。
+    awards:
+      - 吳濁流文學獎
+      - 時報文學獎
+      - 吳魯芹散文獎
+      - 金鼎獎
+    works:
+      - title: 八代灣的神話
+        year: 1992
+        type: 散文
+      - title: 冷海情深
+        year: 1997
+        type: 散文
+        note: 聯合報讀書人年度十大好書
+      - title: 老海人
+        year: 2009
+        type: 散文
+        note: 金鼎獎
+      - title: 大海浮夢
+        year: 2014
+        type: 長篇小說
+      - title: 天空的眼睛
+        year: 2012
+        type: 散文
+      - title: 安洛米恩之死
+        year: 2015
+        type: 長篇小說
+    layers: [people, land, living]
+
+  - id: badai
+    name: 巴代
+    nameEn: Badai
+    hanName: 林二郎
+    ethnicity: 卑南族（Puyuma）
+    hometown: 台東·大巴六九部落（Damalagaw）
+    township: 卑南鄉
+    coordinates: [22.7867, 121.0942]
+    born: 1962
+    role: 小說家
+    bio: 以卑南族部落為敘事主體，作品根基於原住民身份與軍旅經驗。寫作中採用「卑—漢」雙語對話形式，先出現卑南語，再輔以中文。
+    awards:
+      - 台灣文學獎小說金典獎
+      - 金鼎獎最佳著作人獎
+      - 吳三連獎
+    works:
+      - title: 笛鸛：大巴六九部落之大正年間
+        year: 2007
+        type: 長篇小說
+        note: 金鼎獎最佳著作人獎
+      - title: 走過：一個台籍原住民老兵的故事
+        year: 2010
+        type: 長篇小說
+      - title: 暗礁
+        year: 2013
+        type: 長篇小說
+      - title: 馬鐵路：大巴六九部落之大正年間（下）
+        year: 2010
+        type: 長篇小說
+    layers: [people, time, knowledge]
+
+  - id: sakinu
+    name: 亞榮隆·撒可努
+    nameEn: Sakinu Yalonglong
+    ethnicity: 排灣族（Paiwan）
+    hometown: 台東·太麻里·拉勞蘭部落（Lalauran）
+    township: 太麻里鄉
+    coordinates: [22.6156, 120.9958]
+    born: 1972
+    role: 作家、森林警察、獵人學校創辦人
+    bio: 撒可努是他的名，意味著動物奔馳與植物蓬勃，象徵萬物生生不息。著作《山豬·飛鼠·撒可努》被哈佛大學選為教材，編入台灣國中、高中課文。2002 年創辦獵人學校。
+    awards:
+      - 巫永福文學獎
+    works:
+      - title: 山豬·飛鼠·撒可努
+        year: 2000
+        type: 散文
+        note: 哈佛大學應用中文系教材，改拍電影
+      - title: 走風的人：我的獵人父親
+        year: 2002
+        type: 散文
+      - title: 外山的故事
+        year: 2011
+        type: 散文
+    layers: [people, land, education]
+
+  - id: sangpuy
+    name: 桑布伊
+    nameEn: Sangpuy Katatepan Mavaliyw
+    hanName: 盧皆興
+    ethnicity: 卑南族（Puyuma）
+    hometown: 台東·知本·卡大地布部落
+    township: 台東市
+    coordinates: [22.7000, 121.0567]
+    born: 1976
+    role: 歌手、音樂創作人、文化傳承者
+    bio: 以卑南族母語創作，三度獲金曲獎最佳原住民語歌手。透過歌謠傳唱傳承族群歷史，也以音樂關懷土地與環境議題。
+    awards:
+      - 金曲獎最佳原住民語歌手（三屆）
+    works:
+      - title: dalan（路）
+        year: 2012
+        type: 專輯
+      - title: 椏幹
+        year: 2016
+        type: 專輯
+      - title: 得力量 pulu'em
+        year: 2020
+        type: 專輯
+        note: 金曲獎
+    layers: [people, celebration, youth]
+
+  - id: suming
+    name: 舒米恩
+    nameEn: Suming Rupi
+    ethnicity: 阿美族（Amis）
+    hometown: 台東·東河·都蘭部落
+    township: 東河鄉
+    coordinates: [22.8897, 121.2253]
+    born: 1978
+    role: 歌手、音樂創作人、演員、阿米斯音樂節創辦人
+    bio: 來自都蘭部落的阿美族創作者。以母語創作的〈不要放棄〉獲金曲獎年度歌曲。不拿補助自辦「阿米斯音樂節」，在「都蘭小巨蛋」（都蘭國小體育館）為部落而唱。
+    awards:
+      - 金曲獎最佳年度歌曲（2016）
+      - 金馬獎最佳新演員（2008）
+    works:
+      - title: 不要放棄
+        year: 2016
+        type: 單曲
+        note: 金曲獎年度歌曲
+      - title: 美式生活
+        year: 2020
+        type: 專輯
+    layers: [people, celebration, youth]
+
+  - id: sun-ta-chuan
+    name: 孫大川
+    nameEn: Sun Ta-chuan
+    hanName: 巴厄拉邦·德納班
+    ethnicity: 卑南族（Puyuma）
+    hometown: 台東·下賓朗部落（Pinaseki）
+    township: 卑南鄉
+    coordinates: [22.7783, 121.0867]
+    born: 1953
+    role: 學者、散文家、前原民會主委
+    bio: 卑南族學者，長期推動原住民文學與文化運動。創辦《山海文化》雜誌，為台灣原住民文學建立了重要的發表平台。
+    works:
+      - title: 久久酒一次
+        year: 1991
+        type: 散文
+      - title: 山海世界：台灣原住民心靈世界的摹寫
+        year: 2000
+        type: 論述
+      - title: 搭蘆灣手記
+        year: 2010
+        type: 散文
+    layers: [people, knowledge, time]
+
+  - id: chiang-hsun
+    name: 蔣勳
+    nameEn: Chiang Hsun
+    hometown: 駐村於台東·池上
+    township: 池上鄉
+    coordinates: [23.0972, 121.2167]
+    born: 1947
+    role: 作家、畫家、美學家
+    bio: 2014 年應台灣好基金會邀請駐村池上兩年，融入池上的自然與人情，寫成《池上日記》。2024 年在池上開設「蔣勳書房」。
+    works:
+      - title: 池上日記
+        year: 2017
+        type: 散文
+      - title: 池上印象
+        year: 2019
+        type: 散文/攝影
+    layers: [living, design, land]
+
+  - id: lung-ying-tai
+    name: 龍應台
+    nameEn: Lung Ying-tai
+    born: 1952
+    role: 作家、前文化部長
+    hometown: 移居屏東潮州，書寫大武山
+    township: 大武鄉
+    coordinates: [22.3550, 120.8900]
+    bio: 2017 年移居南方，行走於大武山間，以田野調查者的執著和文學家的筆觸刻畫大武山世界。首部長篇小說《大武山下》以台東南方為舞台。
+    works:
+      - title: 大武山下
+        year: 2020
+        type: 長篇小說
+        note: 首部長篇小說，取材南迴地區
+    layers: [land, people, time]
+
+
+# ═══════════════════════════════════════
+# 語錄
+# ═══════════════════════════════════════
+
+quotes:
+
+  # ── 夏曼·藍波安 ──
+  - id: q-syaman-01
+    author: syaman-rapongan
+    text: 我的身體就是海洋文學。
+    source: 中央社專訪
+    tags: [海洋, 身體, 文學]
+    layers: [land, people]
+
+  - id: q-syaman-02
+    author: syaman-rapongan
+    text: 對我而言，始終是身體先於文學。
+    source: 國藝會線上誌
+    tags: [海洋, 身體, 創作]
+    layers: [people]
+
+  - id: q-syaman-03
+    author: syaman-rapongan
+    text: 我是住在蘭嶼的海洋文學家，我的文學深受傳統詩歌的影響，深受划船、捕飛魚、鬼頭刀魚、潛水抓魚的影響。
+    source: 國藝會線上誌
+    tags: [蘭嶼, 海洋, 傳統]
+    layers: [people, land, living]
+
+  - id: q-syaman-04
+    author: syaman-rapongan
+    text: 我的作品絕對不會被認為這是漢人所寫出來的，因為那是出自於海之民族擁有的體悟。
+    source: 中央社專訪
+    tags: [達悟族, 身份, 文學]
+    layers: [people]
+
+  # ── 桑布伊 ──
+  - id: q-sangpuy-01
+    author: sangpuy
+    text: 語言是與土地連結最重要的一環，失去語言，就像離開土地。
+    source: 台灣東協造音行動專訪
+    tags: [族語, 土地, 文化]
+    layers: [people, education]
+
+  - id: q-sangpuy-02
+    author: sangpuy
+    text: 感謝我的部落給我那麼多養分。
+    source: 2021 金曲獎得獎感言
+    tags: [部落, 感恩]
+    layers: [people, celebration]
+
+  - id: q-sangpuy-03
+    author: sangpuy
+    text: 我認為必須是自己喜歡的創作、能感動自我的東西，也才有辦法感動別人。
+    source: 台灣東協造音行動專訪
+    tags: [創作, 音樂]
+    layers: [people, youth]
+
+  # ── 舒米恩 ──
+  - id: q-suming-01
+    author: suming
+    text: 文化是整個生活，每一件事情是被扣在一起的，不可能土地賣掉了語言還留著。
+    source: 500 輯專訪
+    tags: [文化, 土地, 語言, 都蘭]
+    layers: [people, living, youth]
+
+  - id: q-suming-02
+    author: suming
+    text: 我的個子雖小，但我的志願並不小，希望未來能做一首全世界的人都喜歡的歌曲。
+    source: 小學四年級作文
+    tags: [夢想, 音樂]
+    layers: [youth]
+
+  # ── 亞榮隆·撒可努 ──
+  - id: q-sakinu-01
+    author: sakinu
+    text: 山林教育是找回人與自然對話的本能。
+    source: 中央社專訪
+    tags: [獵人, 自然, 教育]
+    layers: [land, education, people]
+
+  # ── 蔣勳 ──
+  - id: q-chiang-01
+    author: chiang-hsun
+    text: 池上給我最大的禮物，是讓我重新學會看雲。
+    source: 池上日記
+    tags: [池上, 自然, 生活]
+    layers: [living, land]
+
+  # ── 孫大川 ──
+  - id: q-sun-01
+    author: sun-ta-chuan
+    text: 原住民文學不是邊緣文學，它是台灣最古老的文學。
+    source: 山海世界
+    tags: [原住民, 文學]
+    layers: [people, knowledge]

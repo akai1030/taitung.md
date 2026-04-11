@@ -11,14 +11,19 @@ voices:
 tags: [綠島, 珊瑚礁, 潛水, 溫泉]
 season: summer
 related:
-  - /land/lanyu
-  - /experience/diving
-  - /sustainability/coral-reef
+  - /story/lanyu
+  - /story/diving
+  - /story/coral-reef
 sources:
   - title: "交通部觀光署東部海岸國家風景區管理處"
     url: ""
   - title: "海洋委員會海洋保育署"
     url: ""
+source_type: [public-data]
+ai_generated: false
+ai_assisted: []
+status: seed
+last_verified: 2026-04-10
 nttu: false
 author: ""
 created: 2026-04-10
@@ -29,7 +34,7 @@ updated: 2026-04-10
 
 ## 火山島的前世
 
-綠島的地質年齡約在數百萬年前形成，是菲律賓海板塊與歐亞板塊碰撞推擠而生的火山島嶼。全島面積僅十五平方公里，最高點火燒山海拔二八一公尺。島上的安山�ite火成岩訴說著劇烈的地殼運動，而環繞全島的裙礁則記錄了海水與岩石數千年的對話。東北季風帶來的浪花不斷雕刻著海岸線，造就了睡美人岩、哈巴狗岩等讓人會心一笑的地景。這些奇岩不只是觀光景點，更是一部露天的地質教科書。
+綠島的地質年齡約在數百萬年前形成，是菲律賓海板塊與歐亞板塊碰撞推擠而生的火山島嶼。全島面積僅十五平方公里，最高點火燒山海拔二八一公尺。島上的安山岩火成岩訴說著劇烈的地殼運動，而環繞全島的裙礁則記錄了海水與岩石數千年的對話。東北季風帶來的浪花不斷雕刻著海岸線，造就了睡美人岩、哈巴狗岩等讓人會心一笑的地景。這些奇岩不只是觀光景點，更是一部露天的地質教科書。
 
 ## 海面下的珊瑚森林
 

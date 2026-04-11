@@ -11,14 +11,19 @@ voices:
 tags: [返鄉青年, 地方創生, 青年創業]
 season: all
 related:
-  - /experience/surfing
-  - /people/amis
-  - /knowledge/nttu-community
+  - /story/surfing
+  - /story/amis
+  - /story/nttu-community
 sources:
   - title: "國家發展委員會地方創生政策"
     url: ""
   - title: "臺東縣青年發展中心"
     url: ""
+source_type: [public-data]
+ai_generated: false
+ai_assisted: []
+status: seed
+last_verified: 2026-04-10
 nttu: false
 author: ""
 created: 2026-04-10

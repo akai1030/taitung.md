@@ -16,6 +16,7 @@
   --valley-faint: #EDF5EE;
   --sunrise: #C8782A;
   --sunrise-faint: #FBF3EA;
+  --gold: #d4a44a;
   --youth-green: #5BAD6F;
   --youth-faint: #EFF8F1;
   --volcano: #C53D3D;
@@ -34,7 +35,7 @@ body {
   line-height: 1.7;
 }
 
-/* Noise overlay — 紙張質感 */
+/* Noise overlay */
 body::before {
   content: '';
   position: fixed;
@@ -58,26 +59,64 @@ body::before {
   transform: translateY(0);
 }
 
-/* Scroll hint float animation */
+/* Hero animations */
+@keyframes hero-in {
+  0% { opacity: 0; transform: translateY(25px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes sky-breathe {
+  0% { filter: brightness(1) saturate(1); }
+  100% { filter: brightness(1.04) saturate(1.06); }
+}
+@keyframes sun-pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.06); }
+}
+@keyframes flare-breathe {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0.5; transform: scale(1.2); }
+}
+@keyframes drift {
+  0% { transform: translateX(-100px); }
+  100% { transform: translateX(calc(100vw + 100px)); }
+}
+@keyframes wave-drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+@keyframes water-glow {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+@keyframes spark {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+@keyframes scroll-bob {
+  0%, 100% { transform: scaleY(0.5); opacity: 0.3; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
 @keyframes float {
   0%, 100% { transform: translateX(-50%) translateY(0); }
   50% { transform: translateX(-50%) translateY(8px); }
 }
+@keyframes wave-bar {
+  0%, 100% { height: 4px; }
+  50% { height: var(--h, 16px); }
+}
 
-/* 隱藏水平捲動 scrollbar */
+/* Hide scrollbar */
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { scrollbar-width: none; }
 
-/* Article prose styling */
+/* Article prose */
 .prose-taitung {
   font-size: 1.125rem;
   line-height: 1.85;
   color: var(--ink-soft);
   max-width: 680px;
 }
-.prose-taitung p {
-  margin-bottom: 1.5em;
-}
+.prose-taitung p { margin-bottom: 1.5em; }
 .prose-taitung h2 {
   font-size: 1.5rem;
   font-weight: 700;
@@ -98,29 +137,15 @@ body::before {
   color: var(--ink-soft);
   font-style: italic;
 }
-.prose-taitung ul,
-.prose-taitung ol {
-  padding-left: 1.5em;
-  margin-bottom: 1.5em;
-}
-.prose-taitung li {
-  margin-bottom: 0.5em;
-}
-.prose-taitung a {
-  color: var(--pacific);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.prose-taitung a:hover {
-  color: var(--ink);
-}
+.prose-taitung ul, .prose-taitung ol { padding-left: 1.5em; margin-bottom: 1.5em; }
+.prose-taitung li { margin-bottom: 0.5em; }
+.prose-taitung a { color: var(--pacific); text-decoration: underline; text-underline-offset: 3px; }
+.prose-taitung a:hover { color: var(--ink); }
 
-/* MapLibre 基本樣式 */
-.maplibregl-map {
-  font-family: inherit;
-}
+/* MapLibre */
+.maplibregl-map { font-family: inherit; }
 
-/* Focus 樣式 — 太平洋藍 */
+/* Focus */
 :focus-visible {
   outline: 2px solid var(--pacific);
   outline-offset: 2px;
@@ -128,12 +153,10 @@ body::before {
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-  html {
-    scroll-behavior: auto;
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

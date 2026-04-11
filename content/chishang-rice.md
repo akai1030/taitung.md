@@ -11,14 +11,19 @@ voices:
 tags: [池上米, 有機農業, 稻田, 縱谷]
 season: autumn
 related:
-  - /land/east-rift-valley
-  - /living/slow-food
-  - /sustainability/organic-farming
+  - /story/east-rift-valley
+  - /story/slow-food
+  - /story/organic-farming
 sources:
   - title: "池上鄉公所"
     url: ""
   - title: "行政院農業部花蓮區農業改良場"
     url: ""
+source_type: [public-data]
+ai_generated: false
+ai_assisted: []
+status: seed
+last_verified: 2026-04-10
 nttu: true
 author: ""
 created: 2026-04-10

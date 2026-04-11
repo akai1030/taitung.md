@@ -12,14 +12,19 @@ voices:
 tags: [阿美族, 豐年祭, 原住民]
 season: all
 related:
-  - /celebration/harvest-festival
-  - /people/puyuma
-  - /experience/surfing
+  - /story/harvest-festival
+  - /story/puyuma
+  - /story/surfing
 sources:
   - title: "臺東縣政府原住民族行政處"
     url: ""
   - title: "中央研究院民族學研究所"
     url: ""
+source_type: [public-data]
+ai_generated: false
+ai_assisted: []
+status: seed
+last_verified: 2026-04-10
 nttu: false
 author: ""
 created: 2026-04-10

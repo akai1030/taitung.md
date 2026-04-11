@@ -21,6 +21,8 @@ export type VoiceType =
 
 export type Season = "spring" | "summer" | "autumn" | "winter";
 
+export type ContentStatus = "seed" | "growing" | "mature" | "needs-update";
+
 export interface Layer {
   id: LayerId;
   icon: string;
@@ -39,11 +41,18 @@ export interface AudioEntry {
   speaker: string;
   language: string;
   duration: string;
+  source?: string;
 }
 
 export interface ArticleSource {
-  title: string;
-  url: string;
+  type?: string;
+  title?: string;
+  citation?: string;
+  name?: string;
+  url?: string;
+  author?: string;
+  accessed?: string;
+  verified?: boolean;
 }
 
 export interface ArticleFrontmatter {
@@ -63,6 +72,12 @@ export interface ArticleFrontmatter {
   author?: string;
   created?: string;
   updated?: string;
+  // v2 fields
+  source_type?: string[];
+  ai_generated?: boolean;
+  ai_assisted?: string[];
+  status?: ContentStatus;
+  last_verified?: string;
 }
 
 export interface Article {
@@ -78,4 +93,29 @@ export interface MapPoint {
   slug: string;
   layer: LayerId;
   township?: string;
+}
+
+export interface QuoteAuthor {
+  id: string;
+  name: string;
+  nameEn?: string;
+  ethnicity?: string;
+  hometown?: string;
+  township?: string;
+  role?: string;
+  bio?: string;
+}
+
+export interface Quote {
+  id: string;
+  author: string; // author id
+  text: string;
+  source: string;
+  tags?: string[];
+  layers?: string[];
+}
+
+export interface QuotesData {
+  authors: QuoteAuthor[];
+  quotes: Quote[];
 }

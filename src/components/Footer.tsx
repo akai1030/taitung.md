@@ -1,76 +1,65 @@
-"use client";
-
 import Link from "next/link";
-import { layers } from "@/lib/layers";
-import { useTranslation } from "@/lib/i18n";
 
 export default function Footer() {
-  const { t } = useTranslation();
   return (
-    <footer className="bg-ink text-sand/80 px-10 py-20">
-      <div className="max-w-wide mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="md:col-span-2">
-            <h3 className="font-accent text-xl font-semibold text-sand mb-4">
+    <footer className="bg-ink pt-24 pb-16 px-8">
+      <div className="max-w-[1100px] mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-0">
+          {/* Brand */}
+          <div>
+            <p className="font-accent text-[1.1rem] font-semibold text-cream/40 tracking-[0.02em]">
               Taitung.md
-            </h3>
-            <p className="text-sm leading-relaxed text-stone max-w-sm">
-              {t("footer.description")}
+            </p>
+            <p className="font-body font-extralight text-[0.78rem] text-cream/15 mt-3 leading-[1.8] max-w-[280px]">
+              一座開源的台東知識庫。先感覺到，才開始讀。
             </p>
           </div>
 
-          <div>
-            <h4 className="text-xs tracking-[0.15em] uppercase text-stone mb-4">
-              {t("footer.layers")}
-            </h4>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-              {layers.map((layer) => (
-                <Link
-                  key={layer.id}
-                  href={`/${layer.id}`}
-                  className="text-sm text-stone/80 hover:text-sand transition-colors no-underline"
-                >
-                  {layer.icon} {layer.name}
-                </Link>
-              ))}
+          {/* Links */}
+          <div className="flex gap-16">
+            <div>
+              <h4 className="font-accent text-[0.7rem] tracking-[0.2em] uppercase text-cream/25 mb-6">Explore</h4>
+              <div className="flex flex-col gap-3">
+                {[
+                  { href: "/", label: "故事" },
+                  { href: "/sound", label: "聲音地圖" },
+                  { href: "/question", label: "本週提問" },
+                  { href: "/map", label: "地圖" },
+                ].map((item) => (
+                  <Link key={item.label} href={item.href} className="font-body text-[0.78rem] font-light text-cream/30 no-underline transition-colors hover:text-cream/60">
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-
-          <div>
-            <h4 className="text-xs tracking-[0.15em] uppercase text-stone mb-4">
-              {t("nav.contribute").slice(0, 2)}
-            </h4>
-            <div className="flex flex-col gap-2">
-              <Link
-                href="/about"
-                className="text-sm text-stone/80 hover:text-sand transition-colors no-underline"
-              >
-                {t("nav.about")}
-              </Link>
-              <Link
-                href="/contribute"
-                className="text-sm text-stone/80 hover:text-sand transition-colors no-underline"
-              >
-                {t("footer.contribute")}
-              </Link>
-              <a
-                href="https://github.com/akai1030/taitung.md"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-stone/80 hover:text-sand transition-colors no-underline"
-              >
-                GitHub
-              </a>
+            <div>
+              <h4 className="font-accent text-[0.7rem] tracking-[0.2em] uppercase text-cream/25 mb-6">About</h4>
+              <div className="flex flex-col gap-3">
+                {[
+                  { href: "/about", label: "關於" },
+                  { href: "https://github.com/akai1030/taitung.md", label: "GitHub", external: true },
+                ].map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    {...("external" in item ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="font-body text-[0.78rem] font-light text-cream/30 no-underline transition-colors hover:text-cream/60"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-sand/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-stone/60">
-            {t("footer.license")}
+        {/* Bottom */}
+        <div className="border-t border-cream/[0.06] mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="font-accent text-[0.68rem] text-cream/[0.12] tracking-[0.2em]">
+            22.7554&deg;N, 121.1446&deg;E
           </p>
-          <p className="text-xs text-stone/60 font-accent italic">
-            22.7583&deg;N, 121.1444&deg;E
+          <p className="font-body text-[0.68rem] text-cream/10">
+            CC BY-SA 4.0 &middot; Taitung.md
           </p>
         </div>
       </div>

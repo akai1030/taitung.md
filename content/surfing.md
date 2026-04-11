@@ -11,14 +11,19 @@ voices:
 tags: [衝浪, 都蘭, 金樽, 太平洋]
 season: all
 related:
-  - /people/amis
-  - /youth/return-home
-  - /living/dulan-life
+  - /story/amis
+  - /story/return-home
+  - /story/dulan-life
 sources:
   - title: "臺東縣政府國際衝浪公開賽"
     url: ""
   - title: "東部海岸國家風景區管理處"
     url: ""
+source_type: [public-data]
+ai_generated: false
+ai_assisted: []
+status: seed
+last_verified: 2026-04-10
 nttu: false
 author: ""
 created: 2026-04-10
