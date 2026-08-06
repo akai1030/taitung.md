@@ -107,7 +107,7 @@ CI（Node 20 / npm 10）`npm ci` 失敗：`Missing: @swc/helpers@0.5.23 from loc
 
 ## 🔴 上線前必辦（阻擋部署）
 
-### B-016 — rotate 資料庫密碼並開啟 SSL
+### B-016 — rotate 資料庫密碼並開啟 SSL　【SQL 已完成 2026-08-07，待面板同步】
 **軸**：C｜**來源**：2026-08-06 安全評估
 
 `scripts/setup-db.ts` 的硬編碼憑證自 c7eda1b（2026-04-12）公開於 public repo 約 117 天。
@@ -121,8 +121,21 @@ CI（Node 20 / npm 10）`npm ci` 失敗：`Missing: @swc/helpers@0.5.23 from loc
 **風險的時間性**：過去四個月大概沒事，因為裡面只有 12 筆假資料，沒有任何值得偷的東西。
 **這個結論在 `/question` 上線那天失效**——那時資料庫開始承接真實使用者的姓名、地點與投稿。
 
-→ **必須在收到第一筆真實投稿之前完成**：Zeabur 後台 rotate 密碼、開啟 SSL、
-   考慮改用非 superuser 的應用程式帳號、限制來源 IP。
+**2026-08-07 進度**：
+- [x] 步驟 1：`ALTER USER root WITH PASSWORD` 已執行，密碼實際已更換（40 字元隨機）
+- [x] 驗證：**舊密碼確認失效**（`FATAL: password authentication failed`），新密碼可連、四張表完整
+- [x] 本機 `.env.local` 已更新；確認新舊密碼皆未進入 tracked 檔案或 git 歷史
+- [ ] **步驟 2（待陳昀楷）**：Zeabur PostgreSQL 服務 → Variables → 更新 `POSTGRES_PASSWORD`
+- [ ] **步驟 3（待陳昀楷）**：應用服務 `DATABASE_URL`，建議改用 `${POSTGRES_PASSWORD}` 參照
+- [ ] **步驟 4（待陳昀楷）**：改走內網 `*.zeabur.internal`，取代公網 IP
+
+**⚠️ 目前處於不一致狀態**：資料庫已用新密碼，但 Zeabur 面板的 `POSTGRES_PASSWORD` 還是舊值。
+任何照面板設定去連的服務都會失敗，直到步驟 2 完成。
+
+**關於 SSL**：容器化 postgres 開 SSL 需掛憑證改 `postgresql.conf`，在 Zeabur 上投報率低。
+**改走內網是更根本的解法**——資料庫不必再對公網開放。優先做步驟 4，SSL 可視情況再議。
+
+完整程序見 `DEPLOY.md` §B。
 
 ### B-017 — 稽核缺口：`audit-content.ts` 不掃資料庫
 **軸**：跨軸｜**來源**：2026-08-06
