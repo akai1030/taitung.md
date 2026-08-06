@@ -1,0 +1,221 @@
+# SOURCES — 來源清冊
+#
+# 每一筆的 status 都是「實測」結果，不是假設。
+# docs/CLAUDE.md 那張「真實資料來源」表有一半已失效 —— 教訓是：來源清單必須帶實測狀態與實測日期。
+#
+# status: ok | broken | moved | unverified
+# tier:   T1..T6（見 METHOD.md §1）
+# 上位文件：METHOD.md、ETHICS.md（授權）、ENTITIES.md（權威檔）
+
+meta:
+  version: "1.0"
+  last_full_check: 2026-08-06
+  checked_by: agent
+
+# ─────────────────────────────────────────────
+# A. 實體權威檔（ENTITIES.md P6 —— 對齊而非自建）
+# ─────────────────────────────────────────────
+authorities:
+  - id: auth.thcts
+    name: 臺灣歷史文化地圖 THCTS（中研院人社中心 GIS 專題中心）
+    url: https://gis.rchss.sinica.edu.tw/thcts/
+    role: 地名權威檔（含臺灣地區地名查詢系統）
+    covers: [地名, 歷史更名, 荷西/明鄭/清/日治/戰後分期圖層]
+    tier: T1
+    status: unverified          # 只讀到平台說明，未實測 API/資料取得方式
+    license: unknown
+    todo: 確認資料取得方式（是否有 API／可下載／需授權）
+
+  - id: auth.twhgis
+    name: 臺灣百年歷史地圖
+    url: https://gis.rchss.sinica.edu.tw/twhgis/
+    wmts: https://gis.sinica.edu.tw/tileserver/
+    role: 地圖底圖（可直接接進網站地圖層）
+    tier: T1
+    status: unverified
+    license: unknown
+
+  - id: auth.cip-tribes
+    name: 原民會核定部落名冊
+    url: https://www.cip.gov.tw/zh-tw/news/data-list/7CDD0E527E32B424/index.html
+    role: 部落實體官方權威名冊
+    note: 最新版 2018-04-17 刊登公報。解決「部落 ≠ 行政區」層級混淆
+    tier: T1
+    status: unverified
+    license: unknown
+
+  - id: auth.cip-tribe-gis
+    name: 原住民族部落調查／部落位置 GIS 點位
+    url: https://data.gov.tw/dataset/7094
+    role: 部落座標
+    tier: T1
+    status: unverified
+    license: ogdl-1.0           # 待確認；若確認則適用 E13a 顯名聲明
+    todo: 確認授權與 顯名聲明 字串
+
+  - id: auth.crgis
+    name: 文化資源地理資訊系統 CRGIS（中研院）
+    url: https://crgis.rchss.sinica.edu.tw/
+    tier: T1
+    status: unverified
+
+# ─────────────────────────────────────────────
+# B. 灰色文獻入口（METHOD.md §4.2 —— 本專案的核心優勢）
+# ─────────────────────────────────────────────
+grey_literature:
+  - id: grey.grb
+    name: GRB 政府研究資訊系統
+    url: https://grbsearch.stpi.narl.org.tw/
+    role: 政府經費資助之研究計畫與成果報告（收錄最完整）
+    why: 台東大量地方知識活在政府委託計畫的結案報告裡，從未被索引
+    tier: T5
+    priority: highest
+    status: unverified
+    todo: 測試檢索式與是否可程式化取得
+
+  - id: grey.ndltd
+    name: 臺灣博碩士論文知識加值系統
+    url: https://ndltd.ncl.edu.tw/
+    tier: T2
+    status: unverified
+
+  - id: grey.tpl
+    name: 國家圖書館期刊文獻資訊網
+    url: https://tpl.ncl.edu.tw/
+    tier: T2
+    status: unverified
+
+  - id: grey.gdb
+    name: 政府計畫資料庫（國發會）
+    url: https://gdb.ndc.gov.tw/
+    tier: T5
+    status: unverified
+
+# ─────────────────────────────────────────────
+# C. 已實測（2026-08-06）
+# ─────────────────────────────────────────────
+verified:
+  - id: src.taitung-gov
+    name: 臺東縣政府
+    url: https://www.taitung.gov.tw/
+    tier: T3
+    status: ok
+    http: 200
+    rss:
+      url: https://www.taitung.gov.tw/RSS.aspx?n=13406&sms=0
+      status: broken
+      finding: |
+        回傳 Content-Type: text/html（92KB 的網頁），<item> 數量 0。
+        這不是 feed，是一個「RSS 服務介紹頁」。
+        → 必須改用結構化爬取，不能依賴 RSS。
+      checked: 2026-08-06
+
+  - id: src.culture-taitung
+    name: 台東藝文平台（臺東縣文化處）
+    url: https://culture.taitung.gov.tw/
+    tier: T3
+    status: ok
+    http: 200
+    note: |
+      docs/CLAUDE.md 未收錄此站。舊址 ccl.taitung.gov.tw 自 2022-12-26 起停止更新，
+      ccl.ttct.edu.tw 連線逾時（HTTP 000）。
+      → 教訓：機構網站遷移不會通知任何人，來源清冊必須定期實測。
+
+  - id: src.eastcoast-nsa
+    name: 東部海岸國家風景區管理處
+    url: https://www.eastcoast-nsa.gov.tw/zh-tw/
+    tier: T3
+    status: ok
+    http: 200
+    note: /zh-tw/news 為 404，新聞路徑需重新探勘
+
+  - id: src.nttu
+    name: 國立臺東大學
+    url: https://www.nttu.edu.tw/
+    tier: T3
+    status: ok
+    http: 200
+
+  - id: src.nchdb
+    name: 文化部文化資產局 國家文化資產網
+    url: https://nchdb.boch.gov.tw/
+    tier: T1
+    status: ok
+    http: 200
+
+  - id: src.icloud-culture
+    name: 文化部 iCulture 文化空間
+    url: https://cloud.culture.tw/
+    tier: T3
+    status: ok
+    http: 200
+
+  - id: src.data-gov-7777
+    name: data.gov.tw 觀光資訊資料庫－景點
+    url: https://data.gov.tw/dataset/7777
+    tier: T3
+    status: ok
+    http: 200
+    license: ogdl-1.0
+    warning: |
+      檢索時見「觀光資料標準 V1.0 預定於 2026-06-30 移除，建議改用 V2.1」之說明。
+      今日為 2026-08-06，該日期已過。
+      → dataset 頁面雖回 200，但實際資料端點可能已改版。使用前必須實測資料端點本身，
+        不能只看 dataset 頁面存活。這正是 ENTITIES.md 說的「看起來正常的錯誤」。
+
+  - id: src.data-gov-7778
+    name: data.gov.tw 觀光資訊資料庫－活動
+    url: https://data.gov.tw/dataset/7778
+    tier: T3
+    status: ok
+    http: 200
+    license: ogdl-1.0
+    warning: 同 7777
+
+# ─────────────────────────────────────────────
+# D. 失效／待修（BACKLOG 來源）
+# ─────────────────────────────────────────────
+broken:
+  - id: src.cwa-api
+    name: 中央氣象署開放資料 API
+    url: https://opendata.cwa.gov.tw/
+    tier: T1
+    status: broken
+    finding: |
+      .env.local 內的 CWA_API_KEY 已失效：HTTP 401「Authorization key is not correct.」
+    correction_2026-08-06: |
+      【自我更正】初次記錄時我寫「影響：首頁『此刻的台東』目前是壞的」——那是錯的，且是未經查證的推論。
+      實際查 src/ 後確認：整個 codebase 沒有任何 CWA / weather 相關程式碼。
+      SeasonMoment.tsx 讀的是 src/lib/season.ts 的靜態季節資料。
+      → 正確描述：天氣功能「從未實作」，不是「壞掉」。docs/CLAUDE.md 把它列在技術棧裡，是規劃未落地。
+      → 這一則本身是方法論的實例：我從「key 失效」推論出「功能壞掉」，中間隔著一個沒查證的假設。
+        依 METHOD §3 這只能標 inferred，我卻當成 verified 寫了出來。
+    checked: 2026-08-06
+    action_required: human      # 若要實作天氣功能，需人去 opendata.cwa.gov.tw 重新申請 key
+    priority: low               # 降級：不是修 bug，是新功能
+
+  - id: src.memory-culture
+    name: 國家文化記憶庫
+    url: https://memory.culture.tw/
+    tier: T1
+    status: broken
+    finding: 連線失敗 HTTP 000（含帶 UA 重試、25 秒逾時）。可能為站點遷移或暫時性故障
+    checked: 2026-08-06
+    todo: 重測；若持續失敗，查是否已整併入其他平台
+
+  - id: src.ccl-ttct
+    name: 臺東縣文化處（舊址）
+    url: https://www.ccl.ttct.edu.tw/
+    status: moved
+    moved_to: src.culture-taitung
+    checked: 2026-08-06
+
+# ─────────────────────────────────────────────
+# E. docs/CLAUDE.md 舊表中尚未實測的項目
+# ─────────────────────────────────────────────
+pending_check:
+  - { name: 水利署開放資料, url: https://data.wra.gov.tw/, tier: T1 }
+  - { name: 臺東縣統計年報, url: https://www.taitung.gov.tw/, tier: T1, note: 路徑待確認 }
+  - { name: OpenStreetMap 台灣, url: https://osm.tw/, license: odbl }
+  - { name: 台灣原住民族數位典藏知識入口網, url: https://portal.tacp.gov.tw/, tier: T1 }
+  - { name: 原民會開放資料平台, url: https://data.cip.gov.tw/home/datamenu.aspx, tier: T1 }

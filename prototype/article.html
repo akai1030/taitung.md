@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>都蘭：太平洋岸最自由的部落 — Taitung.md</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --sand: #F5F0E8;
+  --sand-deep: #E8E0D0;
+  --cream: #FAF8F3;
+  --ink: #1E1D1A;
+  --ink-soft: #3D3B35;
+  --smoke: #8A8578;
+  --stone: #B8B0A2;
+  --pacific: #1B5E7B;
+  --pacific-faint: #EEF5F8;
+  --valley: #3A6B42;
+  --valley-faint: #EDF5EE;
+  --sunrise: #C8782A;
+  --sunrise-faint: #FBF3EA;
+  --youth-green: #5BAD6F;
+  --youth-faint: #EFF8F1;
+  --contour: rgba(30,29,26,0.06);
+
+  --font-display: 'Noto Serif TC', 'Cormorant Garamond', serif;
+  --font-body: 'Noto Sans TC', sans-serif;
+  --font-reading: 'Noto Serif TC', serif;
+  --font-accent: 'Cormorant Garamond', serif;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--ink); background: var(--cream); -webkit-font-smoothing: antialiased; line-height: 1.7; }
+
+/* Noise */
+body::before { content: ''; position: fixed; inset: 0; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 256px; pointer-events: none; z-index: 9999; }
+
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(.23,1,.32,1), transform 0.8s cubic-bezier(.23,1,.32,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ NAV ═══ */
+.nav-float {
+  position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 100;
+  display: flex; align-items: center; gap: 2px;
+  background: rgba(250,248,243,0.9); backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(30,29,26,0.08); border-radius: 999px; padding: 6px 8px;
+  transition: all 0.4s;
+}
+.nav-float.scrolled { background: rgba(250,248,243,0.95); box-shadow: 0 4px 30px rgba(0,0,0,0.06); }
+.nav-logo { font-family: var(--font-accent); font-size: 1rem; font-weight: 600; padding: 6px 16px; letter-spacing: -0.02em; text-decoration: none; color: var(--ink); }
+.nav-back { font-size: 0.8rem; color: var(--smoke); text-decoration: none; padding: 6px 14px; border-radius: 999px; transition: all 0.25s; }
+.nav-back:hover { color: var(--ink); background: rgba(30,29,26,0.05); }
+
+/* ═══ ARTICLE HERO ═══ */
+.article-hero {
+  padding: 160px 40px 80px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.article-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--stone);
+  margin-bottom: 32px;
+}
+.article-breadcrumb a {
+  color: var(--smoke);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.article-breadcrumb a:hover { color: var(--ink); }
+.article-breadcrumb .sep { opacity: 0.4; }
+.article-layers {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.article-layer-tag {
+  font-size: 0.7rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+.article-layer-tag.people { background: rgba(212,146,42,0.1); color: var(--sunrise); }
+.article-layer-tag.living { background: rgba(123,139,111,0.1); color: #5B7350; }
+.article-layer-tag.experience { background: rgba(74,144,184,0.1); color: #3A7FA0; }
+.article-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: var(--smoke);
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--contour);
+}
+.article-meta .coord {
+  font-family: var(--font-accent);
+  font-style: italic;
+  color: var(--stone);
+}
+
+/* ═══ VOICE SWITCHER ═══ */
+.voice-switcher {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: sticky;
+  top: 72px;
+  z-index: 50;
+  background: var(--cream);
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.voice-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--contour);
+  position: relative;
+}
+.voice-tab {
+  padding: 12px 24px;
+  font-size: 0.85rem;
+  color: var(--stone);
+  cursor: pointer;
+  transition: color 0.25s;
+  position: relative;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  white-space: nowrap;
+}
+.voice-tab:hover { color: var(--ink-soft); }
+.voice-tab.active { color: var(--ink); font-weight: 500; }
+.voice-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 24px;
+  right: 24px;
+  height: 2px;
+  border-radius: 1px;
+}
+.voice-tab.active[data-voice="academic"]::after { background: var(--pacific); }
+.voice-tab.active[data-voice="oral"]::after { background: var(--sunrise); }
+.voice-tab.active[data-voice="field"]::after { background: var(--valley); }
+.voice-tab.active[data-voice="youth"]::after { background: var(--youth-green); }
+.voice-tab .tab-icon { margin-right: 6px; }
+
+/* ═══ ARTICLE LAYOUT ═══ */
+.article-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 40px 120px;
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 80px;
+  align-items: start;
+}
+
+/* ═══ VOICE PANELS ═══ */
+.voice-panel { display: none; }
+.voice-panel.active { display: block; }
+
+/* Academic voice */
+.article-prose {
+  font-family: var(--font-reading);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+.article-prose p { margin-bottom: 1.5em; }
+.article-prose h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2.5em 0 1em;
+  letter-spacing: -0.01em;
+}
+.article-prose h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 2em 0 0.8em;
+}
+.article-prose blockquote {
+  border-left: 3px solid var(--stone);
+  padding-left: 24px;
+  margin: 2em 0;
+  color: var(--smoke);
+  font-style: italic;
+}
+.article-prose .source-ref {
+  font-size: 0.8rem;
+  color: var(--pacific);
+  vertical-align: super;
+  cursor: pointer;
+  text-decoration: none;
+}
+.article-prose .source-ref:hover { text-decoration: underline; }
+
+/* Oral history voice */
+.oral-section {
+  margin-bottom: 48px;
+}
+.audio-player {
+  background: var(--sand);
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-bottom: 32px;
+}
+.audio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.audio-speaker {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.audio-lang {
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(200,120,42,0.12);
+  color: var(--sunrise);
+  font-weight: 500;
+}
+.audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.audio-play {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--pacific);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.audio-play:hover { transform: scale(1.08); background: #17506A; }
+.audio-progress-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.audio-progress {
+  width: 100%;
+  height: 4px;
+  background: rgba(30,29,26,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.audio-progress-bar {
+  width: 35%;
+  height: 100%;
+  background: var(--pacific);
+  border-radius: 2px;
+  transition: width 0.1s;
+}
+.audio-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--stone);
+  font-family: var(--font-accent);
+}
+.transcript-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--pacific);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  padding: 0;
+  margin-top: 8px;
+  transition: opacity 0.2s;
+}
+.transcript-toggle:hover { opacity: 0.7; }
+.transcript {
+  display: none;
+  margin-top: 20px;
+  padding: 24px;
+  background: rgba(30,29,26,0.02);
+  border-radius: 8px;
+  border-left: 3px solid var(--sunrise);
+}
+.transcript.open { display: block; }
+.transcript p {
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--ink-soft);
+  margin-bottom: 1em;
+}
+.transcript .lang-note {
+  font-size: 0.8rem;
+  color: var(--stone);
+  font-style: italic;
+}
+
+/* Oral quote */
+.oral-quote {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin: 32px 0;
+  padding: 32px;
+  background: var(--sunrise-faint);
+  border-radius: 8px;
+  position: relative;
+}
+.oral-quote::before {
+  content: '"';
+  font-family: var(--font-accent);
+  font-size: 4rem;
+  position: absolute;
+  top: -8px;
+  left: 20px;
+  color: var(--sunrise);
+  opacity: 0.2;
+  line-height: 1;
+}
+.oral-quote-attr {
+  margin-top: 16px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--smoke);
+}
+
+/* Field note voice */
+.field-note {
+  font-family: var(--font-reading);
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+.field-note p { margin-bottom: 1.5em; }
+.field-note .date-stamp {
+  font-family: var(--font-accent);
+  font-size: 0.85rem;
+  color: var(--valley);
+  font-style: italic;
+  margin-bottom: 8px;
+}
+.field-note .observation {
+  background: var(--valley-faint);
+  border-left: 3px solid var(--valley);
+  padding: 20px 24px;
+  margin: 2em 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 1rem;
+}
+
+/* Youth action voice */
+.youth-note {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+.youth-note p { margin-bottom: 1.5em; }
+.youth-action-card {
+  background: var(--youth-faint);
+  border-left: 3px solid var(--youth-green);
+  padding: 24px 28px;
+  margin: 2em 0;
+  border-radius: 0 8px 8px 0;
+}
+.youth-action-card .action-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--youth-green);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.youth-action-card p {
+  margin-bottom: 0.8em;
+  font-size: 0.95rem;
+}
+
+/* ═══ SIDEBAR ═══ */
+.sidebar { position: sticky; top: 140px; }
+
+.sidebar-section {
+  margin-bottom: 40px;
+}
+.sidebar-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+/* Mini map */
+.sidebar-map {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--sand);
+  border-radius: 8px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.sidebar-map-pin {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--pacific);
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(27,94,123,0.3);
+  top: 45%;
+  left: 55%;
+}
+.sidebar-map-pin::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(27,94,123,0.2);
+  border-radius: 50%;
+  animation: pulse 2s ease-out infinite;
+}
+@keyframes pulse { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(2.5); opacity: 0; } }
+
+/* TOC */
+.toc-list { list-style: none; }
+.toc-item {
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+.toc-item a {
+  color: var(--smoke);
+  text-decoration: none;
+  transition: color 0.2s;
+  line-height: 1.5;
+}
+.toc-item a:hover { color: var(--ink); }
+.toc-item.active a { color: var(--ink); font-weight: 500; }
+
+/* Related */
+.related-item {
+  display: block;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--contour);
+  text-decoration: none;
+  color: inherit;
+  transition: padding-left 0.25s;
+}
+.related-item:hover { padding-left: 8px; }
+.related-item:last-child { border-bottom: none; }
+.related-title {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.related-meta {
+  font-size: 0.75rem;
+  color: var(--stone);
+}
+
+/* Tags */
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag {
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--sand);
+  color: var(--smoke);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.tag:hover { background: var(--sand-deep); color: var(--ink-soft); }
+
+/* Sources */
+.sources-list { list-style: none; }
+.sources-list li {
+  font-size: 0.8rem;
+  color: var(--smoke);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.sources-list a { color: var(--pacific); text-decoration: none; }
+.sources-list a:hover { text-decoration: underline; }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 1024px) {
+  .article-layout { grid-template-columns: 1fr; gap: 48px; }
+  .sidebar { position: static; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .sidebar-map { display: none; }
+}
+@media (max-width: 768px) {
+  .article-hero { padding: 120px 24px 60px; }
+  .voice-switcher { padding: 0 24px; }
+  .article-layout { padding: 32px 24px 80px; }
+  .voice-tabs { overflow-x: auto; scrollbar-width: none; }
+  .voice-tab { padding: 12px 16px; font-size: 0.8rem; }
+  .sidebar { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .sidebar-map-pin::after { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav-float" id="mainNav">
+  <a href="/" class="nav-logo">Taitung.md</a>
+  <a href="/" class="nav-back">← 回首頁</a>
+</nav>
+
+<!-- ═══ ARTICLE HERO ═══ -->
+<header class="article-hero reveal">
+  <div class="article-breadcrumb">
+    <a href="/">首頁</a>
+    <span class="sep">/</span>
+    <a href="/people">人群</a>
+    <span class="sep">/</span>
+    <span>都蘭</span>
+  </div>
+  <div class="article-layers">
+    <span class="article-layer-tag people">👥 人群</span>
+    <span class="article-layer-tag living">🍚 生活</span>
+    <span class="article-layer-tag experience">🏄 體驗</span>
+  </div>
+  <h1 class="article-title">都蘭：太平洋岸最自由的部落</h1>
+  <div class="article-meta">
+    <span>東河鄉</span>
+    <span>·</span>
+    <span>8 分鐘閱讀</span>
+    <span>·</span>
+    <span class="coord">22.8897° N, 121.2253° E</span>
+  </div>
+</header>
+
+<!-- ═══ VOICE SWITCHER ═══ -->
+<div class="voice-switcher" id="voiceSwitcher">
+  <div class="voice-tabs">
+    <button class="voice-tab active" data-voice="academic" onclick="switchVoice('academic')">
+      <span class="tab-icon">📖</span>學術研究
+    </button>
+    <button class="voice-tab" data-voice="oral" onclick="switchVoice('oral')">
+      <span class="tab-icon">🎤</span>口述歷史
+    </button>
+    <button class="voice-tab" data-voice="field" onclick="switchVoice('field')">
+      <span class="tab-icon">📝</span>田野筆記
+    </button>
+    <button class="voice-tab" data-voice="youth" onclick="switchVoice('youth')">
+      <span class="tab-icon">🌱</span>青年行動
+    </button>
+  </div>
+</div>
+
+<!-- ═══ ARTICLE LAYOUT ═══ -->
+<div class="article-layout">
+  <main>
+    <!-- Academic Voice -->
+    <div class="voice-panel active" id="panel-academic">
+      <div class="article-prose">
+        <p>都蘭（'Atolan），位於台東縣東河鄉，是台灣東海岸最具文化活力的阿美族部落之一。坐落在都蘭山（標高 1,190 公尺）與太平洋之間的海階台地上，這個聚落自史前時代就有人類活動的痕跡，都蘭遺址出土的巨石文化遺構可追溯至兩千至三千年前。<a href="#" class="source-ref">[1]</a></p>
+
+        <h2>地理與生態</h2>
+        <p>都蘭地處花東海岸中段，背倚海岸山脈，面向太平洋。都蘭灣的弧形海岸線提供了台灣東部少見的穩定浪點，使其成為衝浪運動的重要據點。部落後方的都蘭山是阿美族的聖山，也是海岸山脈南段最顯著的地標。</p>
+        <p>部落所在的台地海拔約 20-80 公尺，具有良好的排水條件。東側的都蘭鼻是一處突出的海岬，擁有豐富的潮間帶生態與珊瑚礁群。年均溫約 24°C，年降雨量約 1,800 毫米，屬於熱帶季風氣候。<a href="#" class="source-ref">[2]</a></p>
+
+        <h2>文化脈絡</h2>
+        <p>都蘭部落屬於阿美族南勢群（Palidaw），擁有完整的年齡階級制度（kapot）。每年七月的豐年祭（Ilisin）是部落最重要的儀式，歷時五至七天，各年齡階級各有職責。這套制度至今仍是部落社會運作的核心。</p>
+
+        <blockquote>「都蘭的年齡階級不只是傳統，它是活的。每個年輕人回到部落，第一件事就是找到自己的位置。」—— 陳耀昌《傀儡花》研究筆記</blockquote>
+
+        <h3>藝術聚落的形成</h3>
+        <p>1990 年代起，都蘭逐漸成為藝術家、音樂人和文化工作者的聚居地。這個轉變與幾個因素相關：相對低廉的生活成本、開放的部落氛圍、以及太平洋的自然吸引力。都蘭糖廠的空間活化成為文創據點，加上「都蘭國小」書包的意外走紅，都蘭的文化品牌逐漸成形。<a href="#" class="source-ref">[3]</a></p>
+        <p>然而，觀光化也帶來挑戰。地價上漲、外來投資與部落傳統土地之間的張力、以及文化被商品化的風險，都是當代都蘭面對的議題。</p>
+      </div>
+    </div>
+
+    <!-- Oral History Voice -->
+    <div class="voice-panel" id="panel-oral">
+      <div class="oral-section">
+        <div class="audio-player">
+          <div class="audio-header">
+            <div>
+              <div class="audio-speaker">林阿公的都蘭記憶</div>
+              <div style="font-size:0.85rem;color:var(--smoke);margin-top:4px;">都蘭部落耆老 · 2024 年錄製</div>
+            </div>
+            <span class="audio-lang">阿美語</span>
+          </div>
+          <div class="audio-controls">
+            <button class="audio-play" onclick="this.textContent = this.textContent === '▶' ? '⏸' : '▶'">▶</button>
+            <div class="audio-progress-wrap">
+              <div class="audio-progress"><div class="audio-progress-bar"></div></div>
+              <div class="audio-time"><span>1:35</span><span>4:32</span></div>
+            </div>
+          </div>
+          <button class="transcript-toggle" onclick="toggleTranscript(this)">📄 顯示逐字稿</button>
+          <div class="transcript">
+            <p class="lang-note">以下為阿美語原音之中文翻譯</p>
+            <p>我小時候，都蘭的海是我們的冰箱。不用想今天吃什麼，走到海邊就有了。那時候沒有觀光客，海是我們的。</p>
+            <p>後來糖廠關了，年輕人都去台北。部落變得安靜。但是這幾年不一樣了，有人回來了。我看到那些年輕人在學我們的歌，我覺得⋯⋯海又開始熱鬧了。</p>
+          </div>
+        </div>
+
+        <div class="oral-quote">
+          以前飛魚來的時候，整個海是銀色的。我爸會說，那是 Tao 的銀行到了。都蘭的阿美族雖然不像達悟族那樣和飛魚綁那麼深，但我們也知道，飛魚來了，海就活了。
+          <div class="oral-quote-attr">—— 張阿伯 · 都蘭部落漁人</div>
+        </div>
+
+        <div class="audio-player">
+          <div class="audio-header">
+            <div>
+              <div class="audio-speaker">都蘭的聲景</div>
+              <div style="font-size:0.85rem;color:var(--smoke);margin-top:4px;">太平洋的浪、部落的歌聲、夜晚的蟲鳴</div>
+            </div>
+            <span class="audio-lang">環境音</span>
+          </div>
+          <div class="audio-controls">
+            <button class="audio-play" onclick="this.textContent = this.textContent === '▶' ? '⏸' : '▶'">▶</button>
+            <div class="audio-progress-wrap">
+              <div class="audio-progress"><div class="audio-progress-bar" style="width:0%"></div></div>
+              <div class="audio-time"><span>0:00</span><span>6:15</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Field Note Voice -->
+    <div class="voice-panel" id="panel-field">
+      <div class="field-note">
+        <div class="date-stamp">2025 年 7 月 14 日 · 都蘭 · 豐年祭第二天</div>
+        <p>凌晨四點半被歌聲叫醒。不是鬧鐘，是真的有人在唱歌。推開民宿的門，天還沒亮，但部落的廣場已經亮了。</p>
+        <p>今天是豐年祭的第二天。昨天是迎靈，今天是各年齡階級的儀式。我被分配跟著最年輕的階級觀察——他們大多是高中生和剛上大學的孩子。有些從台北、高雄趕回來，還穿著都市的球鞋。</p>
+
+        <div class="observation">
+          <strong>觀察紀錄：</strong>年齡階級的運作比我在課本上讀到的複雜得多。它不只是「長幼有序」，更像是一套完整的社會學習系統。年輕階級在祭典中負責最辛苦的體力勞動——搬東西、煮飯、跑腿——但這些工作本身就是學習的過程。沒有人用「教」的方式，一切都在「做」的過程中傳遞。
+        </div>
+
+        <p>下午三點，烈日下的廣場。我注意到一個細節：年輕人在進場前，會先把手機收進口袋裡。不是被要求的，是自己做的。問了其中一個男生為什麼，他說：「這是我們的事，不是拿來拍的。」</p>
+        <p>晚上的聚會比較輕鬆。有人拿出吉他，唱的是族語的流行歌。我聽不懂歌詞，但旋律很像台灣的民歌。旁邊的學姊告訴我，這些歌很多是部落年輕人自己寫的，「用阿美語寫新的歌，比學舊的歌更難。」</p>
+      </div>
+    </div>
+
+    <!-- Youth Action Voice -->
+    <div class="voice-panel" id="panel-youth">
+      <div class="youth-note">
+        <p>都蘭對很多台東青年來說，是一個「可能性」的象徵。它證明了一件事：留在東部，不代表放棄；回到東部，不代表退路。</p>
+
+        <div class="youth-action-card">
+          <div class="action-label">正在發生</div>
+          <p><strong>都蘭青年文化復振工作坊</strong></p>
+          <p>每月第二個週六，由部落青年會主辦。內容從族語學習到傳統工藝，但形式很當代——用 podcast 記錄耆老故事，用 Instagram 分享製作過程。</p>
+          <p style="font-size:0.85rem;color:var(--smoke);">參與者：部落青年 + 東大學生 + 在地手作工作者</p>
+        </div>
+
+        <p>阿翔是我在都蘭認識的第一個返鄉青年。他在台北待了八年，做過廣告、當過設計師。2023 年回到都蘭，一開始什麼都不確定，只知道「不想繼續那樣活」。</p>
+        <p>現在他在都蘭糖廠旁邊開了一間工作室，做木工也做設計。收入大概是台北的三分之一，但他說他每天都看得到海。「這裡的人不會問你月薪多少，他們問你今天海好不好。」</p>
+
+        <div class="youth-action-card">
+          <div class="action-label">青年觀點</div>
+          <p>「都蘭的好處是，沒有人會告訴你應該成為什麼。你可以慢慢找。這對剛離開體制的年輕人來說，是很珍貴的空間。」</p>
+          <p style="font-size:0.85rem;color:var(--smoke);">—— 阿翔 · 返鄉青年 · 都蘭</p>
+        </div>
+
+        <p>但返鄉不是浪漫的。阿翔也提到，部落的規矩、生活的不便、經濟的壓力——這些都是真實的。「Instagram 上的都蘭和真正住在這裡是完全不同的兩件事。」</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar">
+    <!-- Mini map -->
+    <div class="sidebar-map">
+      <div class="sidebar-map-pin"></div>
+    </div>
+
+    <!-- TOC -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">目錄</div>
+      <ul class="toc-list">
+        <li class="toc-item active"><a href="#">地理與生態</a></li>
+        <li class="toc-item"><a href="#">文化脈絡</a></li>
+        <li class="toc-item"><a href="#">藝術聚落的形成</a></li>
+      </ul>
+    </div>
+
+    <!-- Related -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">相關文章</div>
+      <a class="related-item" href="/people/amis">
+        <div class="related-title">阿美族</div>
+        <div class="related-meta">人群 · 台東縣</div>
+      </a>
+      <a class="related-item" href="/experience/surfing">
+        <div class="related-title">東海岸衝浪文化</div>
+        <div class="related-meta">體驗 · 東河鄉</div>
+      </a>
+      <a class="related-item" href="/celebration/harvest">
+        <div class="related-title">豐年祭</div>
+        <div class="related-meta">慶典 · 每年七月</div>
+      </a>
+    </div>
+
+    <!-- Tags -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">標籤</div>
+      <div class="tags">
+        <a class="tag" href="#">阿美族</a>
+        <a class="tag" href="#">都蘭部落</a>
+        <a class="tag" href="#">衝浪</a>
+        <a class="tag" href="#">藝術家聚落</a>
+        <a class="tag" href="#">東河鄉</a>
+        <a class="tag" href="#">返鄉青年</a>
+      </div>
+    </div>
+
+    <!-- Sources -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">資料來源</div>
+      <ul class="sources-list">
+        <li>[1] 都蘭遺址考古報告, <a href="#">國立台灣史前文化博物館</a></li>
+        <li>[2] 台東縣東河鄉志, 東河鄉公所</li>
+        <li>[3] 《東海岸的藝術漂流》, <a href="#">文化部</a></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<script>
+// Voice switching
+function switchVoice(voice) {
+  document.querySelectorAll('.voice-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.voice-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.voice-tab[data-voice="${voice}"]`).classList.add('active');
+  document.getElementById(`panel-${voice}`).classList.add('active');
+}
+
+// Transcript toggle
+function toggleTranscript(btn) {
+  const transcript = btn.nextElementSibling;
+  transcript.classList.toggle('open');
+  btn.textContent = transcript.classList.contains('open') ? '📄 隱藏逐字稿' : '📄 顯示逐字稿';
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Nav scroll
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+}, { passive: true });
+</script>
+</body>
+</html>

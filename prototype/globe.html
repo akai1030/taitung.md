@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taitung.md — 從太空走進台東</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;600;700;900&family=Noto+Sans+TC:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#1E1D1A;--cream:#FAF8F3;--pacific:#1B5E7B;--gold:#d4a44a;--font-display:'Noto Serif TC',serif;--font-body:'Noto Sans TC',sans-serif;--font-accent:'Cormorant Garamond',serif}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+body{font-family:var(--font-body);-webkit-font-smoothing:antialiased}
+
+/* Globe canvas */
+#globe-canvas{position:fixed;inset:0;z-index:1}
+
+/* Stars background */
+#stars{position:fixed;inset:0;z-index:0}
+
+/* Overlay text — appears during zoom */
+.overlay{position:fixed;inset:0;z-index:10;pointer-events:none;display:flex;flex-direction:column;justify-content:center;align-items:center}
+
+/* Phase 1: Space — coord label */
+.space-label{
+  position:fixed;z-index:10;pointer-events:none;
+  font-family:var(--font-accent);font-size:0.72rem;letter-spacing:0.25em;
+  color:rgba(255,255,255,0);transition:color 1.5s;
+  bottom:8vh;left:50%;transform:translateX(-50%)
+}
+.space-label.visible{color:rgba(255,255,255,0.3)}
+
+/* Phase 2: Atmosphere — place name fades in */
+.atmo-text{
+  position:fixed;z-index:10;pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  text-align:center;opacity:0;transition:opacity 1.5s
+}
+.atmo-text.visible{opacity:1}
+.atmo-text .place{
+  font-family:var(--font-display);font-weight:200;
+  font-size:clamp(3rem,9vw,6rem);letter-spacing:0.15em;
+  color:rgba(255,255,255,0.9);line-height:1.1;
+  text-shadow:0 0 80px rgba(100,180,220,0.15)
+}
+.atmo-text .en{
+  font-family:var(--font-accent);font-weight:300;
+  font-size:clamp(0.8rem,1.8vw,1.1rem);letter-spacing:0.35em;
+  color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:0.8em
+}
+
+/* Phase 3: Ocean landing */
+.ocean-landing{
+  position:fixed;inset:0;z-index:5;
+  background:linear-gradient(180deg,
+    rgba(90,140,170,0) 0%,
+    rgba(70,130,160,0.3) 30%,
+    rgba(42,112,138,0.7) 50%,
+    rgba(26,74,94,0.95) 70%,
+    #0e3a52 100%
+  );
+  opacity:0;transition:opacity 2s ease-in;pointer-events:none
+}
+.ocean-landing.visible{opacity:1}
+
+/* Final text */
+.final-text{
+  position:fixed;z-index:12;pointer-events:none;
+  bottom:12vh;left:8vw;max-width:500px;
+  opacity:0;transform:translateY(20px);
+  transition:all 1.5s cubic-bezier(.23,1,.32,1)
+}
+.final-text.visible{opacity:1;transform:translateY(0)}
+.final-text .ft-feeling{
+  font-family:var(--font-body);font-weight:200;
+  font-size:clamp(0.82rem,1.3vw,0.95rem);
+  color:rgba(255,255,255,0.4);line-height:2.2;letter-spacing:0.06em
+}
+.final-text .ft-coord{
+  font-family:var(--font-accent);font-weight:300;
+  font-size:0.7rem;letter-spacing:0.2em;
+  color:rgba(255,248,224,0.2);margin-top:1.5em
+}
+
+/* Enter button */
+.enter-btn{
+  position:fixed;z-index:12;
+  bottom:12vh;right:8vw;
+  padding:1em 2.5em;
+  font-family:var(--font-body);font-weight:400;font-size:0.82rem;
+  letter-spacing:0.1em;color:rgba(255,255,255,0.7);
+  background:transparent;border:1px solid rgba(255,255,255,0.15);
+  cursor:pointer;transition:all 0.4s;
+  opacity:0;transform:translateY(20px);pointer-events:none
+}
+.enter-btn.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.enter-btn:hover{color:#fff;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.05)}
+
+/* Skip button */
+.skip-btn{
+  position:fixed;z-index:20;top:24px;right:32px;
+  font-family:var(--font-accent);font-size:0.72rem;letter-spacing:0.15em;
+  color:rgba(255,255,255,0.2);background:none;border:none;
+  cursor:pointer;transition:color 0.3s;padding:8px 16px
+}
+.skip-btn:hover{color:rgba(255,255,255,0.5)}
+
+/* Progress bar */
+.progress{position:fixed;bottom:0;left:0;z-index:15;height:2px;background:var(--pacific);width:0;transition:width 0.3s linear}
+
+@media(prefers-reduced-motion:reduce){
+  .ocean-landing,.atmo-text,.space-label,.final-text,.enter-btn{transition-duration:0.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<canvas id="globe-canvas"></canvas>
+
+<div class="space-label" id="spaceLabel">22.7554°N, 121.1446°E</div>
+
+<div class="atmo-text" id="atmoText">
+  <div class="place">台東</div>
+  <div class="en">Taitung</div>
+</div>
+
+<div class="ocean-landing" id="oceanLanding"></div>
+
+<div class="final-text" id="finalText">
+  <div class="ft-feeling">海風正從太平洋的方向吹來</div>
+  <div class="ft-coord">22.7554°N, 121.1446°E — 台東縣政府</div>
+</div>
+
+<button class="enter-btn" id="enterBtn" onclick="window.location.href='home.html'">走進台東</button>
+<button class="skip-btn" id="skipBtn">skip →</button>
+<div class="progress" id="progress"></div>
+
+<script>
+// ═══════════════════════════════════════
+// TAITUNG.MD — GLOBE JOURNEY
+// From space → atmosphere → ocean surface
+// ═══════════════════════════════════════
+
+const TAITUNG_LAT = 22.7554;
+const TAITUNG_LNG = 121.1446;
+const DURATION = 10000; // 10 seconds total journey
+
+// Convert lat/lng to sphere position
+function latLngToVec3(lat, lng, radius) {
+  const phi = (90 - lat) * Math.PI / 180;
+  const theta = (lng + 180) * Math.PI / 180;
+  return new THREE.Vector3(
+    -radius * Math.sin(phi) * Math.cos(theta),
+    radius * Math.cos(phi),
+    radius * Math.sin(phi) * Math.sin(theta)
+  );
+}
+
+// ═══ STARS ═══
+function initStars() {
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const stars = [];
+  for (let i = 0; i < 800; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.2 + 0.3,
+      a: Math.random() * 0.6 + 0.2,
+      speed: Math.random() * 0.003 + 0.001
+    });
+  }
+
+  function drawStars(globalAlpha) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const t = Date.now();
+    stars.forEach(s => {
+      const flicker = Math.sin(t * s.speed) * 0.15 + 0.85;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${s.a * flicker * globalAlpha})`;
+      ctx.fill();
+    });
+  }
+
+  return { drawStars, canvas };
+}
+
+// ═══ GLOBE ═══
+function initGlobe() {
+  const canvas = document.getElementById('globe-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 0, 4.5);
+
+  // Earth sphere — procedural
+  const earthGeo = new THREE.SphereGeometry(1, 96, 96);
+
+  // Create procedural earth texture
+  const texCanvas = document.createElement('canvas');
+  texCanvas.width = 2048;
+  texCanvas.height = 1024;
+  const texCtx = texCanvas.getContext('2d');
+
+  // Ocean base
+  texCtx.fillStyle = '#1a4a6e';
+  texCtx.fillRect(0, 0, 2048, 1024);
+
+  // Simple land masses — approximate shapes
+  texCtx.fillStyle = '#3a6848';
+
+  // Asia
+  texCtx.beginPath();
+  texCtx.ellipse(1400, 320, 350, 180, 0.1, 0, Math.PI * 2);
+  texCtx.fill();
+
+  // Southeast Asia / Taiwan area — more detail here
+  texCtx.fillStyle = '#3d7050';
+  texCtx.beginPath();
+  texCtx.ellipse(1380, 420, 120, 80, 0.3, 0, Math.PI * 2);
+  texCtx.fill();
+
+  // Taiwan highlight
+  const twX = Math.round((TAITUNG_LNG + 180) / 360 * 2048);
+  const twY = Math.round((90 - 23.5) / 180 * 1024);
+  texCtx.fillStyle = '#5a9068';
+  texCtx.beginPath();
+  texCtx.ellipse(twX, twY, 12, 20, -0.3, 0, Math.PI * 2);
+  texCtx.fill();
+
+  // Taitung dot — golden
+  const ttX = Math.round((TAITUNG_LNG + 180) / 360 * 2048);
+  const ttY = Math.round((90 - TAITUNG_LAT) / 180 * 1024);
+  texCtx.fillStyle = '#d4a44a';
+  texCtx.beginPath();
+  texCtx.arc(ttX, ttY, 4, 0, Math.PI * 2);
+  texCtx.fill();
+  // Glow
+  const grd = texCtx.createRadialGradient(ttX, ttY, 0, ttX, ttY, 20);
+  grd.addColorStop(0, 'rgba(212,164,74,0.6)');
+  grd.addColorStop(1, 'rgba(212,164,74,0)');
+  texCtx.fillStyle = grd;
+  texCtx.beginPath();
+  texCtx.arc(ttX, ttY, 20, 0, Math.PI * 2);
+  texCtx.fill();
+
+  // Americas
+  texCtx.fillStyle = '#3a6848';
+  texCtx.beginPath();
+  texCtx.ellipse(400, 350, 120, 250, 0.1, 0, Math.PI * 2);
+  texCtx.fill();
+  texCtx.beginPath();
+  texCtx.ellipse(450, 550, 80, 130, 0.2, 0, Math.PI * 2);
+  texCtx.fill();
+
+  // Europe/Africa
+  texCtx.beginPath();
+  texCtx.ellipse(1050, 300, 100, 120, 0, 0, Math.PI * 2);
+  texCtx.fill();
+  texCtx.beginPath();
+  texCtx.ellipse(1080, 500, 80, 150, -0.1, 0, Math.PI * 2);
+  texCtx.fill();
+
+  // Australia
+  texCtx.beginPath();
+  texCtx.ellipse(1550, 600, 80, 50, 0.1, 0, Math.PI * 2);
+  texCtx.fill();
+
+  // Apply slight blur for natural look
+  texCtx.filter = 'blur(3px)';
+  texCtx.drawImage(texCanvas, 0, 0);
+  texCtx.filter = 'none';
+
+  // Re-draw Taiwan sharper on top
+  texCtx.fillStyle = '#5a9068';
+  texCtx.beginPath();
+  texCtx.ellipse(twX, twY, 11, 19, -0.3, 0, Math.PI * 2);
+  texCtx.fill();
+
+  // Re-draw Taitung dot
+  texCtx.fillStyle = '#d4a44a';
+  texCtx.beginPath();
+  texCtx.arc(ttX, ttY, 3.5, 0, Math.PI * 2);
+  texCtx.fill();
+  const grd2 = texCtx.createRadialGradient(ttX, ttY, 0, ttX, ttY, 16);
+  grd2.addColorStop(0, 'rgba(212,164,74,0.5)');
+  grd2.addColorStop(1, 'rgba(212,164,74,0)');
+  texCtx.fillStyle = grd2;
+  texCtx.beginPath();
+  texCtx.arc(ttX, ttY, 16, 0, Math.PI * 2);
+  texCtx.fill();
+
+  const earthTex = new THREE.CanvasTexture(texCanvas);
+
+  const earthMat = new THREE.MeshPhongMaterial({
+    map: earthTex,
+    specular: new THREE.Color(0x333333),
+    shininess: 15,
+    transparent: false
+  });
+  const earth = new THREE.Mesh(earthGeo, earthMat);
+  scene.add(earth);
+
+  // Atmosphere glow
+  const atmoGeo = new THREE.SphereGeometry(1.02, 64, 64);
+  const atmoMat = new THREE.MeshPhongMaterial({
+    color: 0x4488bb,
+    transparent: true,
+    opacity: 0.08,
+    side: THREE.FrontSide
+  });
+  const atmo = new THREE.Mesh(atmoGeo, atmoMat);
+  scene.add(atmo);
+
+  // Outer glow
+  const glowGeo = new THREE.SphereGeometry(1.12, 32, 32);
+  const glowMat = new THREE.ShaderMaterial({
+    uniforms: {
+      viewVector: { value: camera.position }
+    },
+    vertexShader: `
+      uniform vec3 viewVector;
+      varying float intensity;
+      void main() {
+        vec3 vNormal = normalize(normalMatrix * normal);
+        vec3 vNormel = normalize(normalMatrix * viewVector);
+        intensity = pow(0.65 - dot(vNormal, vNormel), 3.0);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      varying float intensity;
+      void main() {
+        vec3 glow = vec3(0.3, 0.6, 0.8) * intensity;
+        gl_FragColor = vec4(glow, intensity * 0.4);
+      }
+    `,
+    side: THREE.BackSide,
+    blending: THREE.AdditiveBlending,
+    transparent: true
+  });
+  const glow = new THREE.Mesh(glowGeo, glowMat);
+  scene.add(glow);
+
+  // Lighting
+  const sunLight = new THREE.DirectionalLight(0xfff5e0, 1.2);
+  sunLight.position.set(5, 3, 5);
+  scene.add(sunLight);
+  const ambientLight = new THREE.AmbientLight(0x222244, 0.4);
+  scene.add(ambientLight);
+  const rimLight = new THREE.DirectionalLight(0x4488aa, 0.3);
+  rimLight.position.set(-3, -1, -3);
+  scene.add(rimLight);
+
+  // Initial rotation — show Taiwan side
+  const taitungPos = latLngToVec3(TAITUNG_LAT, TAITUNG_LNG, 1);
+  // Rotate earth so Taitung faces camera after initial rotation
+  earth.rotation.y = -(TAITUNG_LNG + 180) * Math.PI / 180 + Math.PI + 0.8; // offset for initial spin
+
+  function resize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+  window.addEventListener('resize', resize);
+
+  return { renderer, scene, camera, earth, atmo, glow, glowMat };
+}
+
+// ═══ ANIMATION TIMELINE ═══
+function startJourney() {
+  const { drawStars } = initStars();
+  const { renderer, scene, camera, earth, atmo, glow, glowMat } = initGlobe();
+
+  const spaceLabel = document.getElementById('spaceLabel');
+  const atmoText = document.getElementById('atmoText');
+  const oceanLanding = document.getElementById('oceanLanding');
+  const finalText = document.getElementById('finalText');
+  const enterBtn = document.getElementById('enterBtn');
+  const progressBar = document.getElementById('progress');
+
+  const startTime = Date.now();
+  let completed = false;
+
+  // Target rotation for Taitung facing camera
+  const targetRotY = -(TAITUNG_LNG + 90) * Math.PI / 180;
+  const startRotY = earth.rotation.y;
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function easeOutQuart(t) {
+    return 1 - Math.pow(1 - t, 4);
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    const elapsed = Date.now() - startTime;
+    const t = Math.min(elapsed / DURATION, 1); // 0 → 1 over duration
+
+    // Progress bar
+    progressBar.style.width = (t * 100) + '%';
+
+    // ═══ PHASE 1: Space view, slow rotation (0% - 30%) ═══
+    if (t < 0.3) {
+      const p = t / 0.3; // 0→1 within phase
+
+      // Slow idle rotation + start turning toward Taitung
+      earth.rotation.y = startRotY + p * (targetRotY - startRotY) * 0.3 + Math.sin(elapsed * 0.0001) * 0.02;
+
+      // Camera stays distant
+      camera.position.z = 4.5;
+
+      // Stars fully visible
+      drawStars(1);
+
+      // Show coord label at 15%
+      if (t > 0.15) spaceLabel.classList.add('visible');
+    }
+
+    // ═══ PHASE 2: Zoom toward Taiwan (30% - 65%) ═══
+    else if (t < 0.65) {
+      const p = (t - 0.3) / 0.35;
+      const ep = easeInOutCubic(p);
+
+      // Rotate to face Taitung
+      earth.rotation.y = startRotY + (targetRotY - startRotY) * (0.3 + 0.7 * ep);
+
+      // Zoom in
+      camera.position.z = 4.5 - ep * 3.2; // 4.5 → 1.3
+
+      // Slight camera tilt toward Taitung latitude
+      camera.position.y = ep * 0.3;
+      camera.lookAt(0, ep * 0.15, 0);
+
+      // Stars fade out
+      drawStars(Math.max(0, 1 - ep * 2));
+
+      // Hide space label
+      if (p > 0.2) spaceLabel.classList.remove('visible');
+
+      // Atmosphere gets brighter
+      atmo.material.opacity = 0.08 + ep * 0.12;
+
+      // Show place name at 50%
+      if (t > 0.5) atmoText.classList.add('visible');
+    }
+
+    // ═══ PHASE 3: Into the atmosphere (65% - 85%) ═══
+    else if (t < 0.85) {
+      const p = (t - 0.65) / 0.2;
+      const ep = easeOutQuart(p);
+
+      // Continue zooming very close
+      camera.position.z = 1.3 - ep * 0.9; // 1.3 → 0.4
+      camera.position.y = 0.3 + ep * 0.15;
+      camera.lookAt(0, 0.15 + ep * 0.1, 0);
+
+      // Earth rotation fine-tune
+      earth.rotation.y = targetRotY + ep * 0.05;
+
+      // Stars gone
+      drawStars(0);
+
+      // Atmosphere very bright
+      atmo.material.opacity = 0.2 + ep * 0.3;
+
+      // Globe starts fading (ocean takes over)
+      if (p > 0.4) {
+        oceanLanding.classList.add('visible');
+      }
+
+      // Glow intensifies
+      glow.scale.setScalar(1 + ep * 0.2);
+    }
+
+    // ═══ PHASE 4: Ocean surface (85% - 100%) ═══
+    else {
+      const p = (t - 0.85) / 0.15;
+      const ep = easeOutQuart(p);
+
+      // Camera very close, almost inside
+      camera.position.z = 0.4 - ep * 0.3;
+
+      drawStars(0);
+
+      // Ocean fully visible
+      oceanLanding.classList.add('visible');
+
+      // Hide globe text, show final text
+      if (p > 0.3) atmoText.classList.remove('visible');
+      if (p > 0.5) {
+        finalText.classList.add('visible');
+        enterBtn.classList.add('visible');
+      }
+
+      if (t >= 1 && !completed) {
+        completed = true;
+        progressBar.style.opacity = '0';
+      }
+    }
+
+    // Update glow
+    glowMat.uniforms.viewVector.value = camera.position;
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+}
+
+// ═══ SKIP ═══
+document.getElementById('skipBtn').addEventListener('click', () => {
+  window.location.href = 'home.html';
+});
+
+// ═══ START ═══
+window.addEventListener('load', () => {
+  startJourney();
+});
+
+// Resize stars canvas
+window.addEventListener('resize', () => {
+  const c = document.getElementById('stars');
+  if (c) { c.width = window.innerWidth; c.height = window.innerHeight; }
+});
+</script>
+</body>
+</html>

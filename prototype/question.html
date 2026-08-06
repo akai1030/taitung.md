@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本週提問 — Taitung.md</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;600;700;900&family=Noto+Sans+TC:wght@100;200;300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#1E1D1A;--ink-soft:#3D3B35;--smoke:#8A8578;--stone:#B8B0A2;--cream:#FAF8F3;--pacific:#1B5E7B;--sunrise:#C8782A;--gold:#d4a44a;--font-display:'Noto Serif TC',serif;--font-body:'Noto Sans TC',sans-serif;--font-accent:'Cormorant Garamond',serif}
+html{font-size:16px;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--cream);background:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(30,29,26,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(250,248,243,.04)}
+.nav-left{display:flex;align-items:center;gap:10px}
+.nav-logo{font-family:var(--font-accent);font-size:1rem;font-weight:600;color:rgba(250,248,243,.7);text-decoration:none}
+.nav-sep{color:rgba(250,248,243,.15);font-size:.75rem}
+.nav-page{font-size:.78rem;color:rgba(250,248,243,.35)}
+.nav-right{display:flex;gap:6px}
+.nav-link{font-size:.78rem;color:rgba(250,248,243,.3);text-decoration:none;padding:6px 12px;border-radius:100px;transition:all .3s}
+.nav-link:hover{color:rgba(250,248,243,.7);background:rgba(250,248,243,.05)}
+
+/* Question hero */
+.q-hero{padding:20vh 8vw 8vh;text-align:center;display:flex;flex-direction:column;align-items:center}
+.q-week{font-family:var(--font-accent);font-size:.68rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:3em}
+.q-text{font-family:var(--font-display);font-weight:300;font-size:clamp(2rem,6vw,3.5rem);line-height:1.55;color:rgba(250,248,243,.92);max-width:700px;letter-spacing:.04em}
+.q-meta{margin-top:2.5em;font-family:var(--font-accent);font-size:.78rem;color:rgba(250,248,243,.2);letter-spacing:.1em}
+
+/* Answer input */
+.answer-area{max-width:600px;margin:6vh auto 0;padding:0 2rem}
+.answer-box{width:100%;background:rgba(250,248,243,.03);border:1px solid rgba(250,248,243,.08);border-radius:4px;padding:1.5em;font-family:var(--font-body);font-size:.9rem;color:rgba(250,248,243,.8);line-height:1.9;resize:vertical;min-height:120px;outline:none;transition:border-color .3s}
+.answer-box::placeholder{color:rgba(250,248,243,.15)}
+.answer-box:focus{border-color:rgba(212,164,74,.4)}
+.answer-controls{display:flex;align-items:center;justify-content:space-between;margin-top:1em}
+.answer-options{display:flex;gap:.8em}
+.ao-btn{padding:.5em 1em;font-size:.72rem;color:rgba(250,248,243,.3);border:1px solid rgba(250,248,243,.08);border-radius:100px;cursor:pointer;background:transparent;transition:all .3s;font-family:var(--font-body)}
+.ao-btn:hover{color:rgba(250,248,243,.6);border-color:rgba(250,248,243,.2)}
+.submit-btn{padding:.8em 2.2em;font-family:var(--font-body);font-weight:400;font-size:.82rem;letter-spacing:.06em;color:var(--ink);background:var(--gold);border:none;cursor:pointer;transition:all .3s;border-radius:2px}
+.submit-btn:hover{background:#e0b458;transform:translateY(-1px)}
+
+/* Divider */
+.divider{max-width:600px;margin:8vh auto;padding:0 2rem}
+.divider-line{height:1px;background:rgba(250,248,243,.06)}
+.divider-text{font-family:var(--font-accent);font-size:.7rem;color:rgba(250,248,243,.15);text-align:center;margin-top:1.5em;letter-spacing:.15em}
+
+/* Responses */
+.responses{max-width:600px;margin:0 auto;padding:0 2rem 10vh}
+.response{padding:2.5em 0;border-top:1px solid rgba(250,248,243,.04)}
+.response:first-child{border-top:none}
+.r-text{font-family:var(--font-body);font-weight:300;font-size:.92rem;line-height:2;color:rgba(250,248,243,.65)}
+.r-meta{margin-top:1.2em;display:flex;align-items:center;gap:1em}
+.r-author{font-family:var(--font-body);font-size:.75rem;color:rgba(250,248,243,.25)}
+.r-time{font-family:var(--font-accent);font-size:.68rem;color:rgba(250,248,243,.12);letter-spacing:.05em}
+.r-place{font-family:var(--font-accent);font-size:.68rem;color:rgba(250,248,243,.12);letter-spacing:.05em}
+.r-dot{width:3px;height:3px;border-radius:50%;background:rgba(250,248,243,.1)}
+
+/* Audio response */
+.r-audio{margin-top:1em;display:inline-flex;align-items:center;gap:.8em;padding:.6em 1.2em;border:1px solid rgba(200,120,42,.15);border-radius:100px;cursor:pointer;transition:all .3s}
+.r-audio:hover{border-color:rgba(200,120,42,.3);background:rgba(200,120,42,.03)}
+.r-audio .ra-icon{width:0;height:0;border-left:7px solid var(--sunrise);border-top:4px solid transparent;border-bottom:4px solid transparent}
+.r-audio .ra-text{font-size:.72rem;color:var(--sunrise);letter-spacing:.05em}
+
+/* Past questions */
+.past-section{max-width:600px;margin:0 auto;padding:0 2rem 10vh}
+.past-section h3{font-family:var(--font-display);font-weight:400;font-size:1rem;color:rgba(250,248,243,.4);margin-bottom:2em;padding-top:4em;border-top:1px solid rgba(250,248,243,.04)}
+.past-q{padding:1.5em 0;border-bottom:1px solid rgba(250,248,243,.03);display:flex;align-items:baseline;justify-content:space-between;cursor:pointer;transition:all .3s}
+.past-q:hover{padding-left:.5em}
+.past-q .pq-text{font-family:var(--font-display);font-weight:400;font-size:.95rem;color:rgba(250,248,243,.5);transition:color .3s}
+.past-q:hover .pq-text{color:rgba(250,248,243,.75)}
+.past-q .pq-meta{font-family:var(--font-accent);font-size:.68rem;color:rgba(250,248,243,.15);letter-spacing:.08em;white-space:nowrap;margin-left:2em}
+
+.ft{padding:4em 2rem;text-align:center;border-top:1px solid rgba(250,248,243,.04)}
+.ft .ft-l{font-family:var(--font-accent);font-size:.9rem;color:rgba(250,248,243,.15)}
+.ft .ft-c{font-family:var(--font-accent);font-size:.65rem;color:rgba(250,248,243,.08);margin-top:.8em;letter-spacing:.2em}
+
+@media(max-width:768px){.q-hero{padding:18vh 6vw 6vh}.answer-area{padding:0 6vw}.responses{padding:0 6vw 8vh}.past-section{padding:0 6vw 8vh}.nav{padding:14px 20px}.nav-right{display:none}.answer-controls{flex-direction:column;gap:1em;align-items:stretch}.answer-options{justify-content:center}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-left"><a href="home.html" class="nav-logo">Taitung.md</a><span class="nav-sep">/</span><span class="nav-page">本週提問</span></div><div class="nav-right"><a href="home.html" class="nav-link">首頁</a><a href="sound.html" class="nav-link">聲音</a></div></nav>
+
+<section class="q-hero">
+  <div class="q-week">Week 14 · 2026.04.07 — 04.13</div>
+  <h1 class="q-text">你在台東<br>最想念的聲音是什麼？</h1>
+  <div class="q-meta">47 個人回答了這個問題</div>
+</section>
+
+<div class="answer-area">
+  <textarea class="answer-box" placeholder="說出你的答案⋯⋯打字、或者用下面的按鈕錄音。"></textarea>
+  <div class="answer-controls">
+    <div class="answer-options">
+      <button class="ao-btn">🎤 用錄音的</button>
+      <button class="ao-btn">📷 附一張照片</button>
+      <button class="ao-btn">🕵️ 匿名</button>
+    </div>
+    <button class="submit-btn">送出</button>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-text">其他人的回答</div></div>
+
+<section class="responses">
+  <div class="response">
+    <div class="r-text">知本溪夜晚的溪水聲。不是瀑布那種，是很平穩的、像有人一直在旁邊說「沒事沒事」的那種聲音。失眠的時候最想念它。</div>
+    <div class="r-meta"><span class="r-author">匿名</span><span class="r-dot"></span><span class="r-place">台東市</span><span class="r-dot"></span><span class="r-time">3 小時前</span></div>
+  </div>
+
+  <div class="response">
+    <div class="r-text">鹿野火車站火車要進站時的廣播。那個節奏我閉著眼睛都背得出來。「各位旅客您好，南迴線第——」後面是什麼已經不重要了，重要的是那個開頭。</div>
+    <div class="r-meta"><span class="r-author">小馬</span><span class="r-dot"></span><span class="r-place">鹿野鄉</span><span class="r-dot"></span><span class="r-time">5 小時前</span></div>
+  </div>
+
+  <div class="response">
+    <div class="r-text">外婆在廚房用排灣語罵我吃太慢的聲音。她過世以後那個聲音就只在夢裡出現了。我不確定我記得的是真正的聲音，還是我自己編出來的記憶。</div>
+    <div class="r-meta"><span class="r-author">vuvu 的孫子</span><span class="r-dot"></span><span class="r-place">金峰鄉</span><span class="r-dot"></span><span class="r-time">昨天</span></div>
+  </div>
+
+  <div class="response">
+    <div class="r-text">颱風前一天的那種安靜。不是沒有聲音，是所有聲音都在等。鳥不叫了，風還沒來，整個世界在憋氣。只有台東會有這種安靜。</div>
+    <div class="r-meta"><span class="r-author">陳書豪</span><span class="r-dot"></span><span class="r-place">成功鎮</span><span class="r-dot"></span><span class="r-time">昨天</span></div>
+  </div>
+
+  <div class="response">
+    <div class="r-text">我爸在屋頂修東西的聲音。錘子敲鐵皮，一下一下的，很規律。隔壁的狗會跟著每一下叫一聲。這是我小時候每個禮拜六早上的配樂。</div>
+    <div class="r-meta"><span class="r-author">阿光</span><span class="r-dot"></span><span class="r-place">關山鎮</span><span class="r-dot"></span><span class="r-time">2 天前</span></div>
+  </div>
+
+  <div class="response">
+    <div class="r-text">三仙台的浪打在那些石頭上的聲音。每顆石頭被打到的聲音都不一樣，像一個亂七八糟的樂團在演奏，但不知道為什麼聽起來很和諧。</div>
+    <div class="r-audio"><span class="ra-icon"></span><span class="ra-text">語音回答 · 0:45</span></div>
+    <div class="r-meta"><span class="r-author">海邊的魚</span><span class="r-dot"></span><span class="r-place">成功鎮</span><span class="r-dot"></span><span class="r-time">2 天前</span></div>
+  </div>
+
+  <div class="response">
+    <div class="r-text">凌晨四點池上的公雞叫。住在都市以後才知道這個東西居然是我最想念的。都市有日出但是沒有公雞跟你說「起來了」。</div>
+    <div class="r-meta"><span class="r-author">池上出去的人</span><span class="r-dot"></span><span class="r-place">池上鄉（現居台北）</span><span class="r-dot"></span><span class="r-time">3 天前</span></div>
+  </div>
+
+  <div class="response">
+    <div class="r-text">小時候放學騎腳踏車經過稻田，風吹過來的時候稻穗會「唰——」一大片倒過去再彈回來。那個聲音我到現在都覺得是世界上最溫柔的聲音。</div>
+    <div class="r-meta"><span class="r-author">Panay</span><span class="r-dot"></span><span class="r-place">鹿野鄉</span><span class="r-dot"></span><span class="r-time">3 天前</span></div>
+  </div>
+</section>
+
+<section class="past-section">
+  <h3>過去的提問</h3>
+  <div class="past-q"><span class="pq-text">如果台東是一種味道，你覺得是什麼？</span><span class="pq-meta">Week 13 · 62 回答</span></div>
+  <div class="past-q"><span class="pq-text">你在台東最常迷路的地方是哪裡？</span><span class="pq-meta">Week 12 · 38 回答</span></div>
+  <div class="past-q"><span class="pq-text">台東最被觀光客低估的地方？</span><span class="pq-meta">Week 11 · 91 回答</span></div>
+  <div class="past-q"><span class="pq-text">你有沒有一個只有在台東才做得到的習慣？</span><span class="pq-meta">Week 10 · 54 回答</span></div>
+  <div class="past-q"><span class="pq-text">台東哪裡的星空最美？</span><span class="pq-meta">Week 9 · 73 回答</span></div>
+</section>
+
+<footer class="ft"><div class="ft-l">Taitung.md</div><div class="ft-c">22.7554°N, 121.1446°E</div></footer>
+</body>
+</html>

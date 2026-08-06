@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聲音地圖 — Taitung.md</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;600;700;900&family=Noto+Sans+TC:wght@100;200;300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#1E1D1A;--ink-soft:#3D3B35;--smoke:#8A8578;--stone:#B8B0A2;--cream:#FAF8F3;--pacific:#1B5E7B;--valley:#3A6B42;--sunrise:#C8782A;--gold:#d4a44a;--font-display:'Noto Serif TC',serif;--font-body:'Noto Sans TC',sans-serif;--font-accent:'Cormorant Garamond',serif}
+html{font-size:16px;overflow-x:hidden}
+body{font-family:var(--font-body);color:var(--ink);background:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(30,29,26,.85);backdrop-filter:blur(20px) saturate(1.3);border-bottom:1px solid rgba(250,248,243,.04)}
+.nav-left{display:flex;align-items:center;gap:10px}
+.nav-logo{font-family:var(--font-accent);font-size:1rem;font-weight:600;color:rgba(250,248,243,.7);text-decoration:none}
+.nav-sep{color:rgba(250,248,243,.15);font-size:.75rem}
+.nav-page{font-family:var(--font-body);font-size:.78rem;color:rgba(250,248,243,.35)}
+.nav-right{display:flex;gap:6px}
+.nav-link{font-size:.78rem;color:rgba(250,248,243,.3);text-decoration:none;padding:6px 12px;border-radius:100px;transition:all .3s}
+.nav-link:hover{color:rgba(250,248,243,.7);background:rgba(250,248,243,.05)}
+
+/* Hero */
+.sound-hero{padding:18vh 8vw 10vh;max-width:900px}
+.sound-hero .sh-label{font-family:var(--font-accent);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:2.5em}
+.sound-hero h1{font-family:var(--font-display);font-weight:300;font-size:clamp(2rem,5vw,3.2rem);line-height:1.5;color:rgba(250,248,243,.9);letter-spacing:.04em}
+.sound-hero .sh-desc{font-weight:300;font-size:.9rem;line-height:2.1;color:rgba(250,248,243,.35);margin-top:2em;max-width:500px}
+
+/* Sound grid */
+.sound-grid{padding:0 8vw 6vh;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:rgba(250,248,243,.04)}
+.sound-card{background:rgba(30,29,26,.95);padding:2.5em 2em;cursor:pointer;transition:all .5s;position:relative;overflow:hidden}
+.sound-card:hover{background:rgba(40,38,32,.95)}
+
+/* Playing state */
+.sound-card.playing{background:rgba(27,94,123,.12)}
+.sound-card.playing .sc-name{color:rgba(250,248,243,.95)}
+.sound-card.playing .sc-wave .w-bar{animation-play-state:running;opacity:.8}
+
+.sc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5em}
+.sc-icon{font-size:1.4rem;opacity:.5;transition:opacity .3s}
+.sound-card:hover .sc-icon{opacity:.8}
+.sc-dur{font-family:var(--font-accent);font-size:.65rem;color:rgba(250,248,243,.2);letter-spacing:.1em}
+
+.sc-name{font-family:var(--font-display);font-weight:400;font-size:1.05rem;color:rgba(250,248,243,.7);margin-bottom:.4em;transition:color .3s}
+.sc-place{font-family:var(--font-accent);font-size:.72rem;color:rgba(250,248,243,.25);letter-spacing:.1em;margin-bottom:.3em}
+.sc-contributor{font-size:.68rem;color:rgba(250,248,243,.15);margin-top:.8em}
+
+.sc-wave{display:flex;align-items:center;gap:2px;height:28px;margin-top:1.5em}
+.sc-wave .w-bar{width:2.5px;border-radius:1px;background:var(--pacific);opacity:.25;animation:wb 1.3s ease-in-out infinite;animation-play-state:paused;transition:opacity .3s}
+.sound-card:hover .w-bar{animation-play-state:running;opacity:.5}
+@keyframes wb{0%,100%{height:3px}50%{height:var(--h)}}
+
+/* Play button overlay */
+.sc-play{position:absolute;right:2em;bottom:2.5em;width:36px;height:36px;border-radius:50%;border:1px solid rgba(250,248,243,.1);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.8);transition:all .3s}
+.sound-card:hover .sc-play{opacity:1;transform:scale(1)}
+.sc-play .sp-tri{width:0;height:0;border-left:8px solid rgba(250,248,243,.5);border-top:5px solid transparent;border-bottom:5px solid transparent;margin-left:2px}
+
+/* Now playing bar */
+.now-playing{position:fixed;bottom:0;left:0;right:0;z-index:99;background:rgba(20,18,16,.95);backdrop-filter:blur(20px);border-top:1px solid rgba(250,248,243,.06);padding:1em 8vw;display:none;align-items:center;gap:1.5em}
+.now-playing.active{display:flex}
+.np-btn{width:38px;height:38px;border-radius:50%;background:var(--pacific);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .3s}
+.np-btn:hover{background:#1a6d8f}
+.np-tri{width:0;height:0;border-left:10px solid #fff;border-top:6px solid transparent;border-bottom:6px solid transparent;margin-left:2px}
+.np-pause{display:flex;gap:3px}.np-pause span{width:3px;height:14px;background:#fff;border-radius:1px}
+.np-info{flex:1}.np-info .np-name{font-size:.85rem;color:rgba(250,248,243,.8);font-weight:400}.np-info .np-place{font-size:.7rem;color:rgba(250,248,243,.3);margin-top:.2em}
+.np-progress{flex:2;height:2px;background:rgba(250,248,243,.08);border-radius:1px;position:relative;cursor:pointer}
+.np-progress .np-fill{height:100%;background:var(--pacific);border-radius:1px;width:35%;transition:width .3s}
+.np-time{font-family:var(--font-accent);font-size:.68rem;color:rgba(250,248,243,.2);letter-spacing:.05em;min-width:70px;text-align:right}
+
+/* Upload CTA */
+.upload-section{padding:10vh 8vw;text-align:center}
+.upload-section h2{font-family:var(--font-display);font-weight:300;font-size:clamp(1.3rem,3vw,1.8rem);color:rgba(250,248,243,.7);line-height:1.7;margin-bottom:1em}
+.upload-section p{font-size:.85rem;color:rgba(250,248,243,.25);line-height:1.9;max-width:450px;margin:0 auto 2.5em}
+.upload-btn{padding:1em 2.5em;font-family:var(--font-body);font-weight:400;font-size:.82rem;letter-spacing:.08em;color:var(--ink);background:var(--gold);border:none;cursor:pointer;transition:all .3s}
+.upload-btn:hover{background:#e0b458;transform:translateY(-2px)}
+
+.ft{padding:4em 2rem;text-align:center;border-top:1px solid rgba(250,248,243,.04)}
+.ft .ft-l{font-family:var(--font-accent);font-size:.9rem;color:rgba(250,248,243,.15)}
+.ft .ft-c{font-family:var(--font-accent);font-size:.65rem;color:rgba(250,248,243,.08);margin-top:.8em;letter-spacing:.2em}
+
+@media(max-width:768px){.sound-hero{padding:16vh 6vw 8vh}.sound-grid{padding:0 6vw 4vh;grid-template-columns:1fr}.now-playing{padding:1em 4vw}.np-progress{display:none}.nav{padding:14px 20px}.nav-right{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-left"><a href="home.html" class="nav-logo">Taitung.md</a><span class="nav-sep">/</span><span class="nav-page">聲音地圖</span></div><div class="nav-right"><a href="home.html" class="nav-link">首頁</a><a href="question.html" class="nav-link">本週提問</a></div></nav>
+
+<section class="sound-hero">
+  <div class="sh-label">Sound Map of Taitung</div>
+  <h1>閉上眼睛<br>用耳朵走進台東</h1>
+  <p class="sh-desc">每一段聲音都來自一個真實的地點，由在那裡生活的人錄下。點擊任何一張卡片，聽見那個地方。</p>
+</section>
+
+<div class="sound-grid" id="soundGrid">
+  <div class="sound-card" data-sound="ocean">
+    <div class="sc-top"><span class="sc-icon">🌊</span><span class="sc-dur">12:30 loop</span></div>
+    <div class="sc-name">太平洋的浪</div>
+    <div class="sc-place">杉原灣 · 卑南鄉</div>
+    <div class="sc-contributor">錄音：陳柏翰 · 2025.02</div>
+    <div class="sc-wave"><span class="w-bar" style="--h:14px;animation-delay:0s"></span><span class="w-bar" style="--h:20px;animation-delay:.07s"></span><span class="w-bar" style="--h:10px;animation-delay:.14s"></span><span class="w-bar" style="--h:18px;animation-delay:.21s"></span><span class="w-bar" style="--h:8px;animation-delay:.28s"></span><span class="w-bar" style="--h:16px;animation-delay:.35s"></span><span class="w-bar" style="--h:12px;animation-delay:.42s"></span><span class="w-bar" style="--h:22px;animation-delay:.49s"></span><span class="w-bar" style="--h:9px;animation-delay:.56s"></span><span class="w-bar" style="--h:15px;animation-delay:.63s"></span><span class="w-bar" style="--h:11px;animation-delay:.7s"></span><span class="w-bar" style="--h:19px;animation-delay:.77s"></span></div>
+    <div class="sc-play"><span class="sp-tri"></span></div>
+  </div>
+
+  <div class="sound-card" data-sound="rice">
+    <div class="sc-top"><span class="sc-icon">🌾</span><span class="sc-dur">8:45 loop</span></div>
+    <div class="sc-name">稻浪與風</div>
+    <div class="sc-place">伯朗大道 · 池上鄉</div>
+    <div class="sc-contributor">錄音：張雅涵 · 2025.06</div>
+    <div class="sc-wave"><span class="w-bar" style="--h:8px;animation-delay:.05s"></span><span class="w-bar" style="--h:14px;animation-delay:.12s"></span><span class="w-bar" style="--h:6px;animation-delay:.19s"></span><span class="w-bar" style="--h:12px;animation-delay:.26s"></span><span class="w-bar" style="--h:16px;animation-delay:.33s"></span><span class="w-bar" style="--h:7px;animation-delay:.4s"></span><span class="w-bar" style="--h:10px;animation-delay:.47s"></span><span class="w-bar" style="--h:13px;animation-delay:.54s"></span><span class="w-bar" style="--h:5px;animation-delay:.61s"></span><span class="w-bar" style="--h:11px;animation-delay:.68s"></span><span class="w-bar" style="--h:8px;animation-delay:.75s"></span><span class="w-bar" style="--h:14px;animation-delay:.82s"></span></div>
+    <div class="sc-play"><span class="sp-tri"></span></div>
+  </div>
+
+  <div class="sound-card" data-sound="train">
+    <div class="sc-top"><span class="sc-icon">🚂</span><span class="sc-dur">3:20</span></div>
+    <div class="sc-name">南迴列車通過</div>
+    <div class="sc-place">多良車站 · 太麻里鄉</div>
+    <div class="sc-contributor">錄音：林佳蓉 · 2025.01</div>
+    <div class="sc-wave"><span class="w-bar" style="--h:5px;animation-delay:.1s"></span><span class="w-bar" style="--h:8px;animation-delay:.17s"></span><span class="w-bar" style="--h:20px;animation-delay:.24s"></span><span class="w-bar" style="--h:24px;animation-delay:.31s"></span><span class="w-bar" style="--h:18px;animation-delay:.38s"></span><span class="w-bar" style="--h:22px;animation-delay:.45s"></span><span class="w-bar" style="--h:14px;animation-delay:.52s"></span><span class="w-bar" style="--h:8px;animation-delay:.59s"></span><span class="w-bar" style="--h:5px;animation-delay:.66s"></span><span class="w-bar" style="--h:3px;animation-delay:.73s"></span><span class="w-bar" style="--h:6px;animation-delay:.8s"></span><span class="w-bar" style="--h:4px;animation-delay:.87s"></span></div>
+    <div class="sc-play"><span class="sp-tri"></span></div>
+  </div>
+
+  <div class="sound-card" data-sound="festival">
+    <div class="sc-top"><span class="sc-icon">🎶</span><span class="sc-dur">6:15</span></div>
+    <div class="sc-name">豐年祭歌謠</div>
+    <div class="sc-place">都蘭部落 · 東河鄉</div>
+    <div class="sc-contributor">錄音：都蘭部落文化發展協會 · 2024.07</div>
+    <div class="sc-wave"><span class="w-bar" style="--h:16px;animation-delay:0s"></span><span class="w-bar" style="--h:10px;animation-delay:.07s"></span><span class="w-bar" style="--h:20px;animation-delay:.14s"></span><span class="w-bar" style="--h:14px;animation-delay:.21s"></span><span class="w-bar" style="--h:22px;animation-delay:.28s"></span><span class="w-bar" style="--h:8px;animation-delay:.35s"></span><span class="w-bar" style="--h:18px;animation-delay:.42s"></span><span class="w-bar" style="--h:12px;animation-delay:.49s"></span><span class="w-bar" style="--h:20px;animation-delay:.56s"></span><span class="w-bar" style="--h:10px;animation-delay:.63s"></span><span class="w-bar" style="--h:16px;animation-delay:.7s"></span><span class="w-bar" style="--h:14px;animation-delay:.77s"></span></div>
+    <div class="sc-play"><span class="sp-tri"></span></div>
+  </div>
+
+  <div class="sound-card" data-sound="night">
+    <div class="sc-top"><span class="sc-icon">🦗</span><span class="sc-dur">15:00 loop</span></div>
+    <div class="sc-name">夜晚的知本</div>
+    <div class="sc-place">知本溫泉區 · 台東市</div>
+    <div class="sc-contributor">錄音：王家銘 · 2025.03</div>
+    <div class="sc-wave"><span class="w-bar" style="--h:6px;animation-delay:.03s"></span><span class="w-bar" style="--h:10px;animation-delay:.1s"></span><span class="w-bar" style="--h:4px;animation-delay:.17s"></span><span class="w-bar" style="--h:8px;animation-delay:.24s"></span><span class="w-bar" style="--h:12px;animation-delay:.31s"></span><span class="w-bar" style="--h:5px;animation-delay:.38s"></span><span class="w-bar" style="--h:9px;animation-delay:.45s"></span><span class="w-bar" style="--h:7px;animation-delay:.52s"></span><span class="w-bar" style="--h:11px;animation-delay:.59s"></span><span class="w-bar" style="--h:6px;animation-delay:.66s"></span><span class="w-bar" style="--h:8px;animation-delay:.73s"></span><span class="w-bar" style="--h:5px;animation-delay:.8s"></span></div>
+    <div class="sc-play"><span class="sp-tri"></span></div>
+  </div>
+
+  <div class="sound-card" data-sound="dawn">
+    <div class="sc-top"><span class="sc-icon">🐦</span><span class="sc-dur">10:20 loop</span></div>
+    <div class="sc-name">清晨的鸞山</div>
+    <div class="sc-place">鸞山森林 · 延平鄉</div>
+    <div class="sc-contributor">錄音：布農族鸞山部落 · 2024.11</div>
+    <div class="sc-wave"><span class="w-bar" style="--h:12px;animation-delay:.08s"></span><span class="w-bar" style="--h:6px;animation-delay:.15s"></span><span class="w-bar" style="--h:16px;animation-delay:.22s"></span><span class="w-bar" style="--h:8px;animation-delay:.29s"></span><span class="w-bar" style="--h:14px;animation-delay:.36s"></span><span class="w-bar" style="--h:10px;animation-delay:.43s"></span><span class="w-bar" style="--h:18px;animation-delay:.5s"></span><span class="w-bar" style="--h:7px;animation-delay:.57s"></span><span class="w-bar" style="--h:13px;animation-delay:.64s"></span><span class="w-bar" style="--h:9px;animation-delay:.71s"></span><span class="w-bar" style="--h:15px;animation-delay:.78s"></span><span class="w-bar" style="--h:6px;animation-delay:.85s"></span></div>
+    <div class="sc-play"><span class="sp-tri"></span></div>
+  </div>
+
+  <div class="sound-card" data-sound="market">
+    <div class="sc-top"><span class="sc-icon">🧺</span><span class="sc-dur">5:40</span></div>
+    <div class="sc-name">早市的叫賣</div>
+    <div class="sc-place">台東中央市場 · 台東市</div>
+    <div class="sc-contributor">錄音：匿名 · 2025.04</div>
+    <div class="sc-wave"><span class="w-bar" style="--h:18px;animation-delay:0s"></span><span class="w-bar" style="--h:12px;animation-delay:.07s"></span><span class="w-bar" style="--h:22px;animation-delay:.14s"></span><span class="w-bar" style="--h:8px;animation-delay:.21s"></span><span class="w-bar" style="--h:16px;animation-delay:.28s"></span><span class="w-bar" style="--h:20px;animation-delay:.35s"></span><span class="w-bar" style="--h:10px;animation-delay:.42s"></span><span class="w-bar" style="--h:14px;animation-delay:.49s"></span><span class="w-bar" style="--h:24px;animation-delay:.56s"></span><span class="w-bar" style="--h:8px;animation-delay:.63s"></span><span class="w-bar" style="--h:18px;animation-delay:.7s"></span><span class="w-bar" style="--h:12px;animation-delay:.77s"></span></div>
+    <div class="sc-play"><span class="sp-tri"></span></div>
+  </div>
+
+  <div class="sound-card" data-sound="lanyu">
+    <div class="sc-top"><span class="sc-icon">🛶</span><span class="sc-dur">7:50</span></div>
+    <div class="sc-name">拼板舟下水祭歌</div>
+    <div class="sc-place">紅頭部落 · 蘭嶼鄉</div>
+    <div class="sc-contributor">錄音：經達悟族耆老授權 · 2024.03</div>
+    <div class="sc-wave"><span class="w-bar" style="--h:14px;animation-delay:.04s"></span><span class="w-bar" style="--h:20px;animation-delay:.11s"></span><span class="w-bar" style="--h:10px;animation-delay:.18s"></span><span class="w-bar" style="--h:16px;animation-delay:.25s"></span><span class="w-bar" style="--h:22px;animation-delay:.32s"></span><span class="w-bar" style="--h:12px;animation-delay:.39s"></span><span class="w-bar" style="--h:18px;animation-delay:.46s"></span><span class="w-bar" style="--h:8px;animation-delay:.53s"></span><span class="w-bar" style="--h:14px;animation-delay:.6s"></span><span class="w-bar" style="--h:20px;animation-delay:.67s"></span><span class="w-bar" style="--h:10px;animation-delay:.74s"></span><span class="w-bar" style="--h:16px;animation-delay:.81s"></span></div>
+    <div class="sc-play"><span class="sp-tri"></span></div>
+  </div>
+</div>
+
+<section class="upload-section">
+  <h2>你身邊的台東<br>聽起來是什麼樣子？</h2>
+  <p>用手機錄 30 秒就好。海浪、蟲鳴、雨聲、廟會鞭炮、阿嬤的歌——任何你覺得「這就是台東」的聲音。</p>
+  <button class="upload-btn">上傳一段聲音</button>
+</section>
+
+<!-- Now playing bar -->
+<div class="now-playing" id="nowPlaying">
+  <div class="np-btn" id="npBtn"><div class="np-tri"></div></div>
+  <div class="np-info"><div class="np-name" id="npName">太平洋的浪</div><div class="np-place" id="npPlace">杉原灣 · 卑南鄉</div></div>
+  <div class="np-progress"><div class="np-fill"></div></div>
+  <div class="np-time">4:23 / 12:30</div>
+</div>
+
+<footer class="ft"><div class="ft-l">Taitung.md</div><div class="ft-c">22.7554°N, 121.1446°E</div></footer>
+
+<script>
+// Sound card click → show now playing
+document.querySelectorAll('.sound-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    document.querySelectorAll('.sound-card').forEach(c=>c.classList.remove('playing'));
+    card.classList.add('playing');
+    const np=document.getElementById('nowPlaying');
+    np.classList.add('active');
+    document.getElementById('npName').textContent=card.querySelector('.sc-name').textContent;
+    document.getElementById('npPlace').textContent=card.querySelector('.sc-place').textContent;
+  });
+});
+</script>
+</body>
+</html>

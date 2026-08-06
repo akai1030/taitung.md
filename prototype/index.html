@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taitung.md — 走進台東</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   TAITUNG.MD — 互動式紀錄片風格
+   Concept: 滾動即旅程，頁面即地景
+   ═══════════════════════════════════════ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --sand: #F5F0E8;
+  --sand-deep: #E8E0D0;
+  --cream: #FAF8F3;
+  --ink: #1E1D1A;
+  --ink-soft: #3D3B35;
+  --smoke: #8A8578;
+  --stone: #B8B0A2;
+  --pacific: #1B5E7B;
+  --valley: #3A6B42;
+  --sunrise: #C8782A;
+  --contour: rgba(30,29,26,0.06);
+
+  --font-display: 'Noto Serif TC', 'Cormorant Garamond', serif;
+  --font-body: 'Noto Sans TC', sans-serif;
+  --font-accent: 'Cormorant Garamond', serif;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
+}
+
+/* Noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Scroll reveal */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s cubic-bezier(.23,1,.32,1), transform 0.9s cubic-bezier(.23,1,.32,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ FLOATING NAV ═══ */
+.nav-float {
+  position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 100;
+  display: flex; align-items: center; gap: 2px;
+  background: rgba(250,248,243,0.85); backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(30,29,26,0.08); border-radius: 999px; padding: 6px 8px;
+  transition: all 0.4s ease;
+}
+.nav-float.scrolled { background: rgba(250,248,243,0.95); box-shadow: 0 4px 30px rgba(0,0,0,0.06); }
+.nav-logo { font-family: var(--font-accent); font-size: 1rem; font-weight: 600; padding: 6px 16px; letter-spacing: -0.02em; white-space: nowrap; }
+.nav-link { font-size: 0.8rem; color: var(--smoke); text-decoration: none; padding: 6px 14px; border-radius: 999px; transition: all 0.25s; white-space: nowrap; }
+.nav-link:hover { color: var(--ink); background: rgba(30,29,26,0.05); }
+.nav-search { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: none; background: transparent; cursor: pointer; color: var(--smoke); transition: all 0.25s; }
+.nav-search:hover { background: rgba(30,29,26,0.05); color: var(--ink); }
+.nav-lang { font-size: 0.75rem; color: var(--smoke); padding: 5px 12px; border: 1px solid var(--stone); border-radius: 999px; text-decoration: none; margin-left: 4px; transition: all 0.25s; }
+.nav-lang:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ═══ SECTION 1: 開場 ═══ */
+.opening {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+  position: relative; padding: 120px 40px 80px; overflow: hidden;
+}
+.contour-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.contour-bg svg { width: 100%; height: 100%; opacity: 0.5; }
+.opening-title {
+  font-family: var(--font-display); font-size: clamp(4rem,12vw,10rem); font-weight: 900;
+  letter-spacing: -0.04em; line-height: 0.95; text-align: center; position: relative; z-index: 1;
+}
+.opening-title .dot { display: inline-block; width: 0.12em; height: 0.12em; background: var(--pacific); border-radius: 50%; vertical-align: 0.18em; margin-left: -0.02em; }
+.opening-sub { font-family: var(--font-accent); font-size: clamp(1.1rem,2.5vw,1.6rem); color: var(--smoke); margin-top: 32px; text-align: center; font-style: italic; letter-spacing: 0.02em; position: relative; z-index: 1; }
+.opening-coord { font-family: var(--font-accent); font-size: 0.85rem; color: var(--stone); margin-top: 48px; letter-spacing: 0.15em; position: relative; z-index: 1; }
+.scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--stone); font-size: 0.75rem; letter-spacing: 0.1em; animation: float 2.5s ease-in-out infinite; }
+.scroll-hint-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--stone), transparent); }
+@keyframes float { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+/* ═══ SECTION 2: 此刻的台東 ═══ */
+.season { padding: 0 40px; display: flex; justify-content: center; }
+.season-inner { max-width: 900px; width: 100%; padding: 80px 0; border-top: 1px solid var(--contour); }
+.season-label { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sunrise); margin-bottom: 20px; font-weight: 500; }
+.season-text { font-family: var(--font-display); font-size: clamp(1.5rem,3.5vw,2.4rem); line-height: 1.5; color: var(--ink-soft); }
+.season-text em { font-style: normal; color: var(--ink); font-weight: 600; }
+.season-items { display: flex; gap: 32px; margin-top: 40px; flex-wrap: wrap; }
+.season-item { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--smoke); cursor: pointer; transition: color 0.25s; }
+.season-item:hover { color: var(--ink); }
+.season-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+/* ═══ SECTION 3: 地景層 ═══ */
+.layers-section { padding: 120px 40px; position: relative; overflow: hidden; }
+.layers-intro { max-width: 600px; margin: 0 auto 80px; text-align: center; }
+.layers-intro h2 { font-family: var(--font-display); font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 700; line-height: 1.3; margin-bottom: 20px; letter-spacing: -0.02em; }
+.layers-intro p { color: var(--smoke); font-size: 1rem; line-height: 1.8; }
+.layers-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--contour); max-width: 1200px; margin: 0 auto; border: 1px solid var(--contour); }
+.layer-cell { background: var(--cream); padding: 40px 28px; cursor: pointer; transition: all 0.4s cubic-bezier(.23,1,.32,1); position: relative; overflow: hidden; }
+.layer-cell::before { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; transform: scaleX(0); transform-origin: left; transition: transform 0.4s cubic-bezier(.23,1,.32,1); }
+.layer-cell:hover::before { transform: scaleX(1); }
+.layer-cell:hover { background: var(--sand); }
+.layer-icon { font-size: 1.5rem; margin-bottom: 16px; display: block; }
+.layer-name { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; }
+.layer-name-en { font-family: var(--font-accent); font-size: 0.85rem; color: var(--stone); font-style: italic; }
+.layer-count { font-size: 0.75rem; color: var(--stone); margin-top: 12px; }
+.layer-cell[data-layer="land"]::before { background: #8B7355; }
+.layer-cell[data-layer="time"]::before { background: #A0522D; }
+.layer-cell[data-layer="people"]::before { background: #D4922A; }
+.layer-cell[data-layer="knowledge"]::before { background: #2B6CB0; }
+.layer-cell[data-layer="living"]::before { background: #7B8B6F; }
+.layer-cell[data-layer="celebration"]::before { background: #C53D3D; }
+.layer-cell[data-layer="experience"]::before { background: #4A90B8; }
+.layer-cell[data-layer="youth"]::before { background: #5BAD6F; }
+.layer-cell[data-layer="design"]::before { background: #8B6FB0; }
+.layer-cell[data-layer="education"]::before { background: #B08D57; }
+.layer-cell[data-layer="sustainability"]::before { background: #3D7C47; }
+.layer-cell[data-layer="connection"]::before { background: #6B7B8D; }
+
+/* ═══ SECTION 4: 故事 — 水平捲動 ═══ */
+.stories { padding: 120px 0; }
+.stories-header { padding: 0 40px; max-width: 900px; margin: 0 auto 48px; display: flex; justify-content: space-between; align-items: flex-end; }
+.stories-header h2 { font-family: var(--font-display); font-size: clamp(1.5rem,3vw,2.2rem); font-weight: 700; letter-spacing: -0.02em; }
+.stories-more { font-family: var(--font-accent); font-size: 0.95rem; color: var(--pacific); text-decoration: none; font-style: italic; border-bottom: 1px solid transparent; transition: border-color 0.25s; }
+.stories-more:hover { border-bottom-color: var(--pacific); }
+.stories-scroll { display: flex; gap: 24px; overflow-x: auto; padding: 0 40px 24px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.stories-scroll::-webkit-scrollbar { display: none; }
+.story-card { flex: 0 0 380px; scroll-snap-align: start; cursor: pointer; text-decoration: none; color: inherit; transition: transform 0.4s cubic-bezier(.23,1,.32,1); }
+.story-card:hover { transform: translateY(-4px); }
+.story-img { width: 100%; height: 260px; background: var(--sand-deep); border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
+.story-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; opacity: 0.3; }
+.story-layers { display: flex; gap: 8px; margin-bottom: 10px; }
+.story-layer-tag { font-size: 0.7rem; padding: 3px 10px; border-radius: 999px; background: var(--sand); color: var(--smoke); font-weight: 500; }
+.story-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; line-height: 1.45; margin-bottom: 8px; letter-spacing: -0.01em; }
+.story-meta { font-size: 0.8rem; color: var(--stone); }
+
+/* ═══ SECTION 5: 引言 ═══ */
+.quote-section {
+  min-height: 80vh; display: flex; align-items: center; justify-content: center;
+  padding: 120px 40px; background: var(--ink); color: var(--sand); position: relative; overflow: hidden;
+}
+.quote-section .contour-bg svg { opacity: 0.08; }
+.quote-content { max-width: 800px; text-align: center; position: relative; z-index: 1; }
+.quote-mark { font-family: var(--font-accent); font-size: 6rem; line-height: 1; opacity: 0.15; margin-bottom: -40px; display: block; }
+.quote-text { font-family: var(--font-display); font-size: clamp(1.6rem,4vw,2.8rem); font-weight: 400; line-height: 1.6; letter-spacing: 0.02em; }
+.quote-attr { margin-top: 40px; font-size: 0.9rem; color: var(--stone); }
+.quote-attr strong { color: var(--sand); font-weight: 500; }
+.quote-voice { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--stone); margin-top: 12px; padding: 4px 14px; border: 1px solid rgba(184,176,162,0.2); border-radius: 999px; }
+
+/* ═══ SECTION 6: 地圖 ═══ */
+.map-section { padding: 120px 40px; }
+.map-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.map-text h2 { font-family: var(--font-display); font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 700; line-height: 1.3; margin-bottom: 24px; letter-spacing: -0.02em; }
+.map-text p { color: var(--smoke); font-size: 1rem; line-height: 1.8; margin-bottom: 24px; }
+.map-cta { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-accent); font-size: 1rem; color: var(--pacific); text-decoration: none; font-style: italic; border-bottom: 1px solid var(--pacific); transition: gap 0.25s; }
+.map-cta:hover { gap: 12px; }
+.map-visual { aspect-ratio: 1; background: var(--sand); border-radius: 4px; position: relative; overflow: hidden; }
+.map-topo { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.map-topo svg { width: 90%; height: 90%; }
+.map-pin {
+  position: absolute; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--pacific); border: 2px solid var(--cream); box-shadow: 0 2px 8px rgba(27,94,123,0.3);
+  cursor: pointer; transition: transform 0.3s;
+}
+.map-pin:hover { transform: scale(1.6); }
+.map-pin::after { content: attr(data-label); position: absolute; top: -28px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; white-space: nowrap; background: var(--ink); color: var(--sand); padding: 3px 10px; border-radius: 4px; opacity: 0; transition: opacity 0.25s; pointer-events: none; }
+.map-pin:hover::after { opacity: 1; }
+
+/* ═══ SECTION 7: 多元聲音 ═══ */
+.voices-section { padding: 120px 40px; background: var(--sand); }
+.voices-inner { max-width: 1100px; margin: 0 auto; }
+.voices-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; }
+.voices-header h2 { font-family: var(--font-display); font-size: clamp(1.5rem,3vw,2.2rem); font-weight: 700; letter-spacing: -0.02em; }
+.voices-header p { color: var(--smoke); font-size: 0.9rem; max-width: 360px; text-align: right; line-height: 1.7; }
+.voices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(30,29,26,0.06); }
+.voice-card { background: var(--sand); padding: 48px 40px; transition: background 0.4s; cursor: pointer; }
+.voice-card:hover { background: var(--cream); }
+.voice-type { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; font-weight: 500; }
+.voice-type.academic { color: var(--pacific); }
+.voice-type.oral { color: var(--sunrise); }
+.voice-type.field { color: var(--valley); }
+.voice-type.youth { color: #5BAD6F; }
+.voice-quote { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.7; margin-bottom: 24px; }
+.voice-person { font-size: 0.85rem; color: var(--smoke); }
+.voice-person strong { color: var(--ink-soft); font-weight: 500; }
+.voice-audio { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; padding: 6px 16px; background: rgba(30,29,26,0.04); border-radius: 999px; font-size: 0.8rem; color: var(--smoke); cursor: pointer; transition: background 0.25s; }
+.voice-audio:hover { background: rgba(30,29,26,0.08); }
+
+/* ═══ SECTION 8: 投稿 ═══ */
+.contribute { padding: 120px 40px; text-align: center; }
+.contribute-inner { max-width: 700px; margin: 0 auto; }
+.contribute h2 { font-family: var(--font-display); font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 700; margin-bottom: 16px; letter-spacing: -0.02em; }
+.contribute p { color: var(--smoke); font-size: 1.05rem; line-height: 1.8; margin-bottom: 48px; }
+.contribute-ways { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.contribute-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border: 1px solid var(--stone); border-radius: 999px; background: transparent; font-family: var(--font-body); font-size: 0.9rem; color: var(--ink-soft); cursor: pointer; transition: all 0.3s; text-decoration: none; }
+.contribute-btn:hover { border-color: var(--ink); color: var(--ink); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+
+/* ═══ FOOTER ═══ */
+footer { padding: 80px 40px; border-top: 1px solid var(--contour); }
+.footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+.footer-brand { font-family: var(--font-accent); font-size: 1.2rem; font-weight: 600; margin-bottom: 16px; letter-spacing: -0.02em; }
+.footer-desc { font-size: 0.85rem; color: var(--smoke); line-height: 1.7; max-width: 280px; }
+.footer-col h4 { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--stone); margin-bottom: 16px; font-weight: 500; }
+.footer-col a { display: block; font-size: 0.85rem; color: var(--smoke); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--ink); }
+.footer-bottom { max-width: 1100px; margin: 48px auto 0; padding-top: 24px; border-top: 1px solid var(--contour); display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--stone); }
+.footer-bottom a { color: var(--stone); text-decoration: none; }
+.footer-bottom a:hover { color: var(--ink); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 1024px) {
+  .layers-grid { grid-template-columns: repeat(3,1fr); }
+  .map-container { grid-template-columns: 1fr; gap: 48px; }
+  .map-visual { max-width: 500px; margin: 0 auto; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .nav-link { display: none; }
+  .layers-grid { grid-template-columns: repeat(2,1fr); }
+  .voices-grid { grid-template-columns: 1fr; }
+  .voices-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .voices-header p { text-align: left; }
+  .story-card { flex: 0 0 300px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 480px) {
+  .layers-grid { grid-template-columns: 1fr; }
+  .opening-title { font-size: 3.2rem; }
+  .contribute-ways { flex-direction: column; align-items: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .scroll-hint { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ FLOATING NAV ═══ -->
+<nav class="nav-float" id="mainNav">
+  <span class="nav-logo">Taitung.md</span>
+  <a href="#layers" class="nav-link">地景層</a>
+  <a href="#stories" class="nav-link">故事</a>
+  <a href="/map" class="nav-link">地圖</a>
+  <a href="#contribute" class="nav-link">參與</a>
+  <button class="nav-search" aria-label="搜尋">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="7" cy="7" r="5"/><line x1="11" y1="11" x2="15" y2="15"/></svg>
+  </button>
+  <a href="/en" class="nav-lang">EN</a>
+</nav>
+
+<!-- ═══ SECTION 1: 開場 ═══ -->
+<section class="opening">
+  <div class="contour-bg">
+    <svg viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 400 Q200 350 400 380 T800 360 T1200 400" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+      <path d="M0 380 Q250 320 450 360 T850 340 T1200 380" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+      <path d="M0 360 Q180 300 420 340 T820 310 T1200 360" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+      <path d="M0 340 Q220 270 380 320 T780 280 T1200 340" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+      <path d="M0 320 Q200 240 400 290 T800 260 T1200 320" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+      <path d="M0 300 Q240 210 440 270 T840 240 T1200 300" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+      <path d="M0 420 Q180 380 380 400 T780 390 T1200 420" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+      <path d="M0 440 Q220 400 420 420 T820 410 T1200 440" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+      <path d="M0 460 Q200 430 400 450 T800 440 T1200 460" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+      <path d="M0 480 Q240 460 440 470 T840 460 T1200 480" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+      <path d="M0 280 Q260 180 460 240 T860 210 T1200 280" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+      <path d="M0 260 Q230 150 430 210 T830 180 T1200 260" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+    </svg>
+  </div>
+  <div class="reveal">
+    <h1 class="opening-title">台東<span class="dot"></span></h1>
+    <p class="opening-sub">An open-source knowledge of place</p>
+    <p class="opening-coord">22.7583° N, 121.1444° E</p>
+  </div>
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-hint-line"></div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 2: 此刻的台東 ═══ -->
+<section class="season reveal">
+  <div class="season-inner">
+    <div class="season-label">此刻的台東 · 四月</div>
+    <div class="season-text">
+      飛魚季正在<em>蘭嶼</em>的海面上展開，<br>
+      <em>鹿野</em>的螢火蟲開始在夜裡亮起，<br>
+      而<em>池上</em>的秧苗剛插進水田裡。
+    </div>
+    <div class="season-items">
+      <div class="season-item"><span class="season-dot" style="background:var(--pacific);"></span>飛魚季 · 蘭嶼</div>
+      <div class="season-item"><span class="season-dot" style="background:var(--valley);"></span>螢火蟲季 · 鹿野</div>
+      <div class="season-item"><span class="season-dot" style="background:var(--sunrise);"></span>插秧季 · 池上</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 3: 地景層 ═══ -->
+<section class="layers-section reveal" id="layers">
+  <div class="layers-intro">
+    <h2>十二個觀看台東的角度</h2>
+    <p>不用分類，用地景層。每一層是一個視角，可以疊加、交錯，像真正的台東一樣複雜而豐富。</p>
+  </div>
+  <div class="layers-grid">
+    <div class="layer-cell" data-layer="land"><span class="layer-icon">🗺️</span><div class="layer-name">土地</div><div class="layer-name-en">Land</div><div class="layer-count">7 篇文章</div></div>
+    <div class="layer-cell" data-layer="time"><span class="layer-icon">🏛️</span><div class="layer-name">時間</div><div class="layer-name-en">Time</div><div class="layer-count">4 篇文章</div></div>
+    <div class="layer-cell" data-layer="people"><span class="layer-icon">👥</span><div class="layer-name">人群</div><div class="layer-name-en">People</div><div class="layer-count">9 篇文章</div></div>
+    <div class="layer-cell" data-layer="knowledge"><span class="layer-icon">🎓</span><div class="layer-name">知識</div><div class="layer-name-en">Knowledge</div><div class="layer-count">8 篇文章</div></div>
+    <div class="layer-cell" data-layer="living"><span class="layer-icon">🍚</span><div class="layer-name">生活</div><div class="layer-name-en">Living</div><div class="layer-count">7 篇文章</div></div>
+    <div class="layer-cell" data-layer="celebration"><span class="layer-icon">🎭</span><div class="layer-name">慶典</div><div class="layer-name-en">Celebration</div><div class="layer-count">4 篇文章</div></div>
+    <div class="layer-cell" data-layer="experience"><span class="layer-icon">🏄</span><div class="layer-name">體驗</div><div class="layer-name-en">Experience</div><div class="layer-count">5 篇文章</div></div>
+    <div class="layer-cell" data-layer="youth"><span class="layer-icon">🌱</span><div class="layer-name">青年</div><div class="layer-name-en">Youth</div><div class="layer-count">8 篇文章</div></div>
+    <div class="layer-cell" data-layer="design"><span class="layer-icon">🎨</span><div class="layer-name">設計</div><div class="layer-name-en">Design</div><div class="layer-count">5 篇文章</div></div>
+    <div class="layer-cell" data-layer="education"><span class="layer-icon">📚</span><div class="layer-name">教育</div><div class="layer-name-en">Education</div><div class="layer-count">5 篇文章</div></div>
+    <div class="layer-cell" data-layer="sustainability"><span class="layer-icon">🌿</span><div class="layer-name">永續</div><div class="layer-name-en">Sustainability</div><div class="layer-count">5 篇文章</div></div>
+    <div class="layer-cell" data-layer="connection"><span class="layer-icon">🚂</span><div class="layer-name">連結</div><div class="layer-name-en">Connection</div><div class="layer-count">4 篇文章</div></div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 4: 故事 ═══ -->
+<section class="stories reveal" id="stories">
+  <div class="stories-header">
+    <h2>最近的故事</h2>
+    <a href="/archive" class="stories-more">瀏覽全部 →</a>
+  </div>
+  <div class="stories-scroll">
+    <a class="story-card" href="/people/amis">
+      <div class="story-img"><div class="story-img-placeholder">🌊</div></div>
+      <div class="story-layers"><span class="story-layer-tag">人群</span><span class="story-layer-tag">慶典</span></div>
+      <div class="story-title">都蘭：太平洋岸最自由的部落</div>
+      <div class="story-meta">東河鄉 · 6 分鐘閱讀</div>
+    </a>
+    <a class="story-card" href="/knowledge/nttu/library">
+      <div class="story-img"><div class="story-img-placeholder">📐</div></div>
+      <div class="story-layers"><span class="story-layer-tag">知識</span><span class="story-layer-tag">設計</span></div>
+      <div class="story-title">山的形狀——東大圖書館如何成為台東地標</div>
+      <div class="story-meta">台東市 · 5 分鐘閱讀</div>
+    </a>
+    <a class="story-card" href="/people/tao">
+      <div class="story-img"><div class="story-img-placeholder">🛶</div></div>
+      <div class="story-layers"><span class="story-layer-tag">人群</span><span class="story-layer-tag">土地</span></div>
+      <div class="story-title">達悟族與飛魚：一個島嶼的海洋節奏</div>
+      <div class="story-meta">蘭嶼 · 8 分鐘閱讀</div>
+    </a>
+    <a class="story-card" href="/youth/return-home">
+      <div class="story-img"><div class="story-img-placeholder">🌱</div></div>
+      <div class="story-layers"><span class="story-layer-tag">青年</span><span class="story-layer-tag">生活</span></div>
+      <div class="story-title">回家的路不遠——三個返鄉青年的台東日常</div>
+      <div class="story-meta">台東市 · 7 分鐘閱讀</div>
+    </a>
+    <a class="story-card" href="/time/peinan-site">
+      <div class="story-img"><div class="story-img-placeholder">🏺</div></div>
+      <div class="story-layers"><span class="story-layer-tag">時間</span><span class="story-layer-tag">知識</span></div>
+      <div class="story-title">三千年前的台東人——卑南遺址</div>
+      <div class="story-meta">台東市 · 6 分鐘閱讀</div>
+    </a>
+    <a class="story-card" href="/sustainability/organic">
+      <div class="story-img"><div class="story-img-placeholder">🌾</div></div>
+      <div class="story-layers"><span class="story-layer-tag">永續</span><span class="story-layer-tag">生活</span></div>
+      <div class="story-title">有機之鄉的真實面貌</div>
+      <div class="story-meta">鹿野鄉 · 5 分鐘閱讀</div>
+    </a>
+  </div>
+</section>
+
+<!-- ═══ SECTION 5: 引言 ═══ -->
+<section class="quote-section">
+  <div class="contour-bg">
+    <svg viewBox="0 0 1200 800" fill="none"><path d="M0 400 Q300 300 600 380 T1200 350" stroke="rgba(245,240,232,0.04)" stroke-width="1.5" fill="none"/><path d="M0 450 Q350 350 650 420 T1200 400" stroke="rgba(245,240,232,0.04)" stroke-width="1.5" fill="none"/><path d="M0 350 Q250 250 550 330 T1200 300" stroke="rgba(245,240,232,0.04)" stroke-width="1.5" fill="none"/><path d="M0 500 Q300 420 600 470 T1200 450" stroke="rgba(245,240,232,0.04)" stroke-width="1.5" fill="none"/></svg>
+  </div>
+  <div class="quote-content reveal">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">台東不是被遺忘的地方，<br>是被保護的地方。</p>
+    <div class="quote-attr"><strong>林阿公</strong> · 都蘭部落耆老</div>
+    <div class="quote-voice">🎤 口述歷史 · 阿美語原音</div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 6: 地圖 ═══ -->
+<section class="map-section reveal">
+  <div class="map-container">
+    <div class="map-text">
+      <h2>每個知識都有座標</h2>
+      <p>台東的故事天然帶有空間性。每個部落、每條溪流、每座山都是一個錨點。地圖不是附加功能，而是另一種閱讀方式。</p>
+      <p>打開地景層，看看同一個地方的不同面向——從地質到人群，從歷史到此刻正在發生的事。</p>
+      <a href="/map" class="map-cta">進入全螢幕地圖 →</a>
+    </div>
+    <div class="map-visual">
+      <div class="map-topo">
+        <svg viewBox="0 0 400 400" fill="none">
+          <path d="M200 40 Q240 60 260 100 Q280 160 290 200 Q300 260 280 320 Q260 360 220 380 Q180 390 160 370 Q130 340 120 280 Q110 220 130 160 Q150 100 180 60 Z" stroke="rgba(30,29,26,0.12)" stroke-width="1.5" fill="rgba(30,29,26,0.02)"/>
+          <path d="M200 60 Q235 78 255 115 Q272 168 282 210 Q290 265 273 318 Q256 350 222 368 Q186 378 166 360 Q140 335 130 278 Q120 225 138 168 Q155 112 182 75 Z" stroke="rgba(30,29,26,0.08)" stroke-width="1" fill="none"/>
+          <path d="M200 80 Q230 95 248 128 Q262 175 272 218 Q278 268 264 312 Q250 340 222 355 Q190 365 172 350 Q150 328 140 278 Q132 230 146 175 Q160 125 184 92 Z" stroke="rgba(30,29,26,0.06)" stroke-width="1" fill="none"/>
+          <path d="M200 100 Q224 112 240 140 Q252 182 260 222 Q266 268 254 305 Q242 330 220 342 Q194 350 178 338 Q160 320 152 278 Q145 235 155 185 Q165 138 186 110 Z" stroke="rgba(30,29,26,0.04)" stroke-width="1" fill="none"/>
+          <path d="M160 80 Q170 120 165 160 Q158 200 155 240 Q152 280 160 320 Q165 350 170 380" stroke="rgba(30,29,26,0.08)" stroke-width="1" stroke-dasharray="4 4" fill="none"/>
+        </svg>
+      </div>
+      <div class="map-pin" style="top:18%;left:52%;" data-label="台東市"></div>
+      <div class="map-pin" style="top:12%;left:48%;" data-label="鹿野"></div>
+      <div class="map-pin" style="top:8%;left:44%;" data-label="池上"></div>
+      <div class="map-pin" style="top:35%;left:45%;" data-label="太麻里"></div>
+      <div class="map-pin" style="top:55%;left:50%;" data-label="大武"></div>
+      <div class="map-pin" style="top:25%;left:65%;" data-label="綠島"></div>
+      <div class="map-pin" style="top:45%;left:70%;" data-label="蘭嶼"></div>
+      <div class="map-pin" style="top:22%;left:55%;" data-label="都蘭"></div>
+      <div class="map-pin" style="top:5%;left:48%;" data-label="長濱"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 7: 多元聲音 ═══ -->
+<section class="voices-section reveal">
+  <div class="voices-inner">
+    <div class="voices-header">
+      <h2>多元聲音</h2>
+      <p>同一塊土地上，學術研究、耆老口述、田野筆記、青年行動——每個聲音都是完整的。</p>
+    </div>
+    <div class="voices-grid">
+      <div class="voice-card">
+        <div class="voice-type academic">學術研究</div>
+        <div class="voice-quote">「卑南遺址出土的玉器製造鏈顯示，三千年前的台東已是環太平洋貿易網絡的重要節點。」</div>
+        <div class="voice-person"><strong>李教授</strong> · 史前館考古研究員</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-type oral">口述歷史</div>
+        <div class="voice-quote">「以前飛魚來的時候，整個海是銀色的。我爸會說，那是 Tao 的銀行到了。」</div>
+        <div class="voice-person"><strong>張阿伯</strong> · 蘭嶼朗島部落</div>
+        <div class="voice-audio">▶ 聽原音 · 達悟語 · 2:15</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-type field">田野筆記</div>
+        <div class="voice-quote">「跟著部落走了一整天山路，到了獵場才明白，布農族說的『回家』不只是回到房子裡。」</div>
+        <div class="voice-person"><strong>陳同學</strong> · 東大人文創新與社會實踐計畫</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-type youth">青年行動</div>
+        <div class="voice-quote">「我們不是來拯救台東的，是來跟台東一起生活的。鹿野的老房子教會我什麼叫『夠了』。」</div>
+        <div class="voice-person"><strong>阿凱</strong> · 返鄉青年 · 鹿野</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 8: 投稿 ═══ -->
+<section class="contribute reveal" id="contribute">
+  <div class="contribute-inner">
+    <h2>這是你的知識庫</h2>
+    <p>不需要會寫程式，不需要有學術背景。<br>只要你認識台東的一個角落，就能讓這裡更完整。</p>
+    <div class="contribute-ways">
+      <a href="/contribute#write" class="contribute-btn"><span class="icon">📝</span>寫一篇</a>
+      <a href="/contribute#speak" class="contribute-btn"><span class="icon">🎤</span>錄口述</a>
+      <a href="/contribute#photo" class="contribute-btn"><span class="icon">📷</span>傳照片</a>
+      <a href="/contribute#tip" class="contribute-btn"><span class="icon">💡</span>留線索</a>
+      <a href="/contribute#code" class="contribute-btn"><span class="icon">⌨️</span>GitHub PR</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Taitung.md</div>
+      <p class="footer-desc">一座開源的台東知識庫。從臺東大學出發，為所有想認識台東的人而建。</p>
+    </div>
+    <div class="footer-col"><h4>探索</h4><a href="/map">地圖</a><a href="/layers">地景層</a><a href="/archive">所有文章</a><a href="/search">搜尋</a></div>
+    <div class="footer-col"><h4>參與</h4><a href="/contribute">投稿指南</a><a href="https://github.com">GitHub</a><a href="/about">關於</a></div>
+    <div class="footer-col"><h4>更多</h4><a href="/llms.txt">llms.txt</a><a href="/api">API</a><a href="/en">English</a></div>
+  </div>
+  <div class="footer-bottom">
+    <span>CC BY-SA 4.0 · 台東的知識屬於所有人</span>
+    <a href="https://github.com">原始碼</a>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+}, { passive: true });
+</script>
+</body>
+</html>

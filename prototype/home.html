@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taitung.md — 走進台東</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;600;700;900&family=Noto+Sans+TC:wght@100;200;300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink: #1E1D1A;
+  --ink-soft: #3D3B35;
+  --smoke: #8A8578;
+  --stone: #B8B0A2;
+  --cream: #FAF8F3;
+  --sand: #e8dcc8;
+  --pacific: #1B5E7B;
+  --valley: #3A6B42;
+  --sunrise: #C8782A;
+  --gold: #d4a44a;
+  --font-display: 'Noto Serif TC', serif;
+  --font-body: 'Noto Sans TC', sans-serif;
+  --font-accent: 'Cormorant Garamond', serif;
+}
+
+html { font-size: 16px; overflow-x: hidden; scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--ink); background: #0e3a52; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+/* ═══ NAVIGATION ═══ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 20px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.6s cubic-bezier(.23,1,.32,1);
+}
+.nav.scrolled {
+  background: rgba(250,248,243,0.92);
+  backdrop-filter: blur(20px) saturate(1.4);
+  padding: 14px 32px;
+  box-shadow: 0 1px 0 rgba(30,29,26,0.06);
+}
+.nav-left { display: flex; align-items: center; gap: 8px; }
+.nav-logo {
+  font-family: var(--font-accent); font-size: 1.05rem; font-weight: 600;
+  color: rgba(255,255,255,0.85); letter-spacing: 0.02em;
+  transition: color 0.6s;
+  text-decoration: none;
+}
+.nav.scrolled .nav-logo { color: var(--ink); }
+.nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--pacific); opacity: 0.7; }
+.nav-right { display: flex; align-items: center; gap: 6px; }
+.nav-link {
+  font-family: var(--font-body); font-size: 0.78rem; font-weight: 400;
+  color: rgba(255,255,255,0.45); text-decoration: none;
+  padding: 7px 14px; border-radius: 100px;
+  transition: all 0.3s; letter-spacing: 0.02em;
+}
+.nav.scrolled .nav-link { color: var(--smoke); }
+.nav-link:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); }
+.nav.scrolled .nav-link:hover { color: var(--ink); background: rgba(30,29,26,0.04); }
+.nav-lang {
+  font-family: var(--font-accent); font-size: 0.72rem;
+  color: rgba(255,255,255,0.35); padding: 5px 12px;
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 100px;
+  text-decoration: none; transition: all 0.3s; margin-left: 8px;
+}
+.nav.scrolled .nav-lang { color: var(--stone); border-color: var(--stone); }
+.nav-lang:hover { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.4); }
+
+/* ═══ OCEAN HERO ═══ */
+.hero {
+  position: relative; width: 100%; height: 105vh; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.sky {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    #5a8aaa 0%, #6a9ab8 15%, #89b4c8 30%,
+    #a8c8d4 45%, #c0d0c4 55%, #d4ccb0 68%,
+    #dcc4a0 78%, #e0b080 88%, #d89860 100%
+  );
+  animation: sky-breathe 15s ease-in-out infinite alternate;
+}
+@keyframes sky-breathe {
+  0% { filter: brightness(1) saturate(1); }
+  100% { filter: brightness(1.04) saturate(1.06); }
+}
+
+/* Sun with realistic glow */
+.sun-wrap { position: absolute; top: 14%; right: 22%; pointer-events: none; }
+.sun {
+  width: 90px; height: 90px; border-radius: 50%;
+  background: radial-gradient(circle, #fffae0 0%, #f5d870 25%, #e8b040 55%, rgba(232,168,48,0) 100%);
+  animation: sun-pulse 10s ease-in-out infinite alternate;
+}
+.sun-flare {
+  position: absolute; inset: -80px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,248,200,0.2) 0%, rgba(255,240,180,0.05) 50%, transparent 70%);
+  animation: flare-breathe 8s ease-in-out infinite alternate;
+}
+.sun-rays {
+  position: absolute; inset: -200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,240,180,0.06) 0%, transparent 60%);
+}
+@keyframes sun-pulse { 0% { transform: scale(1); } 100% { transform: scale(1.06); } }
+@keyframes flare-breathe { 0% { opacity: 0.8; transform: scale(1); } 100% { opacity: 0.5; transform: scale(1.2); } }
+
+/* Clouds */
+.cloud { position: absolute; border-radius: 200px; pointer-events: none; filter: blur(25px); }
+.c1 { width: 450px; height: 50px; background: rgba(255,255,255,0.12); top: 10%; left: -5%; animation: drift 90s linear infinite; }
+.c2 { width: 350px; height: 35px; background: rgba(255,255,255,0.08); top: 20%; left: 40%; animation: drift 130s linear infinite; animation-delay: -50s; }
+.c3 { width: 550px; height: 45px; background: rgba(255,255,255,0.06); top: 6%; left: 65%; animation: drift 110s linear infinite; animation-delay: -25s; }
+.c4 { width: 280px; height: 30px; background: rgba(255,255,255,0.1); top: 28%; left: 15%; animation: drift 150s linear infinite; animation-delay: -70s; }
+@keyframes drift { 0% { transform: translateX(-100px); } 100% { transform: translateX(calc(100vw + 100px)); } }
+
+/* Mountains — distant silhouette at horizon */
+.mountains {
+  position: absolute; bottom: 52%; left: 0; right: 0; height: 8%;
+  pointer-events: none; z-index: 2;
+}
+.mountain-layer {
+  position: absolute; bottom: 0; left: -5%; right: -5%; height: 100%;
+}
+.mountain-layer svg { width: 100%; height: 100%; }
+
+/* Ocean */
+.ocean { position: absolute; bottom: 0; left: 0; right: 0; height: 52%; overflow: hidden; z-index: 3; }
+.ocean-base {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, #4a8a9e 0%, #2e7088 15%, #1e5a74 35%, #144a62 55%, #0e3a52 100%);
+}
+.horizon-line {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent 5%, rgba(255,240,200,0.25) 30%, rgba(255,235,180,0.4) 50%, rgba(255,240,200,0.25) 70%, transparent 95%);
+  filter: blur(1px);
+}
+
+/* Waves — multiple layers */
+.wave-layer { position: absolute; width: 200%; left: -50%; pointer-events: none; }
+.wl1 {
+  top: 0; height: 40px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40'%3E%3Cpath d='M0,20 C180,8 360,32 540,20 C720,8 900,32 1080,20 C1260,8 1440,20 1440,20' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1.2'/%3E%3C/svg%3E") repeat-x;
+  background-size: 720px 40px;
+  animation: wave-drift 7s linear infinite;
+}
+.wl2 {
+  top: 10px; height: 40px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40'%3E%3Cpath d='M0,20 C200,10 400,30 600,20 C800,10 1000,30 1200,20 C1400,10 1440,20 1440,20' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='0.8'/%3E%3C/svg%3E") repeat-x;
+  background-size: 960px 40px;
+  animation: wave-drift 11s linear infinite reverse;
+}
+.wl3 {
+  top: 22px; height: 40px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40'%3E%3Cpath d='M0,22 C240,12 480,32 720,22 C960,12 1200,32 1440,22' fill='none' stroke='rgba(255,255,255,0.035)' stroke-width='0.8'/%3E%3C/svg%3E") repeat-x;
+  background-size: 1200px 40px;
+  animation: wave-drift 18s linear infinite;
+}
+@keyframes wave-drift { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
+
+/* Water reflections */
+.water-light {
+  position: absolute; top: 0; left: 0; right: 0; height: 50%;
+  background: radial-gradient(ellipse 50% 60% at 65% 0%, rgba(255,240,200,0.1) 0%, transparent 100%);
+  animation: water-glow 5s ease-in-out infinite alternate;
+}
+@keyframes water-glow { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
+/* Sparkles */
+.sparkle-container { position: absolute; top: 0; left: 0; right: 0; height: 35%; pointer-events: none; }
+.sparkle {
+  position: absolute; width: 2.5px; height: 2.5px;
+  background: rgba(255,252,235,0.8); border-radius: 50%;
+  animation: spark var(--d) ease-in-out infinite; animation-delay: var(--t);
+}
+@keyframes spark { 0%,100% { opacity: 0; transform: scale(0.4); } 50% { opacity: 1; transform: scale(1.2); } }
+
+/* Hero text */
+.hero-content {
+  position: relative; z-index: 10;
+  padding: 0 8vw 10vh; max-width: 900px;
+}
+.hero-place {
+  font-family: var(--font-display); font-weight: 200;
+  font-size: clamp(4rem, 11vw, 8rem);
+  letter-spacing: 0.12em; color: rgba(255,255,255,0.92);
+  line-height: 1.05; text-shadow: 0 2px 60px rgba(0,0,0,0.08);
+  opacity: 0; animation: hero-in 2.2s cubic-bezier(.23,1,.32,1) 0.5s forwards;
+}
+.hero-en {
+  font-family: var(--font-accent); font-weight: 300;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  letter-spacing: 0.35em; color: rgba(255,248,224,0.4);
+  text-transform: uppercase; margin-top: 0.6em;
+  opacity: 0; animation: hero-in 2s cubic-bezier(.23,1,.32,1) 1s forwards;
+}
+.hero-feeling {
+  font-family: var(--font-body); font-weight: 200;
+  font-size: clamp(0.82rem, 1.3vw, 0.95rem);
+  color: rgba(255,255,255,0.35); margin-top: 4em;
+  line-height: 2.2; letter-spacing: 0.06em;
+  opacity: 0; animation: hero-in 2s cubic-bezier(.23,1,.32,1) 1.6s forwards;
+}
+.hero-coord {
+  font-family: var(--font-accent); font-weight: 300;
+  font-size: 0.72rem; letter-spacing: 0.2em;
+  color: rgba(255,248,224,0.2); margin-top: 2em;
+  opacity: 0; animation: hero-in 2s cubic-bezier(.23,1,.32,1) 2s forwards;
+}
+@keyframes hero-in { 0% { opacity: 0; transform: translateY(25px); } 100% { opacity: 1; transform: translateY(0); } }
+
+/* Scroll hint */
+.scroll-hint {
+  position: absolute; bottom: 4vh; left: 50%; transform: translateX(-50%);
+  z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: hero-in 1.5s cubic-bezier(.23,1,.32,1) 3s forwards;
+}
+.scroll-hint span {
+  font-family: var(--font-accent); font-size: 0.65rem;
+  letter-spacing: 0.3em; color: rgba(255,255,255,0.2); text-transform: uppercase;
+}
+.scroll-line { width: 1px; height: 28px; background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent); animation: scroll-bob 2.5s ease-in-out infinite; }
+@keyframes scroll-bob { 0%,100% { transform: scaleY(0.5); opacity: 0.3; } 50% { transform: scaleY(1); opacity: 1; } }
+
+/* ═══ QUOTE TRANSITION ═══ */
+.quote-bridge {
+  position: relative; padding: 0;
+  background: linear-gradient(180deg, #0e3a52 0%, #1a4a5e 10%, #2a5a6e 25%, #4a7a88 45%, #7a9a90 60%, #a0b8a0 75%, #c8ccb0 88%, #e8dcc8 100%);
+  min-height: 70vh;
+  display: flex; align-items: center; justify-content: center;
+}
+.quote-inner {
+  max-width: 620px; padding: 0 2.5rem; text-align: center;
+  opacity: 0; transform: translateY(40px);
+  transition: all 1.8s cubic-bezier(.23,1,.32,1);
+}
+.quote-inner.visible { opacity: 1; transform: translateY(0); }
+.quote-inner blockquote {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(1.3rem, 3.2vw, 2rem);
+  color: rgba(255,255,255,0.88); line-height: 1.9;
+  letter-spacing: 0.04em;
+}
+.quote-inner cite {
+  display: block; margin-top: 2em;
+  font-family: var(--font-accent); font-style: italic;
+  font-size: 0.85rem; color: rgba(255,255,255,0.35);
+  letter-spacing: 0.08em;
+}
+.quote-inner .cite-place {
+  font-style: normal; font-size: 0.72rem;
+  color: rgba(255,255,255,0.2); margin-top: 0.5em;
+  letter-spacing: 0.15em;
+}
+
+/* ═══ SEASON MOMENT ═══ */
+.season-moment {
+  background: var(--cream); padding: 14vh 2rem;
+  position: relative;
+}
+.season-moment::before {
+  content: ''; position: absolute; inset: 0; opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px; pointer-events: none;
+}
+.season-inner {
+  max-width: 740px; margin: 0 auto;
+  opacity: 0; transform: translateY(35px);
+  transition: all 1.2s cubic-bezier(.23,1,.32,1);
+}
+.season-inner.visible { opacity: 1; transform: translateY(0); }
+.season-tag {
+  font-family: var(--font-accent); font-size: 0.7rem;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--sunrise); margin-bottom: 2.5em;
+}
+.season-title {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  line-height: 1.8; color: var(--ink-soft); letter-spacing: 0.03em;
+}
+.season-title em {
+  font-style: normal; color: var(--sunrise);
+  border-bottom: 1px solid rgba(200,120,42,0.2);
+}
+.season-detail {
+  margin-top: 3em; font-family: var(--font-body); font-weight: 300;
+  font-size: 0.88rem; line-height: 2.1; color: var(--smoke);
+}
+
+/* ═══ STORIES SECTION ═══ */
+.stories-section { background: var(--cream); padding: 4vh 2rem 14vh; }
+.stories-header {
+  max-width: 1100px; margin: 0 auto 6vh;
+  display: flex; align-items: flex-end; justify-content: space-between;
+}
+.stories-header h2 {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  color: var(--ink); letter-spacing: 0.02em;
+}
+.stories-header .more-link {
+  font-family: var(--font-accent); font-size: 0.8rem;
+  color: var(--stone); text-decoration: none;
+  letter-spacing: 0.05em; transition: color 0.3s;
+}
+.stories-header .more-link:hover { color: var(--pacific); }
+
+/* Editorial story cards — asymmetric, magazine feel */
+.story-grid {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  gap: 2px; background: rgba(30,29,26,0.04);
+}
+.story-card {
+  background: var(--cream); padding: 3.5em 3em;
+  cursor: pointer; transition: all 0.5s; position: relative;
+  overflow: hidden;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(.23,1,.32,1), transform 1s cubic-bezier(.23,1,.32,1), background 0.4s;
+}
+.story-card.visible { opacity: 1; transform: translateY(0); }
+.story-card:hover { background: #f5f0e6; }
+
+.story-card .card-layers {
+  display: flex; gap: 0.6em; margin-bottom: 2em;
+}
+.card-layer-dot {
+  width: 7px; height: 7px; border-radius: 50%; opacity: 0.6;
+}
+
+.story-card .card-place {
+  font-family: var(--font-accent); font-size: 0.7rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--stone); margin-bottom: 1em;
+}
+.story-card h3 {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  line-height: 1.6; color: var(--ink); letter-spacing: 0.02em;
+  margin-bottom: 0.8em;
+}
+.story-card .card-excerpt {
+  font-family: var(--font-body); font-weight: 300;
+  font-size: 0.85rem; line-height: 1.9; color: var(--smoke);
+  display: -webkit-box; -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.story-card .card-voices {
+  margin-top: 2em; display: flex; gap: 1em;
+}
+.card-voice-tag {
+  font-family: var(--font-body); font-size: 0.68rem;
+  color: var(--stone); letter-spacing: 0.05em;
+  display: flex; align-items: center; gap: 0.4em;
+}
+.card-voice-tag .vdot { width: 4px; height: 4px; border-radius: 50%; }
+
+/* Feature card — large */
+.story-card.feature {
+  grid-row: span 2; padding: 4em 3.5em;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  min-height: 450px;
+  background: linear-gradient(175deg, #e8dcc8 0%, #d8ccb8 100%);
+}
+.story-card.feature:hover { background: linear-gradient(175deg, #e0d4c0 0%, #d0c4b0 100%); }
+.story-card.feature .card-place { color: var(--smoke); }
+.story-card.feature h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+.story-card.feature .card-excerpt { -webkit-line-clamp: 5; }
+
+/* ═══ QUESTION BAND ═══ */
+.question-band {
+  background: var(--ink); padding: 10vh 2rem;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; position: relative; overflow: hidden;
+}
+.question-band::before {
+  content: ''; position: absolute; inset: 0; opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px; pointer-events: none;
+}
+.q-label {
+  font-family: var(--font-accent); font-size: 0.68rem;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 2.5em;
+}
+.q-text {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+  line-height: 1.6; color: rgba(250,248,243,0.9);
+  max-width: 650px; letter-spacing: 0.04em;
+}
+.q-count {
+  margin-top: 2.5em; font-family: var(--font-accent);
+  font-size: 0.75rem; color: rgba(250,248,243,0.25);
+  letter-spacing: 0.1em;
+}
+.q-actions {
+  margin-top: 3em; display: flex; gap: 1em;
+}
+.q-btn {
+  padding: 0.9em 2.2em; font-family: var(--font-body);
+  font-weight: 400; font-size: 0.82rem; letter-spacing: 0.08em;
+  border: none; cursor: pointer; transition: all 0.3s;
+}
+.q-btn-primary { background: var(--gold); color: var(--ink); }
+.q-btn-primary:hover { background: #e0b458; transform: translateY(-2px); }
+.q-btn-ghost {
+  background: transparent; color: rgba(250,248,243,0.5);
+  border: 1px solid rgba(250,248,243,0.12);
+}
+.q-btn-ghost:hover { color: rgba(250,248,243,0.8); border-color: rgba(250,248,243,0.3); }
+
+/* ═══ SOUND ROW ═══ */
+.sound-row {
+  background: var(--cream); padding: 10vh 2rem;
+}
+.sound-row-inner {
+  max-width: 1100px; margin: 0 auto;
+}
+.sound-row-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 4vh;
+}
+.sound-row-header h2 {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem); color: var(--ink);
+}
+.sound-row-header a {
+  font-family: var(--font-accent); font-size: 0.8rem;
+  color: var(--stone); text-decoration: none; transition: color 0.3s;
+}
+.sound-row-header a:hover { color: var(--pacific); }
+
+.sound-scroll {
+  display: flex; gap: 1px; overflow-x: auto;
+  scrollbar-width: none; -ms-overflow-style: none;
+  background: rgba(30,29,26,0.04); margin: 0 -2rem; padding: 0 2rem;
+}
+.sound-scroll::-webkit-scrollbar { display: none; }
+
+.sound-item {
+  flex: 0 0 220px; background: var(--cream);
+  padding: 2.5em 2em; cursor: pointer; transition: all 0.4s;
+  position: relative;
+}
+.sound-item:hover { background: #f5f0e6; }
+.sound-item::after {
+  content: ''; position: absolute; bottom: 0; left: 50%;
+  width: 0; height: 2px; background: var(--pacific);
+  transition: all 0.4s; transform: translateX(-50%);
+}
+.sound-item:hover::after { width: 30px; }
+.sound-item .si-icon { font-size: 1.3rem; margin-bottom: 1em; opacity: 0.5; }
+.sound-item .si-name {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: 0.92rem; color: var(--ink); margin-bottom: 0.4em;
+}
+.sound-item .si-place {
+  font-family: var(--font-accent); font-size: 0.7rem;
+  color: var(--stone); letter-spacing: 0.08em;
+}
+.sound-item .si-dur {
+  margin-top: 1.5em; font-family: var(--font-accent);
+  font-size: 0.65rem; color: var(--stone); letter-spacing: 0.05em;
+}
+
+/* ═══ VOICES PREVIEW ═══ */
+.voices-preview {
+  background: linear-gradient(180deg, var(--cream) 0%, #f0e8d8 100%);
+  padding: 10vh 2rem 14vh;
+}
+.voices-inner { max-width: 740px; margin: 0 auto; }
+.voices-label {
+  font-family: var(--font-accent); font-size: 0.7rem;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--stone); margin-bottom: 3em;
+}
+.voices-quote-stack { display: flex; flex-direction: column; gap: 3em; }
+.vq-item {
+  padding: 2.5em 0; border-top: 1px solid rgba(30,29,26,0.06);
+  opacity: 0; transform: translateY(25px);
+  transition: all 1s cubic-bezier(.23,1,.32,1);
+}
+.vq-item.visible { opacity: 1; transform: translateY(0); }
+.vq-item blockquote {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  line-height: 1.9; color: var(--ink); letter-spacing: 0.02em;
+}
+.vq-item .vq-author {
+  margin-top: 1.2em; font-family: var(--font-accent);
+  font-size: 0.82rem; color: var(--smoke); font-style: italic;
+}
+.vq-item .vq-meta {
+  font-size: 0.7rem; color: var(--stone); margin-top: 0.3em;
+  font-style: normal; letter-spacing: 0.08em;
+}
+
+/* ═══ FOOTER ═══ */
+.site-footer {
+  background: var(--ink); padding: 6em 2rem 4em;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.footer-brand .fb-logo {
+  font-family: var(--font-accent); font-size: 1.1rem; font-weight: 600;
+  color: rgba(250,248,243,0.4); letter-spacing: 0.02em;
+}
+.footer-brand .fb-desc {
+  font-family: var(--font-body); font-weight: 200;
+  font-size: 0.78rem; color: rgba(250,248,243,0.15);
+  margin-top: 0.8em; line-height: 1.8; max-width: 280px;
+}
+.footer-links { display: flex; gap: 4em; }
+.footer-col h4 {
+  font-family: var(--font-accent); font-size: 0.7rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(250,248,243,0.25); margin-bottom: 1.5em;
+}
+.footer-col a {
+  display: block; font-family: var(--font-body);
+  font-size: 0.78rem; font-weight: 300;
+  color: rgba(250,248,243,0.3); text-decoration: none;
+  margin-bottom: 0.8em; transition: color 0.3s;
+}
+.footer-col a:hover { color: rgba(250,248,243,0.6); }
+.footer-bottom {
+  max-width: 1100px; margin: 4em auto 0;
+  padding-top: 2em; border-top: 1px solid rgba(250,248,243,0.06);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-bottom .fb-coord {
+  font-family: var(--font-accent); font-size: 0.68rem;
+  color: rgba(250,248,243,0.12); letter-spacing: 0.2em;
+}
+.footer-bottom .fb-cc {
+  font-family: var(--font-body); font-size: 0.68rem;
+  color: rgba(250,248,243,0.1);
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 900px) {
+  .story-grid { grid-template-columns: 1fr; }
+  .story-card.feature { grid-row: span 1; min-height: 320px; }
+  .footer-inner { flex-direction: column; gap: 3em; }
+  .footer-links { gap: 2.5em; }
+}
+@media (max-width: 600px) {
+  .hero-content { padding: 0 6vw 8vh; }
+  .nav-link { display: none; }
+  .sound-item { flex: 0 0 180px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="nav-left">
+    <a href="#" class="nav-logo">Taitung.md</a>
+    <span class="nav-dot"></span>
+  </div>
+  <div class="nav-right">
+    <a href="article.html" class="nav-link">故事</a>
+    <a href="sound.html" class="nav-link">聲音地圖</a>
+    <a href="question.html" class="nav-link">本週提問</a>
+    <a href="#" class="nav-link">關於</a>
+    <a href="#" class="nav-lang">EN</a>
+  </div>
+</nav>
+
+<!-- Ocean Hero -->
+<section class="hero" id="hero">
+  <div class="sky">
+    <div class="sun-wrap">
+      <div class="sun-rays"></div>
+      <div class="sun-flare"></div>
+      <div class="sun"></div>
+    </div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="cloud c4"></div>
+  </div>
+  <div class="mountains">
+    <div class="mountain-layer">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+        <path d="M0,80 C100,40 200,70 350,35 C450,15 520,45 650,25 C750,10 830,50 960,30 C1060,15 1150,55 1280,40 C1350,30 1400,50 1440,45 L1440,100 L0,100 Z" fill="rgba(60,80,78,0.25)"/>
+        <path d="M0,85 C150,55 280,75 420,50 C540,30 640,65 780,40 C880,25 1000,60 1140,45 C1250,35 1380,55 1440,50 L1440,100 L0,100 Z" fill="rgba(50,72,68,0.3)"/>
+      </svg>
+    </div>
+  </div>
+  <div class="ocean">
+    <div class="ocean-base"></div>
+    <div class="horizon-line"></div>
+    <div class="wave-layer wl1"></div>
+    <div class="wave-layer wl2"></div>
+    <div class="wave-layer wl3"></div>
+    <div class="water-light" id="waterLight"></div>
+    <div class="sparkle-container" id="sparkles"></div>
+  </div>
+  <div class="hero-content" id="heroContent">
+    <div class="hero-place">台東</div>
+    <div class="hero-en">Taitung</div>
+    <div class="hero-feeling">海風正從太平洋的方向吹來</div>
+    <div class="hero-coord">22.7554°N, 121.1446°E</div>
+  </div>
+  <div class="scroll-hint">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- Quote Bridge -->
+<section class="quote-bridge">
+  <div class="quote-inner" data-reveal>
+    <blockquote>對我而言，始終是身體先於文學。</blockquote>
+    <cite>夏曼·藍波安 — Syaman Rapongan</cite>
+    <div class="cite-place">蘭嶼 · 紅頭部落</div>
+  </div>
+</section>
+
+<!-- Season Moment -->
+<section class="season-moment">
+  <div class="season-inner" data-reveal>
+    <div class="season-tag">Now in Taitung · Spring</div>
+    <h2 class="season-title">
+      四月的台東，<em>釋迦</em>剛結完果，<em>金針花</em>還在等夏天。<br>
+      知本溫泉的水溫剛好，海邊的浪已經夠大了。
+    </h2>
+    <p class="season-detail">
+      清明過後，縱谷的稻田轉成深綠。池上的秧苗已經半人高，在風裡搖的時候會發出沙沙的聲音。蘭嶼的飛魚季正式開始，達悟族的拼板舟陸續下水。東海岸的浪況穩定在 3-5 呎，都蘭和金樽的浪點開始出現外地來的衝浪客。
+    </p>
+  </div>
+</section>
+
+<!-- Stories -->
+<section class="stories-section">
+  <div class="stories-header">
+    <h2>最近的故事</h2>
+    <a href="#" class="more-link">所有故事 →</a>
+  </div>
+  <div class="story-grid">
+    <div class="story-card feature" data-reveal>
+      <div class="card-layers">
+        <span class="card-layer-dot" style="background:#D4922A"></span>
+        <span class="card-layer-dot" style="background:#4A90B8"></span>
+        <span class="card-layer-dot" style="background:#7B8B6F"></span>
+      </div>
+      <div class="card-place">Dulan · 東河鄉</div>
+      <h3>都蘭：太平洋岸最自由的部落</h3>
+      <p class="card-excerpt">這裡是阿美族的傳統領域，也是衝浪客的聖地、藝術家的聚落、返鄉青年的起點。四種完全不同的人，在同一片海岸上，各自找到留下來的理由。</p>
+      <div class="card-voices">
+        <span class="card-voice-tag"><span class="vdot" style="background:#1B5E7B"></span>學術</span>
+        <span class="card-voice-tag"><span class="vdot" style="background:#C8782A"></span>口述</span>
+        <span class="card-voice-tag"><span class="vdot" style="background:#3A6B42"></span>田野</span>
+        <span class="card-voice-tag"><span class="vdot" style="background:#5BAD6F"></span>青年</span>
+      </div>
+    </div>
+    <div class="story-card" data-reveal style="transition-delay:0.15s">
+      <div class="card-layers">
+        <span class="card-layer-dot" style="background:#8B7355"></span>
+        <span class="card-layer-dot" style="background:#3D7C47"></span>
+      </div>
+      <div class="card-place">Green Island · 綠島</div>
+      <h3>綠島不只是監獄和浮潛</h3>
+      <p class="card-excerpt">火燒島的珊瑚礁正在白化，島上的老人還記得沒有觀光客的時候。一個只有三千人的島嶼，承載著太多不屬於它的故事。</p>
+      <div class="card-voices">
+        <span class="card-voice-tag"><span class="vdot" style="background:#1B5E7B"></span>學術</span>
+        <span class="card-voice-tag"><span class="vdot" style="background:#C8782A"></span>口述</span>
+      </div>
+    </div>
+    <div class="story-card" data-reveal style="transition-delay:0.3s">
+      <div class="card-layers">
+        <span class="card-layer-dot" style="background:#7B8B6F"></span>
+        <span class="card-layer-dot" style="background:#B08D57"></span>
+      </div>
+      <div class="card-place">Chishang · 池上鄉</div>
+      <h3>池上米的代價</h3>
+      <p class="card-excerpt">全台灣最有名的米，背後是一整個鄉鎮的土地政治、水源競爭、和農民的世代焦慮。稻田很美，但種田的人在想什麼？</p>
+      <div class="card-voices">
+        <span class="card-voice-tag"><span class="vdot" style="background:#3A6B42"></span>田野</span>
+        <span class="card-voice-tag"><span class="vdot" style="background:#5BAD6F"></span>青年</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Question Band -->
+<section class="question-band">
+  <div class="q-label" data-reveal>本週提問 · Week 14</div>
+  <div class="q-text" data-reveal>你在台東<br>最想念的聲音是什麼？</div>
+  <div class="q-count" data-reveal>47 個人回答了</div>
+  <div class="q-actions" data-reveal>
+    <button class="q-btn q-btn-primary">說出你的</button>
+    <button class="q-btn q-btn-ghost">看別人的答案</button>
+  </div>
+</section>
+
+<!-- Contribute Row — replaces sound as primary, sound becomes secondary -->
+<section class="sound-row">
+  <div class="sound-row-inner">
+    <div class="sound-row-header">
+      <h2>你也有一段台東嗎？</h2>
+      <a href="question.html">更多參與方式 →</a>
+    </div>
+    <div class="sound-scroll">
+      <div class="sound-item">
+        <div class="si-icon">💬</div>
+        <div class="si-name">回答本週提問</div>
+        <div class="si-place">打幾行字就好</div>
+        <div class="si-dur">→ 最低門檻</div>
+      </div>
+      <div class="sound-item">
+        <div class="si-icon">📝</div>
+        <div class="si-name">補充一篇故事</div>
+        <div class="si-place">「我知道更多⋯⋯」</div>
+        <div class="si-dur">→ 讓故事更完整</div>
+      </div>
+      <div class="sound-item">
+        <div class="si-icon">💡</div>
+        <div class="si-name">投遞一個線索</div>
+        <div class="si-place">值得記錄的事</div>
+        <div class="si-dur">→ 我們來寫</div>
+      </div>
+      <div class="sound-item">
+        <div class="si-icon">📷</div>
+        <div class="si-name">一張照片一句話</div>
+        <div class="si-place">你的台東瞬間</div>
+        <div class="si-dur">→ 拍了就傳</div>
+      </div>
+      <div class="sound-item">
+        <div class="si-icon">🌊</div>
+        <div class="si-name">聲音地圖</div>
+        <div class="si-place">錄30秒台東的聲音</div>
+        <div class="si-dur">→ <a href="sound.html" style="color:var(--pacific);text-decoration:none">前往</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Voices Preview -->
+<section class="voices-preview">
+  <div class="voices-inner">
+    <div class="voices-label">Voices of Taitung</div>
+    <div class="voices-quote-stack">
+      <div class="vq-item" data-reveal>
+        <blockquote>文化是整個生活，每一件事情是被扣在一起的，不可能土地賣掉了語言還留著。</blockquote>
+        <div class="vq-author">舒米恩 Suming Rupi</div>
+        <div class="vq-meta">阿美族 · 都蘭部落</div>
+      </div>
+      <div class="vq-item" data-reveal>
+        <blockquote>池上給我最大的禮物，是讓我重新學會看雲。</blockquote>
+        <div class="vq-author">蔣勳</div>
+        <div class="vq-meta">駐村作家 · 池上鄉</div>
+      </div>
+      <div class="vq-item" data-reveal>
+        <blockquote>山林教育是找回人與自然對話的本能。</blockquote>
+        <div class="vq-author">亞榮隆·撒可努</div>
+        <div class="vq-meta">排灣族 · 太麻里·拉勞蘭部落</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="fb-logo">Taitung.md</div>
+      <div class="fb-desc">一座開源的台東知識庫。從臺東大學出發，為所有想認識台東的人而建。</div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="#">所有故事</a>
+        <a href="sound.html">聲音地圖</a>
+        <a href="question.html">本週提問</a>
+        <a href="#">16 鄉鎮</a>
+      </div>
+      <div class="footer-col">
+        <h4>Participate</h4>
+        <a href="#">錄一段故事</a>
+        <a href="#">上傳聲音</a>
+        <a href="#">回答提問</a>
+        <a href="#">GitHub</a>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <a href="#">關於這個計畫</a>
+        <a href="#">貢獻者</a>
+        <a href="#">授權條款</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="fb-coord">22.7554°N, 121.1446°E — 台東縣政府</span>
+    <span class="fb-cc">CC BY-SA 4.0</span>
+  </div>
+</footer>
+
+<script>
+// Sparkles
+!function(){const c=document.getElementById('sparkles');if(!c)return;for(let i=0;i<40;i++){const s=document.createElement('div');s.className='sparkle';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(2.5+Math.random()*4)+'s');s.style.setProperty('--t',(Math.random()*6)+'s');c.appendChild(s)}}();
+
+// Scroll reveals
+!function(){const els=document.querySelectorAll('[data-reveal]');const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});els.forEach(el=>obs.observe(el))}();
+
+// Nav scroll state
+!function(){const nav=document.getElementById('nav');const hero=document.getElementById('hero');window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>hero.offsetHeight*0.7)},{passive:true})}();
+
+// Parallax hero
+!function(){const content=document.getElementById('heroContent');const sunWrap=document.querySelector('.sun-wrap');let ticking=false;window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{const y=window.scrollY;const vh=window.innerHeight;if(y<vh*1.5){const r=y/vh;if(content){content.style.opacity=Math.max(0,1-r*1.8);content.style.transform='translateY('+r*-50+'px)'}if(sunWrap)sunWrap.style.transform='translateY('+r*40+'px) scale('+(1+r*0.2)+')'}ticking=false});ticking=true}},{passive:true})}();
+
+// Water light follows mouse
+!function(){const light=document.getElementById('waterLight');if(!light)return;document.addEventListener('mousemove',e=>{const x=e.clientX/window.innerWidth;light.style.background='radial-gradient(ellipse 50% 50% at '+x*100+'% 0%, rgba(255,240,200,0.12) 0%, transparent 100%)'});
+}();
+</script>
+</body>
+</html>

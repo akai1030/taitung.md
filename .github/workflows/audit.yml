@@ -1,0 +1,70 @@
+name: audit
+
+# ops/HARD-RULES.md 的執行點。
+# 「不能被機器執行的規則不是規則，是願望。」
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  hard-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # ── H1–H21 內容稽核
+      - name: audit-content (HARD-RULES H1–H21)
+        run: npx tsx scripts/audit-content.ts
+
+      # ── H10：indigenous 內容不得直接進 main
+      - name: H10 — indigenous content must go through PR
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          CHANGED=$(git diff --name-only HEAD^ HEAD -- 'content/**' || true)
+          FAILED=0
+          for f in $CHANGED; do
+            [ -f "$f" ] || continue
+            if head -60 "$f" | grep -qE '^indigenous:[[:space:]]*true'; then
+              echo "::error file=$f::[H10] indigenous: true 的內容不得直接 commit 到 main，必須開 PR"
+              FAILED=1
+            fi
+          done
+          exit $FAILED
+
+      # ── H21：不可變文件不得由 agent 修改
+      - name: H21 — immutable docs
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          CHANGED=$(git diff --name-only HEAD^ HEAD || true)
+          FAILED=0
+          for f in ops/ETHICS.md ops/HARD-RULES.md; do
+            if echo "$CHANGED" | grep -qx "$f"; then
+              AUTHOR=$(git log -1 --format='%an')
+              echo "::warning file=$f::[H21] 不可變文件被修改（作者：$AUTHOR）。若為 agent 所為，需人工覆核"
+              FAILED=1
+            fi
+          done
+          exit $FAILED
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build

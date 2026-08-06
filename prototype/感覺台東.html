@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taitung.md — 感覺台東</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;600;700;900&family=Noto+Sans+TC:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   TAITUNG.MD — 感覺台東
+   不是知識庫，是一扇打開的窗。
+   海、空氣、陽光。先感覺到，才開始讀。
+   ═══════════════════════════════════════ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* Time-of-day palette — shifts with scroll / actual time */
+  --sky-top: #89b4c8;
+  --sky-bottom: #d4c8a8;
+  --sea: #2a6f8a;
+  --sea-deep: #1a4a5e;
+  --sea-foam: rgba(255,255,255,0.15);
+  --sand: #e8dcc8;
+  --sand-warm: #f0e6d0;
+  --light: #fff8e7;
+  --ink: #1E1D1A;
+  --ink-soft: #3D3B35;
+  --smoke: #8A8578;
+  --stone: #B8B0A2;
+  --pacific: #1B5E7B;
+  --sunrise: #e8a04a;
+  --sunrise-deep: #c87830;
+  --gold: #d4a44a;
+
+  --font-display: 'Noto Serif TC', serif;
+  --font-body: 'Noto Sans TC', sans-serif;
+  --font-accent: 'Cormorant Garamond', serif;
+}
+
+html {
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: #1a4a5e;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ═══ OCEAN OPENING — the first 5 seconds ═══ */
+.ocean-gate {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  cursor: default;
+}
+
+/* Sky gradient — breathing */
+.sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    #6a9ab8 0%,
+    #89b4c8 20%,
+    #a8c8d8 40%,
+    #c8d8c8 55%,
+    #d8d0b8 70%,
+    #e8c898 85%,
+    #e0a868 100%
+  );
+  animation: sky-breathe 12s ease-in-out infinite alternate;
+}
+
+@keyframes sky-breathe {
+  0% { opacity: 1; filter: brightness(1); }
+  100% { opacity: 1; filter: brightness(1.06) saturate(1.05); }
+}
+
+/* Sun */
+.sun {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    #fff8e0 0%,
+    #f0d878 30%,
+    #e8b848 60%,
+    rgba(232,168,72,0) 100%
+  );
+  top: 18%;
+  right: 20%;
+  animation: sun-glow 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.sun::after {
+  content: '';
+  position: absolute;
+  inset: -60px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255,248,224,0.25) 0%,
+    rgba(255,248,224,0) 70%
+  );
+  animation: sun-halo 6s ease-in-out infinite alternate;
+}
+
+@keyframes sun-glow {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes sun-halo {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.3); opacity: 0.3; }
+}
+
+/* Clouds — very subtle, drifting */
+.cloud {
+  position: absolute;
+  background: rgba(255,255,255,0.15);
+  border-radius: 100px;
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.cloud-1 {
+  width: 400px; height: 60px;
+  top: 12%; left: -10%;
+  animation: drift 80s linear infinite;
+}
+
+.cloud-2 {
+  width: 300px; height: 40px;
+  top: 22%; left: 30%;
+  animation: drift 120s linear infinite;
+  animation-delay: -40s;
+  opacity: 0.6;
+}
+
+.cloud-3 {
+  width: 500px; height: 50px;
+  top: 8%; left: 60%;
+  animation: drift 100s linear infinite;
+  animation-delay: -20s;
+  opacity: 0.4;
+}
+
+@keyframes drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100vw); }
+}
+
+/* Ocean layers */
+.ocean {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  overflow: hidden;
+}
+
+.ocean-base {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    #4a8aa0 0%,
+    #2a7090 20%,
+    #1a5a78 50%,
+    #0e3a52 100%
+  );
+}
+
+/* Horizon shimmer */
+.horizon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,248,224,0.3) 20%,
+    rgba(255,240,200,0.5) 50%,
+    rgba(255,248,224,0.3) 80%,
+    transparent 100%
+  );
+  filter: blur(2px);
+}
+
+/* Wave layers */
+.wave {
+  position: absolute;
+  width: 200%;
+  left: -50%;
+}
+
+.wave-1 {
+  top: -2px;
+  height: 30px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 30'%3E%3Cpath d='M0,15 C120,5 240,25 360,15 C480,5 600,25 720,15 C840,5 960,25 1080,15 C1200,5 1320,25 1440,15' fill='none' stroke='rgba(255,255,255,0.12)' stroke-width='1.5'/%3E%3C/svg%3E") repeat-x;
+  background-size: 720px 30px;
+  animation: wave-move 8s linear infinite;
+}
+
+.wave-2 {
+  top: 8px;
+  height: 30px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 30'%3E%3Cpath d='M0,15 C160,8 320,22 480,15 C640,8 800,22 960,15 C1120,8 1280,22 1440,15' fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1'/%3E%3C/svg%3E") repeat-x;
+  background-size: 960px 30px;
+  animation: wave-move 12s linear infinite reverse;
+}
+
+.wave-3 {
+  top: 20px;
+  height: 30px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 30'%3E%3Cpath d='M0,18 C200,10 400,26 600,18 C800,10 1000,26 1200,18 C1400,10 1440,18 1440,18' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3C/svg%3E") repeat-x;
+  background-size: 1200px 30px;
+  animation: wave-move 16s linear infinite;
+}
+
+@keyframes wave-move {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+
+/* Light reflection on water */
+.water-light {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(
+    180deg,
+    rgba(255,240,200,0.08) 0%,
+    transparent 100%
+  );
+  animation: water-shimmer 4s ease-in-out infinite alternate;
+}
+
+@keyframes water-shimmer {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Sparkles on water */
+.sparkle-field {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255,252,240,0.7);
+  border-radius: 50%;
+  animation: sparkle-blink var(--dur) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes sparkle-blink {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+/* Text on the ocean */
+.ocean-text {
+  position: relative;
+  z-index: 10;
+  padding: 0 8vw 12vh;
+  max-width: 800px;
+}
+
+.ocean-text .place-name {
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.1;
+  margin-bottom: 0.2em;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.1);
+  animation: text-arrive 2s cubic-bezier(.23,1,.32,1) both;
+  animation-delay: 0.8s;
+}
+
+.ocean-text .en-name {
+  font-family: var(--font-accent);
+  font-weight: 300;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  letter-spacing: 0.3em;
+  color: rgba(255,248,224,0.5);
+  text-transform: uppercase;
+  animation: text-arrive 2s cubic-bezier(.23,1,.32,1) both;
+  animation-delay: 1.2s;
+}
+
+.ocean-text .feeling {
+  font-family: var(--font-body);
+  font-weight: 200;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  color: rgba(255,255,255,0.45);
+  margin-top: 3em;
+  line-height: 2;
+  letter-spacing: 0.08em;
+  animation: text-arrive 2s cubic-bezier(.23,1,.32,1) both;
+  animation-delay: 1.8s;
+}
+
+@keyframes text-arrive {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Scroll indicator — wave-like */
+.scroll-invite {
+  position: absolute;
+  bottom: 3vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 10;
+  animation: text-arrive 2s cubic-bezier(.23,1,.32,1) both;
+  animation-delay: 3s;
+}
+
+.scroll-invite span {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+  animation: scroll-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes scroll-pulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* ═══ TRANSITION — ocean to land ═══ */
+.transition-breath {
+  position: relative;
+  height: 60vh;
+  background: linear-gradient(
+    180deg,
+    #0e3a52 0%,
+    #1a4a5e 15%,
+    #2a5a6e 30%,
+    #4a7a88 50%,
+    #8aaa98 70%,
+    #c8c8a8 85%,
+    #e8dcc8 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.transition-quote {
+  max-width: 600px;
+  padding: 0 2rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1.5s cubic-bezier(.23,1,.32,1);
+}
+
+.transition-quote.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.transition-quote blockquote {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  color: rgba(255,255,255,0.85);
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+}
+
+.transition-quote cite {
+  display: block;
+  margin-top: 1.5em;
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.1em;
+}
+
+/* ═══ VOICES SECTION — the conversation ═══ */
+.voices-land {
+  background: #FAF8F3;
+  position: relative;
+  padding: 12vh 0;
+}
+
+/* Grain texture */
+.voices-land::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px;
+  pointer-events: none;
+}
+
+.voices-intro {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 2rem 8vh;
+  text-align: center;
+}
+
+.voices-intro .section-label {
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 2em;
+}
+
+.voices-intro h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--ink);
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+}
+
+/* Conversation layout — voices interweaving */
+.conversation {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.voice-block {
+  padding: 3em 0;
+  border-top: 1px solid rgba(30,29,26,0.06);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s cubic-bezier(.23,1,.32,1);
+}
+
+.voice-block.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.voice-block:first-child {
+  border-top: none;
+}
+
+/* Each voice type has a distinct visual treatment */
+.voice-block .voice-tag {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1.5em;
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+}
+
+.voice-tag .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* Academic */
+.voice-academic .dot { background: #1B5E7B; }
+.voice-academic .voice-tag { color: #1B5E7B; }
+.voice-academic .voice-content {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.95rem;
+  line-height: 2;
+  color: var(--ink-soft);
+  max-width: 600px;
+}
+
+/* Oral history — indented, with play button */
+.voice-oral {
+  padding-left: 3em;
+  position: relative;
+}
+
+.voice-oral::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 3em;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #C8782A, transparent);
+}
+
+.voice-oral .dot { background: #C8782A; }
+.voice-oral .voice-tag { color: #C8782A; }
+
+.voice-oral .voice-content {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  line-height: 1.9;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.voice-oral .speaker {
+  margin-top: 1.2em;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: var(--smoke);
+}
+
+.play-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-top: 1.5em;
+  padding: 0.6em 1.2em;
+  border: 1px solid rgba(200,120,42,0.25);
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: #C8782A;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: transparent;
+}
+
+.play-hint:hover {
+  background: rgba(200,120,42,0.06);
+  border-color: rgba(200,120,42,0.4);
+}
+
+.play-icon {
+  width: 0;
+  height: 0;
+  border-left: 6px solid #C8782A;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+/* Field note — handwritten feel */
+.voice-field .dot { background: #3A6B42; }
+.voice-field .voice-tag { color: #3A6B42; }
+
+.voice-field .voice-content {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.9rem;
+  line-height: 2.1;
+  color: var(--ink-soft);
+  font-style: italic;
+  padding: 1.5em 2em;
+  background: rgba(58,107,66,0.03);
+  border-left: 3px solid rgba(58,107,66,0.15);
+}
+
+.voice-field .field-date {
+  font-style: normal;
+  font-size: 0.75rem;
+  color: var(--stone);
+  margin-top: 1em;
+  letter-spacing: 0.05em;
+}
+
+/* Youth action */
+.voice-youth .dot { background: #5BAD6F; }
+.voice-youth .voice-tag { color: #5BAD6F; }
+
+.voice-youth .voice-content {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: var(--ink);
+}
+
+.voice-youth .action-link {
+  display: inline-block;
+  margin-top: 1.2em;
+  font-size: 0.8rem;
+  color: #5BAD6F;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(91,173,111,0.3);
+  padding-bottom: 2px;
+  transition: all 0.3s;
+}
+
+.voice-youth .action-link:hover {
+  border-color: #5BAD6F;
+}
+
+/* ═══ QUESTION SECTION — this week's question ═══ */
+.weekly-question {
+  background: var(--ink);
+  color: #FAF8F3;
+  padding: 15vh 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.weekly-question::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px;
+  pointer-events: none;
+}
+
+.question-label {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 3em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1s cubic-bezier(.23,1,.32,1);
+}
+
+.question-label.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.question-text {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+  max-width: 700px;
+  color: rgba(250,248,243,0.9);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1.2s cubic-bezier(.23,1,.32,1) 0.2s;
+}
+
+.question-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.question-responses {
+  margin-top: 5em;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  max-width: 500px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1s cubic-bezier(.23,1,.32,1) 0.5s;
+}
+
+.question-responses.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.response-preview {
+  text-align: left;
+  padding: 1.5em 2em;
+  border: 1px solid rgba(250,248,243,0.08);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.response-preview:hover {
+  border-color: rgba(250,248,243,0.15);
+  background: rgba(250,248,243,0.03);
+}
+
+.response-text {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: rgba(250,248,243,0.7);
+}
+
+.response-meta {
+  margin-top: 0.8em;
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
+  color: rgba(250,248,243,0.3);
+  letter-spacing: 0.05em;
+}
+
+.answer-cta {
+  margin-top: 3em;
+  padding: 1em 2.5em;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  background: var(--gold);
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.3s;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.8s cubic-bezier(.23,1,.32,1) 0.7s, background 0.3s, transform 0.3s;
+}
+
+.answer-cta.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.answer-cta:hover {
+  background: #e8b85a;
+  transform: translateY(-2px);
+}
+
+/* ═══ SOUND SECTION ═══ */
+.sound-layer {
+  background: #FAF8F3;
+  padding: 12vh 2rem;
+  text-align: center;
+}
+
+.sound-intro {
+  max-width: 500px;
+  margin: 0 auto 6vh;
+}
+
+.sound-intro .section-label {
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 2em;
+}
+
+.sound-intro h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+.sound-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(30,29,26,0.06);
+}
+
+.sound-card {
+  background: #FAF8F3;
+  padding: 3em 2em;
+  cursor: pointer;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.sound-card:hover {
+  background: #f5efe5;
+}
+
+.sound-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--pacific);
+  transition: all 0.4s;
+  transform: translateX(-50%);
+}
+
+.sound-card:hover::after {
+  width: 40px;
+}
+
+.sound-card .sound-icon {
+  font-size: 1.5rem;
+  margin-bottom: 1em;
+  opacity: 0.6;
+}
+
+.sound-card .sound-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 0.5em;
+  color: var(--ink);
+}
+
+.sound-card .sound-place {
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
+  color: var(--stone);
+  letter-spacing: 0.1em;
+}
+
+.sound-card .sound-wave {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 1.5em;
+  height: 20px;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+}
+
+.sound-card:hover .sound-wave {
+  opacity: 0.7;
+}
+
+.sound-wave .bar {
+  width: 2px;
+  background: var(--pacific);
+  border-radius: 1px;
+  animation: wave-bar 1.2s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.sound-card:hover .bar {
+  animation-play-state: running;
+}
+
+@keyframes wave-bar {
+  0%, 100% { height: 4px; }
+  50% { height: var(--h); }
+}
+
+/* ═══ CLOSING — the invitation ═══ */
+.closing {
+  background: linear-gradient(
+    180deg,
+    #FAF8F3 0%,
+    #e8dcc8 40%,
+    #d8ccb0 70%,
+    #c8b898 100%
+  );
+  padding: 15vh 2rem 10vh;
+  text-align: center;
+  position: relative;
+}
+
+.closing-text {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.closing-text h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--ink);
+  line-height: 1.7;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5em;
+}
+
+.closing-text p {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--smoke);
+  line-height: 2;
+  margin-bottom: 3em;
+}
+
+.closing-actions {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  padding: 1em 2.5em;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: #FAF8F3;
+  background: var(--pacific);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background: #164d66;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  padding: 1em 2.5em;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--stone);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+
+/* ═══ FOOTER ═══ */
+.site-footer {
+  background: var(--ink);
+  padding: 4em 2rem;
+  text-align: center;
+}
+
+.footer-logo {
+  font-family: var(--font-accent);
+  font-size: 1rem;
+  color: rgba(250,248,243,0.3);
+  letter-spacing: 0.1em;
+}
+
+.footer-coord {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  color: rgba(250,248,243,0.15);
+  margin-top: 1em;
+  letter-spacing: 0.2em;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  .ocean-text { padding: 0 6vw 10vh; }
+  .voice-oral { padding-left: 1.5em; }
+  .sound-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .sound-grid { grid-template-columns: 1fr; }
+  .closing-actions { flex-direction: column; align-items: center; }
+}
+
+/* ═══ REDUCED MOTION ═══ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ THE OCEAN — first thing you see, first thing you feel ═══ -->
+<section class="ocean-gate">
+  <div class="sky">
+    <div class="sun"></div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+
+  <div class="ocean">
+    <div class="ocean-base"></div>
+    <div class="horizon"></div>
+    <div class="wave wave-1"></div>
+    <div class="wave wave-2"></div>
+    <div class="wave wave-3"></div>
+    <div class="water-light"></div>
+    <div class="sparkle-field" id="sparkleField"></div>
+  </div>
+
+  <div class="ocean-text">
+    <div class="place-name">台東</div>
+    <div class="en-name">Taitung</div>
+    <div class="feeling">海風正從太平洋吹來</div>
+  </div>
+
+  <div class="scroll-invite">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══ TRANSITION — a voice from the ocean ═══ -->
+<section class="transition-breath">
+  <div class="transition-quote" data-reveal>
+    <blockquote>我的身體就是海洋文學。</blockquote>
+    <cite>夏曼·藍波安 Syaman Rapongan — 蘭嶼·紅頭部落</cite>
+  </div>
+</section>
+
+<!-- ═══ VOICES — not tabs, a conversation ═══ -->
+<section class="voices-land">
+  <div class="voices-intro" data-reveal>
+    <div class="section-label">Dulan — 都蘭</div>
+    <h2>同一片海岸，不同的人<br>看見不同的事</h2>
+  </div>
+
+  <div class="conversation">
+    <div class="voice-block voice-academic" data-reveal>
+      <div class="voice-tag">
+        <span class="dot"></span>
+        學術研究
+      </div>
+      <div class="voice-content">
+        都蘭海岸近十年的侵蝕速率加劇。根據 2023 年東部海岸國家風景區管理處的監測數據，都蘭鼻以南至都蘭灣段的灘線年均後退 1.2 至 2.8 公尺，較 2010 年前的平均值增加約 23%。主要驅動因子包括颱風路徑偏移、河川輸砂量減少，以及沿岸結構物對漂沙系統的干擾。
+      </div>
+    </div>
+
+    <div class="voice-block voice-oral" data-reveal>
+      <div class="voice-tag">
+        <span class="dot"></span>
+        口述歷史
+      </div>
+      <div class="voice-content">
+        「我小時候那個沙灘，寬到可以在上面蓋房子。我爸會帶我們去那裡抓螃蟹，沙子是溫的，踩起來很舒服。現在帶孫子去，他問我沙子去哪了，我不知道怎麼回答。」
+      </div>
+      <div class="speaker">林清源，78 歲，都蘭部落耆老</div>
+      <button class="play-hint">
+        <span class="play-icon"></span>
+        聽原聲 · 阿美語 · 4:32
+      </button>
+    </div>
+
+    <div class="voice-block voice-field" data-reveal>
+      <div class="voice-tag">
+        <span class="dot"></span>
+        田野筆記
+      </div>
+      <div class="voice-content">
+        走在都蘭鼻的步道上，腳下的礫石確實比三年前記憶中的少。步道盡頭那塊我們以前坐著看日出的大石頭，現在漲潮時已經被淹到一半。跟漁民聊，他們說以前那邊可以停三艘膠筏，現在一艘都放不下。海浪拍打的位置明顯往上移了。
+        <div class="field-date">2025.03.14 — 都蘭鼻步道</div>
+      </div>
+    </div>
+
+    <div class="voice-block voice-youth" data-reveal>
+      <div class="voice-tag">
+        <span class="dot"></span>
+        青年行動
+      </div>
+      <div class="voice-content">
+        我們五個人從台東大學海洋環境與生態學系出來以後，決定不只是寫論文。每個月第一個禮拜六，我們帶空拍機去都蘭灣拍一次，用同一個高度、同一個角度。這樣一年下來，你會看到海岸線在動。我們把影像放上網路，讓每個人都可以自己看、自己比。
+      </div>
+      <a href="#" class="action-link">海岸線觀測計畫 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THIS WEEK'S QUESTION ═══ -->
+<section class="weekly-question">
+  <div class="question-label" data-reveal>本週的問題 · Week 14</div>
+  <div class="question-text" data-reveal>你在台東<br>最想念的聲音是什麼？</div>
+
+  <div class="question-responses" data-reveal>
+    <div class="response-preview">
+      <div class="response-text">知本溪夜晚的溪水聲。不是瀑布那種，是很平穩的、像有人一直在旁邊說「沒事沒事」的那種聲音。</div>
+      <div class="response-meta">匿名 · 台東市 · 3 小時前</div>
+    </div>
+    <div class="response-preview">
+      <div class="response-text">鹿野火車站火車要進站時的廣播。那個節奏我閉著眼睛都記得。</div>
+      <div class="response-meta">小馬 · 鹿野鄉 · 5 小時前</div>
+    </div>
+    <div class="response-preview">
+      <div class="response-text">外婆在廚房用排灣語罵我吃太慢的聲音。她過世以後那個聲音就只在夢裡了。</div>
+      <div class="response-meta">vuvu 的孫子 · 金峰鄉 · 昨天</div>
+    </div>
+  </div>
+
+  <button class="answer-cta" data-reveal>說出你的答案</button>
+</section>
+
+<!-- ═══ SOUND MAP ═══ -->
+<section class="sound-layer">
+  <div class="sound-intro" data-reveal>
+    <div class="section-label">Sound Map</div>
+    <h2>台東不只能看<br>也能聽</h2>
+  </div>
+
+  <div class="sound-grid" data-reveal>
+    <div class="sound-card">
+      <div class="sound-icon">🌊</div>
+      <div class="sound-name">太平洋的浪</div>
+      <div class="sound-place">杉原灣</div>
+      <div class="sound-wave">
+        <span class="bar" style="--h:12px; animation-delay:0s"></span>
+        <span class="bar" style="--h:18px; animation-delay:0.1s"></span>
+        <span class="bar" style="--h:8px; animation-delay:0.2s"></span>
+        <span class="bar" style="--h:16px; animation-delay:0.3s"></span>
+        <span class="bar" style="--h:10px; animation-delay:0.4s"></span>
+        <span class="bar" style="--h:14px; animation-delay:0.5s"></span>
+        <span class="bar" style="--h:6px; animation-delay:0.6s"></span>
+      </div>
+    </div>
+    <div class="sound-card">
+      <div class="sound-icon">🌾</div>
+      <div class="sound-name">稻浪與風</div>
+      <div class="sound-place">池上伯朗大道</div>
+      <div class="sound-wave">
+        <span class="bar" style="--h:8px; animation-delay:0.1s"></span>
+        <span class="bar" style="--h:14px; animation-delay:0.2s"></span>
+        <span class="bar" style="--h:10px; animation-delay:0.3s"></span>
+        <span class="bar" style="--h:16px; animation-delay:0.4s"></span>
+        <span class="bar" style="--h:6px; animation-delay:0.5s"></span>
+        <span class="bar" style="--h:12px; animation-delay:0.6s"></span>
+        <span class="bar" style="--h:8px; animation-delay:0.7s"></span>
+      </div>
+    </div>
+    <div class="sound-card">
+      <div class="sound-icon">🚂</div>
+      <div class="sound-name">南迴列車</div>
+      <div class="sound-place">多良車站</div>
+      <div class="sound-wave">
+        <span class="bar" style="--h:6px; animation-delay:0.15s"></span>
+        <span class="bar" style="--h:10px; animation-delay:0.25s"></span>
+        <span class="bar" style="--h:18px; animation-delay:0.35s"></span>
+        <span class="bar" style="--h:14px; animation-delay:0.45s"></span>
+        <span class="bar" style="--h:8px; animation-delay:0.55s"></span>
+        <span class="bar" style="--h:12px; animation-delay:0.65s"></span>
+        <span class="bar" style="--h:6px; animation-delay:0.75s"></span>
+      </div>
+    </div>
+    <div class="sound-card">
+      <div class="sound-icon">🎶</div>
+      <div class="sound-name">豐年祭歌謠</div>
+      <div class="sound-place">都蘭部落</div>
+      <div class="sound-wave">
+        <span class="bar" style="--h:14px; animation-delay:0.05s"></span>
+        <span class="bar" style="--h:8px; animation-delay:0.15s"></span>
+        <span class="bar" style="--h:18px; animation-delay:0.25s"></span>
+        <span class="bar" style="--h:12px; animation-delay:0.35s"></span>
+        <span class="bar" style="--h:16px; animation-delay:0.45s"></span>
+        <span class="bar" style="--h:6px; animation-delay:0.55s"></span>
+        <span class="bar" style="--h:10px; animation-delay:0.65s"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CLOSING INVITATION ═══ -->
+<section class="closing">
+  <div class="closing-text" data-reveal>
+    <h2>台東的故事<br>不該只被寫在紙上</h2>
+    <p>這裡的每一段文字、每一段錄音、每一個聲音，都來自真的在這裡生活的人。如果你也有一段台東，用任何方式告訴我們。</p>
+    <div class="closing-actions">
+      <button class="btn-primary">錄一段你的台東</button>
+      <button class="btn-secondary">聽別人的故事</button>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-logo">Taitung.md</div>
+  <div class="footer-coord">22.7583° N, 121.1444° E</div>
+</footer>
+
+<script>
+// ═══ Sparkles on water ═══
+(function() {
+  const field = document.getElementById('sparkleField');
+  if (!field) return;
+  for (let i = 0; i < 30; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.setProperty('--dur', (2 + Math.random() * 4) + 's');
+    s.style.setProperty('--delay', (Math.random() * 5) + 's');
+    field.appendChild(s);
+  }
+})();
+
+// ═══ Scroll reveal ═══
+(function() {
+  const els = document.querySelectorAll('[data-reveal]');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+  els.forEach(el => obs.observe(el));
+})();
+
+// ═══ Parallax on ocean elements ═══
+(function() {
+  const sky = document.querySelector('.sky');
+  const sun = document.querySelector('.sun');
+  const ocean = document.querySelector('.ocean');
+  const text = document.querySelector('.ocean-text');
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const vh = window.innerHeight;
+        if (y < vh * 1.5) {
+          const ratio = y / vh;
+          if (sun) sun.style.transform = `scale(${1 + ratio * 0.3}) translateY(${ratio * 30}px)`;
+          if (text) text.style.opacity = Math.max(0, 1 - ratio * 1.5);
+          if (text) text.style.transform = `translateY(${ratio * -60}px)`;
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+})();
+
+// ═══ Mouse-responsive water light ═══
+(function() {
+  const light = document.querySelector('.water-light');
+  if (!light) return;
+  document.addEventListener('mousemove', (e) => {
+    const x = e.clientX / window.innerWidth;
+    light.style.background = `radial-gradient(ellipse 60% 40% at ${x * 100}% 0%, rgba(255,240,200,0.12) 0%, transparent 100%)`;
+  });
+})();
+</script>
+
+</body>
+</html>
