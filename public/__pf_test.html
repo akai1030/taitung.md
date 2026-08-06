@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><body>t
+<script type="module">
+const send=(t)=>fetch("http://127.0.0.1:9911/r",{method:"POST",body:t});
+try{
+  const pf=await import("/pagefind/pagefind.js");
+  await pf.options({excerptLength:20});
+  const lines=[];
+  for(const q of ["阿美","都蘭","池上","綠島","蘭嶼","衝浪","返鄉","不存在的詞xyz"]){
+    const s=await pf.search(q);
+    const first=s.results.length?await s.results[0].data():null;
+    lines.push(`「${q}」→ ${s.results.length} 筆` + (first?`   最相關：${(first.meta&&first.meta.title)||first.url}`:""));
+  }
+  await send(lines.join("\n"));
+}catch(e){ await send("ERROR: "+e.message+"\n"+e.stack); }
+</script></body>

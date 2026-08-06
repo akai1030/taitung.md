@@ -1,6 +1,20 @@
 # Taitung.md — 台東文學語錄資料庫
 # 收錄與台東有關的作家、文學作品、經典語錄
 # 用途：首頁引言輪播、文章頁裝飾引言、語錄探索頁
+#
+# ⚠️ 引註規範（2026-08-06 加入）
+# 這裡的每一則都掛在**真實在世人物**名下。依 docs/CONTENT-STRATEGY.md，
+# 引言是絕對不得 AI 生成的類別之一——但「有 source 欄位」不等於「可查證」。
+#
+# 每則須有：source（具體篇名，非機構名）、source_url、source_date、accessed、verification
+#   verification: verified   已核對原始出處，逐字相符
+#                 attested   出處確實存在，但未能核對逐字
+#                 unverified 僅有機構名，無法定位原文  ← 不得用於前台
+#
+# 目前狀態：12 則中 1 則 verified，其餘待查（BACKLOG B-018）。
+# 抽查結果：夏曼·藍波安該則確認為真（中央社 2019-12-21），
+#           舒米恩該則之 500輯 專訪確實存在但未能核對逐字。
+# → 判定：這批引言是**引註不足**，不是捏造。處理方式是補引註，不是刪除。
 
 # ═══════════════════════════════════════
 # 作家資料
@@ -220,7 +234,11 @@ quotes:
   - id: q-syaman-01
     author: syaman-rapongan
     text: 我的身體就是海洋文學。
-    source: 中央社專訪
+    source: 中央社《文化+》〈夏曼．藍波安：來自大海深處的書寫〉
+    source_url: https://www.cna.com.tw/culture/article/20191221w005
+    source_date: 2019-12-21
+    accessed: 2026-08-06
+    verification: verified   # 多家媒體（TNL、Yahoo）以此為標題引用
     tags: [海洋, 身體, 文學]
     layers: [land, people]
 

@@ -10,7 +10,11 @@ import VoicesPreview from "@/components/VoicesPreview";
 import ScrollReveal from "@/components/ScrollReveal";
 import Footer from "@/components/Footer";
 
-export default function Home() {
+// 首頁含「本週提問」即時數字：用 ISR，每 5 分鐘重新驗證一次。
+// 不用 force-dynamic，避免整頁失去靜態優化。
+export const revalidate = 300;
+
+export default async function Home() {
   const articles = getAllArticles();
   const latestArticles = articles.slice(0, 5);
 

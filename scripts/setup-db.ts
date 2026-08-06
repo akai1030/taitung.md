@@ -104,6 +104,27 @@ async function setup() {
     `);
     console.log("  ✓ story_supplements");
 
+    // ── Migrations：CREATE TABLE IF NOT EXISTS 不會替既有表補欄位
+    console.log("\n套用 migration（既有表補欄位）…");
+    const migrations = [
+      `ALTER TABLE weekly_questions   ADD COLUMN IF NOT EXISTS created_by TEXT NOT NULL DEFAULT 'human'`,
+      `ALTER TABLE question_responses ADD COLUMN IF NOT EXISTS submission_ip_hash TEXT`,
+      `ALTER TABLE question_responses ADD COLUMN IF NOT EXISTS submitted_via VARCHAR(30) NOT NULL DEFAULT 'web'`,
+      `ALTER TABLE sound_entries      ADD COLUMN IF NOT EXISTS indigenous BOOLEAN NOT NULL DEFAULT false`,
+      `ALTER TABLE sound_entries      ADD COLUMN IF NOT EXISTS tk_notice VARCHAR(50)`,
+      `ALTER TABLE sound_entries      ADD COLUMN IF NOT EXISTS consent_verified BOOLEAN NOT NULL DEFAULT false`,
+      // 沒有檔案就不該有條目——原版 6 筆 file_url 全為 NULL
+      `ALTER TABLE sound_entries      ALTER COLUMN file_url SET NOT NULL`,
+    ];
+    for (const m of migrations) {
+      try {
+        await client.query(m);
+        console.log(`  ✓ ${m.slice(0, 72)}…`);
+      } catch (e) {
+        console.log(`  · 略過（已套用或不適用）：${(e as Error).message.slice(0, 60)}`);
+      }
+    }
+
     console.log("\n完成。資料表是空的——這是正確狀態。");
     console.log("每週提問請人工新增；投稿與音檔由真實使用者產生。");
   } catch (err) {
