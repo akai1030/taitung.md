@@ -454,7 +454,7 @@ function auditLoop() {
 const fingerprint = (f: Finding) => `${f.rule}|${f.file}|${f.message}`;
 
 async function main() {
-  const files = [...walk(join(ROOT, "content"), [".md", ".mdx"])];
+  const files = walk(join(ROOT, "content"), [".md", ".mdx"]);
   for (const f of files) await auditArticle(f);
   auditLoop();
 
@@ -498,7 +498,7 @@ async function main() {
   }
 
   console.log("\n═══ audit-content — ops/HARD-RULES.md 執行結果 ═══\n");
-  for (const [file, fs] of [...byFile.entries()].sort()) {
+  for (const [file, fs] of Array.from(byFile.entries()).sort()) {
     console.log(`\x1b[1m${file}\x1b[0m`);
     for (const f of fs) {
       const tag = f.severity === "FAIL" ? "\x1b[31mFAIL\x1b[0m" : "\x1b[33mWARN\x1b[0m";
