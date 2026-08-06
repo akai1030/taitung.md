@@ -22,6 +22,7 @@
 | CORPUS 條目 | 0 | |
 | 已消歧義的高風險同名詞 | 0 / 7 | |
 | COVERAGE 矩陣覆蓋率 | 0% | |
+| CI 狀態 | **綠** | run 31076351124，hard-rules + build 皆 pass |
 
 ## 迴圈健康度
 
