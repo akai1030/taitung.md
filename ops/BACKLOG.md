@@ -92,3 +92,13 @@ F2 目前只能到 `inferred`。依 `GOVERNANCE.md` §4，反命題「記載存�
 - B-010 `robots.txt` 拒絕 AI 訓練爬蟲（依 R1，即使不可強制，不聲明等於默許）
 - B-011 `/about` 改寫：AI 揭露、下架承諾、以及 `PRECEDENT-AND-RISK.md` §3.7 那段原文
 - B-012 退場條款（連續 N 月無產出 → 自動產封存頁，不要靜靜爛掉）
+
+### B-015 — lockfile 在 npm 10 / npm 11 之間不同步
+**軸**：C（維運）｜**來源**：CI run 31076089801
+
+CI（Node 20 / npm 10）`npm ci` 失敗：`Missing: @swc/helpers@0.5.23 from lock file`。
+但本機（Node 24 / npm 11）`npm ci` 通過，且 lockfile 內部一致（next@14.2.35 → @swc/helpers@0.5.5）。
+`package.json` engines 限 `>=20 <22`，Zeabur 也 pin Node 20，所以不能改用新版 Node。
+
+**目前處置**：CI 改為 `npm ci || npm install`。可跑，但**犧牲了可重現性**——這是技術債，不是解法。
+**正解**：用 Node 20 的 npm 重新產生 lockfile 並提交（需要一台裝 Node 20 的環境，或在 CI 裡產生後回推）。
