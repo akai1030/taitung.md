@@ -16,6 +16,28 @@
 | 每天實際跑什麼 | `AGENTS/daily-survey.md` |
 | 進度、卡在哪 | `JOURNAL/`、`BACKLOG.md`、`METRICS.md` |
 
+## 排程
+
+| | |
+|---|---|
+| 名稱 | `taitung.md 每日研究巡查` |
+| ID | `trig_01PdyWRaKsY3UdsyB9dsFmxA` |
+| 頻率 | 每日 `0 0 * * *` UTC ＝ **台北時間每天早上 8:00** |
+| 模型 | `claude-sonnet-5` |
+| 環境 | Anthropic cloud（沙箱，無本機檔案） |
+| Repo | `github.com/akai1030/taitung.md` |
+| 工具 | Bash / Read / Write / Edit / Glob / Grep / WebSearch / WebFetch |
+| MCP | **無**（刻意清空） |
+| 管理 | https://claude.ai/code/routines/trig_01PdyWRaKsY3UdsyB9dsFmxA |
+| 首次執行 | 2026-08-07 08:00 台北 |
+| 評估點 | **2026-08-20**（跑滿兩週後看數據決定是否續行／擴編） |
+
+**為什麼沒掛任何 MCP**：建立時 API 自動附加了七個連接器（含 Gmail、Google Drive、Notion、Calendar）。已用 `clear_mcp_connections` 全部移除。理由是 `CHARTER.md` §3 明列「絕對不做：寄出任何 email」——一個無人看管、每天自動執行的排程不該帶著寄信與讀取私人雲端硬碟的能力。**最小權限，不是預設權限。**
+
+**為什麼是 sonnet 不是 opus**：`CHARTER.md` §3 把「花錢」列為絕對不做。連續十四天無人看管的排程，不由 agent 單方面選貴的。要升級是 `RemoteTrigger` 一行 update。
+
+---
+
 ## 參考文件（**無強制力**）
 
 衝突時一律以 `HARD-RULES.md` 為準。
