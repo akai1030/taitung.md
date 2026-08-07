@@ -7,6 +7,15 @@ export const dynamic = "force-dynamic";
 const MAX_LEN = 200;
 
 export async function GET() {
+  // 未設定 DATABASE_URL 是「設定錯誤」，不是「沒有資料」。
+  // 舊版在此靜默回傳空結果，導致「資料庫沒接上」與「資料庫是空的」
+  // 在回應上完全無法區分——部署驗證會誤判為成功。
+  if (!process.env.DATABASE_URL) {
+    return NextResponse.json(
+      { error: "資料庫未設定", hint: "DATABASE_URL 未設定於執行環境" },
+      { status: 503 }
+    );
+  }
   const question = await getCurrentQuestion();
   if (!question) {
     return NextResponse.json({ question: null, responses: [] });
