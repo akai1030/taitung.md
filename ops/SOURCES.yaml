@@ -70,14 +70,25 @@ grey_literature:
     why: 台東大量地方知識活在政府委託計畫的結案報告裡，從未被索引
     tier: T5
     priority: highest
-    status: unverified
-    todo: 測試檢索式與是否可程式化取得
+    status: broken
+    http: 503
+    finding: |
+      2026-08-09 實測：正式網址回傳 HTTP 503（服務暫時不可用）。
+      單次 503 無法判斷暫時性維護或結構性問題，需連續多輪重測。
+      注意：www.grb.gov.tw（非本清冊網址，僅為誤測）顯示一則過期維護公告，與此網址無關，不可混為一談。
+    checked: 2026-08-09
+    todo: 下一輪重測；若連續 3 輪失敗，依 CHARTER §6 降級為 status:broken 並通知 BACKLOG（已在 B-001）
 
   - id: grey.ndltd
     name: 臺灣博碩士論文知識加值系統
     url: https://ndltd.ncl.edu.tw/
     tier: T2
-    status: unverified
+    status: broken
+    finding: |
+      2026-08-09 實測：送出查詢前即被圖形驗證碼攔截（非單純 session 問題）。
+      判定為結構性不可及——繞過驗證碼超出本專案授權範圍，不列為可行方案。
+    checked: 2026-08-09
+    action_required: human       # 若要用，需人類決定是否手動查詢後提供結果給 agent 使用
 
   - id: grey.tpl
     name: 國家圖書館期刊文獻資訊網
@@ -90,6 +101,21 @@ grey_literature:
     url: https://gdb.ndc.gov.tw/
     tier: T5
     status: unverified
+
+  - id: grey.airiti
+    name: Airiti Library 華藝線上圖書館
+    url: https://www.airitilibrary.com/
+    tier: T2
+    status: partial
+    finding: |
+      2026-08-09 實測：搜尋介面（/Article/Advance）需 JavaScript，全文下載需機構登入。
+      但「文章詳情頁」（/Article/Detail/{docid}）的書目 metadata（雙語篇名、作者、期刊、卷期、年月、頁碼、DOI）
+      不需登入即可直接 WebFetch 取得。可行方法：先用 WebSearch 找候選文獻的 Airiti 詳情頁網址，
+      再 WebFetch 逐篇核實書目——用於「已知候選文獻書目核實」，不能取代系統性檢索（無公開搜尋 API）。
+    checked: 2026-08-09
+    example_verified: |
+      https://www.airitilibrary.com/Article/Detail/20709730-200909-201304160020-201304160020-25-60
+      （潘繼道 2009，《台灣原住民族研究季刊》2卷3期）——見 JOURNAL 2026-08-09 §3 F12
 
 # ─────────────────────────────────────────────
 # C. 已實測（2026-08-06）
