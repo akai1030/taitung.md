@@ -1,0 +1,347 @@
+# ops/REGISTRY/entities.yaml
+#
+# 實體 registry 骨架（BACKLOG B-007）。
+# 依 ENTITIES.md P1（名稱不是識別）／P2（三態）／P3（合併須舉證）／P4（斷言綁 ID）／P6（對齊既有權威檔，不自建）。
+#
+# 範圍：ENTITIES.md §2.1 列出的七個高風險同名詞——都蘭／卑南／知本／長濱／大武／太麻里／成功。
+# 這是骨架，不是定論：多數 entity 的官方權威代碼（原民會部落代碼、THCTS 地名代碼）今天無法取得
+# （見下方「本輪權威檔查證狀態」），故 authority_ref 多數為 null，待下一輪權威網站恢復後補上。
+#
+# indigenous: true 的條目（族群名、部落名、族語詞）依 HARD-RULES H9–H11，本檔案整體採 T3，
+# 不得自動 commit 到 main，須開 PR（CHARTER §3）。
+
+meta:
+  version: "0.1-skeleton"
+  created: 2026-08-10
+  created_by: agent
+  status: skeleton              # skeleton = 結構已建，多數 entity 尚待權威檔核實
+  backlog_ref: B-007
+
+# ─────────────────────────────────────────────
+# 本輪權威檔查證狀態（2026-08-10）
+# ─────────────────────────────────────────────
+# P6 要求對齊既有權威檔而非自建。本輪嘗試對齊，但：
+#   - 原民會核定部落名冊頁面（cip.gov.tw）：HTTP 503（連續重試 2 次，見 JOURNAL 2026-08-10）
+#   - THCTS 實際查詢平台（thcts.sinica.edu.tw，非說明頁）：HTTP 503
+#   - 中研院 GIS tileserver（gis.sinica.edu.tw/tileserver）：HTTP 503
+#   - data.gov.tw dataset 7094（部落 GIS 點位）：頁面可讀，但內容顯示「此資料集已下架，現為歷史資料留存」
+#     ——這與 SOURCES.yaml 原記載的 status:unverified 不同，是本輪新發現，需更新 SOURCES.yaml（見下）
+#   - THCTS 說明頁（gis.rchss.sinica.edu.tw/thcts/）：可讀，但只有平台介紹，無 API／下載說明
+# 結論：P6 的「對齊」在本輪實務上受阻——四個目標權威來源，三個 503、一個已下架。
+# 這不是本專案方法論的問題，是外部依賴當下不可用。已記入 SOURCES.yaml 與 BACKLOG。
+# 本檔案改用可及的次要來源（維基百科消歧義頁）先建立「同名詞底下有幾個不同實體」的骨架，
+# 官方代碼與座標留待權威檔恢復後再補——這是誠實的部分完成，不是自建權威檔。
+
+entities:
+
+  # ═══════════════════════════════════════════
+  # 都蘭
+  # 來源：zh.wikipedia.org/wiki/都蘭（消歧義頁），accessed 2026-08-10
+  # 確信度：attested（單一來源，維基百科消歧義頁本身即列舉性質，非需要交叉驗證的實質陳述）
+  # ═══════════════════════════════════════════
+  - id: settlement.dulan-atolan
+    type: settlement
+    names: { zh: "都蘭部落", amis: "'Atolan" }
+    parent: admin.donghe-dulan-village
+    indigenous: true
+    tk_notice: "阿美族聚落。本條目僅記錄實體識別資訊（名稱、類型、行政歸屬），不含祭儀細節或禁忌知識。"
+    authority_ref: null
+    authority_check_status: "blocked_2026-08-10_cip503"
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/都蘭", accessed: 2026-08-10 }
+    confidence: attested
+    disambiguation_note: "ENTITIES.md §2.1 原表未列出「都蘭鄉」「都蘭庄」兩個歷史行政區實體，本輪維基百科消歧義頁補充發現，見下兩筆。"
+
+  - id: admin.donghe-dulan-village
+    type: administrative-division
+    names: { zh: "都蘭村" }
+    parent: admin.donghe-township
+    indigenous: false
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/都蘭", accessed: 2026-08-10 }
+    confidence: attested
+
+  - id: historical-admin.dulan-township
+    type: historical-administrative-division
+    names: { zh: "都蘭鄉" }
+    note: "東河鄉舊名（時期未核實，待查）。ENTITIES.md 原表未列，本輪新發現。"
+    possibly_same_as: [admin.donghe-township]
+    disambiguation_status: unresolved
+    indigenous: false
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/都蘭", accessed: 2026-08-10 }
+    confidence: attested
+
+  - id: historical-admin.dulan-shou-japanese-era
+    type: historical-administrative-division
+    names: { zh: "都蘭庄" }
+    note: "日治時期行政區劃名稱。與都蘭鄉、都蘭村的確切承接關係待查（ENTITIES.md §2.2 歷史更名對照表應補此筆）。"
+    disambiguation_status: unresolved
+    indigenous: false
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/都蘭", accessed: 2026-08-10 }
+    confidence: attested
+
+  - id: mountain.dulan-mountain
+    type: mountain
+    names: { zh: "都蘭山" }
+    note: "海拔 1,190 公尺，海岸山脈南段"
+    indigenous: false
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/都蘭", accessed: 2026-08-10 }
+    confidence: attested
+
+  - id: archaeological-site.dulan
+    type: archaeological-site
+    names: { zh: "都蘭遺址" }
+    indigenous: false
+    source: { type: entities-md-table, note: "2026-08-06 制定時已知，本輪未見於維基百科都蘭消歧義頁列表，需下一輪獨立核實", accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "ENTITIES.md §2.1 記載此為都蘭陷阱清單的一項；本輪查維基消歧義頁未見獨立條目列出，不代表不存在（消歧義頁未必窮盡），但確信度降為 inferred 待下一輪直接查證。"
+
+  - id: landmark.dulan-sugar-factory
+    type: landmark
+    names: { zh: "都蘭糖廠" }
+    note: "今為藝文空間"
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "同上一筆，維基消歧義頁未列，待下一輪核實。"
+
+  # ═══════════════════════════════════════════
+  # 卑南
+  # 來源：zh.wikipedia.org/wiki/卑南，accessed 2026-08-10
+  # 發現：「卑南」本身不是消歧義頁，而是重定向到卑南鄉條目，頁首消歧義提示只列了
+  #       臺東市(清代)／卑南廳／卑南族三項——比 ENTITIES.md 原表（六項）少列卑南遺址／卑南溪／卑南社。
+  #       這不代表後三者不存在（它們很可能各自有獨立條目、只是未被卑南鄉條目的消歧義提示連到），
+  #       但兩份清單不完全對應，是本輪需要記錄的落差，不能默默用 ENTITIES.md 版本蓋過去。
+  # ═══════════════════════════════════════════
+  - id: ethnic-group.puyuma
+    type: ethnic-group
+    names: { zh: "卑南族" }
+    indigenous: true
+    tk_notice: "台灣原住民族之一，臺灣原住民族委員會核定族別。本條目僅記錄實體識別資訊。"
+    authority_ref: null
+    authority_check_status: "blocked_2026-08-10_cip503"
+    source: { type: wikipedia-hatnote, url: "https://zh.wikipedia.org/wiki/卑南", accessed: 2026-08-10 }
+    confidence: attested
+
+  - id: admin.beinan-township
+    type: administrative-division
+    names: { zh: "卑南鄉" }
+    note: "維基百科「卑南」直接重定向至此條目"
+    indigenous: false
+    source: { type: wikipedia-hatnote, url: "https://zh.wikipedia.org/wiki/卑南", accessed: 2026-08-10 }
+    confidence: attested
+
+  - id: historical-name.taitung-city-qing-beinan
+    type: historical-place-name
+    names: { zh: "卑南（清代泛稱）" }
+    refers_to_modern: admin.taitung-city
+    note: "清代「卑南」曾泛指今台東市一帶，與今卑南鄉為不同空間範圍——ENTITIES.md §2.1 特別注記的陷阱"
+    indigenous: false
+    source: { type: wikipedia-hatnote, url: "https://zh.wikipedia.org/wiki/卑南", accessed: 2026-08-10 }
+    confidence: attested
+
+  - id: historical-admin.beinan-ting
+    type: historical-administrative-division
+    names: { zh: "卑南廳" }
+    note: "清代行政區。與 admin.beinan-township 的轄域關係待查（清代廳轄域通常遠大於今鄉）"
+    disambiguation_status: unresolved
+    indigenous: false
+    source: { type: wikipedia-hatnote, url: "https://zh.wikipedia.org/wiki/卑南", accessed: 2026-08-10 }
+    confidence: attested
+
+  - id: archaeological-site.beinan
+    type: archaeological-site
+    names: { zh: "卑南遺址" }
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "ENTITIES.md 原表列出，但本輪查「卑南」條目的消歧義提示未連到此條目，未獨立核實，待下一輪直接查證 zh.wikipedia.org/wiki/卑南遺址。"
+
+  - id: river.beinan
+    type: river
+    names: { zh: "卑南溪" }
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "同上，待下一輪核實。"
+
+  - id: historical-settlement.beinan-she
+    type: historical-settlement
+    names: { zh: "卑南社" }
+    note: "歷史聚落，與今卑南族／卑南鄉的關係待查"
+    indigenous: true
+    tk_notice: "疑似歷史時期原住民聚落名稱，待核實其族群歸屬後確認 indigenous 標記是否需要更細緻的處理。"
+    disambiguation_status: unresolved
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "ENTITIES.md 原表列出，本輪未獨立核實，待下一輪查證。"
+
+  # ═══════════════════════════════════════════
+  # 知本
+  # 來源：zh.wikipedia.org/wiki/知本（消歧義頁），accessed 2026-08-10
+  # 重要發現：部落條目的正式標題是「卡大地布部落」（族語 Katratripulr），不是「知本部落」——
+  #           直接印證 ENTITIES.md §2.3「族語名優先，漢字名並列」，本 registry 依此以族語名為主 id/name。
+  # ═══════════════════════════════════════════
+  - id: settlement.katratripulr
+    type: settlement
+    names: { zh: "卡大地布部落", zh_alt: "知本部落", puyuma: "Katratripulr" }
+    parent: admin.taitung-city-zhiben-li
+    indigenous: true
+    tk_notice: "卑南族部落，維基百科條目標題採族語名「卡大地布部落」。本條目僅記錄實體識別資訊，不含祭儀細節或禁忌知識。"
+    authority_ref: null
+    authority_check_status: "blocked_2026-08-10_cip503"
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/知本", accessed: 2026-08-10 }
+    confidence: attested
+
+  - id: admin.taitung-city-zhiben-li
+    type: administrative-division
+    names: { zh: "知本里" }
+    parent: admin.taitung-city
+    indigenous: false
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/知本", accessed: 2026-08-10 }
+    confidence: attested
+
+  - id: hot-spring.zhiben
+    type: hot-spring
+    names: { zh: "知本溫泉" }
+    location_disputed: true
+    note: |
+      本輪 WebFetch 摘要顯示維基百科消歧義頁描述「知本溫泉」位於卑南鄉，
+      與一般認知（知本溫泉位於台東市知本里）不一致。未能判斷是 WebFetch 摘要層誤讀，
+      還是頁面原文確有此陳述（例如溫泉區跨鄉界，或摘要抓錯了鄰近的「悟饕炮仗花節」等其他地名）。
+      依 CHARTER §0「查證 > 推論 > 誠實缺口 > 空白 > 編造」，不確定的地理歸屬**不寫入**，
+      待下一輪直接查證原文（非透過工具摘要層）後再定。
+    indigenous: false
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/知本", accessed: 2026-08-10 }
+    confidence: disputed
+
+  - id: landmark.zhiben-station
+    type: train-station
+    names: { zh: "知本車站" }
+    note: "臺鐵南迴線"
+    indigenous: false
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/知本", accessed: 2026-08-10 }
+    confidence: attested
+
+  - id: forest-recreation-area.zhiben
+    type: forest-recreation-area
+    names: { zh: "知本國家森林遊樂區" }
+    indigenous: false
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/知本", accessed: 2026-08-10 }
+    confidence: attested
+
+  # ═══════════════════════════════════════════
+  # 長濱／大武／太麻里／成功
+  # 本輪僅完成前三組（都蘭／卑南／知本）的維基百科消歧義核實。
+  # 以下四組沿用 ENTITIES.md §2.1 既有表列，尚未重複本輪對前三組做的核實程序——
+  # 誠實標記為 inferred，不是假裝已經核實過。
+  # ═══════════════════════════════════════════
+  - id: admin.changbin-township
+    type: administrative-division
+    names: { zh: "長濱鄉" }
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "ENTITIES.md 原表列出，未於本輪獨立以維基百科消歧義頁核實，待下一輪。"
+
+  - id: archaeological-culture.changbin-culture
+    type: archaeological-culture
+    names: { zh: "長濱文化" }
+    note: "舊石器時代考古文化，代表遺址為八仙洞。與長濱鄉行政區層次不同，ENTITIES.md 特別注記混淆會很難看。"
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "同上。"
+
+  - id: admin.dawu-township
+    type: administrative-division
+    names: { zh: "大武鄉" }
+    note: "臺東縣"
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "ENTITIES.md 原表列出，未於本輪獨立核實，待下一輪。"
+
+  - id: mountain.dawu-mountain
+    type: mountain
+    names: { zh: "大武山" }
+    note: "屏東台東交界，不在大武鄉——ENTITIES.md 特別注記的陷阱"
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "同上。"
+
+  - id: settlement.dawu-tribe
+    type: settlement
+    names: { zh: "大武部落" }
+    indigenous: true
+    tk_notice: "族群歸屬待核實（ENTITIES.md 原表未註明），下一輪查證時應一併確認並補上 tk_notice 細節。"
+    disambiguation_status: unresolved
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "ENTITIES.md 原表列出但未註明族群歸屬，未於本輪獨立核實，待下一輪。"
+
+  - id: admin.taimali-township
+    type: administrative-division
+    names: { zh: "太麻里鄉" }
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "ENTITIES.md 原表列出，未於本輪獨立核實，待下一輪。"
+
+  - id: river.taimali
+    type: river
+    names: { zh: "太麻里溪" }
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "同上。"
+
+  - id: settlement.taimali-tribe
+    type: settlement
+    names: { zh: "太麻里部落" }
+    indigenous: true
+    tk_notice: "族群歸屬待核實（ENTITIES.md 原表未註明），下一輪查證時應一併確認並補上 tk_notice 細節。"
+    disambiguation_status: unresolved
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "同大武部落，ENTITIES.md 原表未註明族群歸屬，待下一輪。"
+
+  - id: admin.chenggong-township
+    type: administrative-division
+    names: { zh: "成功鎮" }
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "ENTITIES.md 原表列出，未於本輪獨立核實，待下一輪。"
+
+  - id: landmark.chenggong-fishing-port
+    type: landmark
+    names: { zh: "成功漁港" }
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "同上。"
+
+  - id: school.chenggong-commercial-marine
+    type: school
+    names: { zh: "成功商水", zh_full: "成功商業水產職業學校" }
+    indigenous: false
+    source: { type: entities-md-table, accessed: 2026-08-06 }
+    confidence: inferred
+    inference_chain: "同上。"
+
+# ─────────────────────────────────────────────
+# 進度統計（B-007 / METRICS「已消歧義的高風險同名詞」欄位用）
+# ─────────────────────────────────────────────
+progress:
+  total_homonym_clusters: 7
+  clusters_with_wikipedia_cross_check: 3   # 都蘭／卑南／知本
+  clusters_pending_cross_check: 4          # 長濱／大武／太麻里／成功
+  entities_total: 27
+  entities_authority_verified: 0           # CIP／THCTS 皆不可及，見上方「本輪權威檔查證狀態」
+  entities_indigenous_flagged: 6
+  new_findings_not_in_original_entities_md:
+    - "都蘭鄉（歷史行政區，東河鄉舊名）"
+    - "都蘭庄（日治時期行政區）"
+  discrepancies_flagged_not_resolved:
+    - "知本溫泉行政區歸屬（卑南鄉 vs 台東市知本里）——來源摘要矛盾，未寫入定論"
+    - "卑南遺址／卑南溪／卑南社未出現在「卑南」條目的消歧義提示中（ENTITIES.md 原表列了，維基未連結，不代表不存在，待獨立核實）"
