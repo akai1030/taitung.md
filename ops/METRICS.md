@@ -16,13 +16,13 @@
 |---|---|---|---|---|---|
 | audit 新 FAIL 數 | **0** | **0** | **0** | **0** | CI 擋的就是這個 |
 | audit 既有債務（baseline） | **46** | **46** | **46** | **46** | 明列於 `ops/audit-baseline.json`，由 B-003 清償。**這個數字只能降不能升** |
-| audit WARN 數 | **33** | **33** | **33** | 34（動工當下，H19 今日無日誌）| 本篇 JOURNAL 寫入後應解除，下一輪確認回落 |
+| audit WARN 數 | **33** | **33** | **33** | **33**（寫入 JOURNAL 後回落）| 動工當下曾短暫 34（H19 今日無日誌）|
 | 內容總數 | 5 | 5 | 5 | 5 | 全部 `status: seed`，本輪未新增 content/ |
 | 有完整來源（accessed + license）的內容 | **0 / 5** | **0 / 5** | **0 / 5** | **0 / 5** | |
 | CORPUS 條目 | 0 | 0 | 0 | 0 | |
 | Entity registry（`ops/REGISTRY/entities.yaml`） | 不存在 | 不存在 | 不存在 | **27 entity，骨架建立** | 3/7 同名詞叢集（都蘭/卑南/知本）經維基百科交叉核實；4/7（長濱/大武/太麻里/成功）仍為 ENTITIES.md 原表照搬，`inferred`；**0/27 有官方 authority_ref**（CIP/THCTS 今日不可及，見 NOT-DONE）。T3，本輪走 PR 不進 main |
 | COVERAGE 矩陣覆蓋率 | 0% | 0% | 0% | 0% | |
-| CI 狀態 | **綠** | 未跑（本輪未 push 影響 build 的變更）| **綠** | 待本輪 push 後確認 | run 31285643488（08-09，success）|
+| CI 狀態 | **綠** | 未跑（本輪未 push 影響 build 的變更）| **綠** | **綠** | run 31343876056（08-10，success）|
 
 ## 迴圈健康度
 
