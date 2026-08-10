@@ -49,6 +49,8 @@ GRB（Angular SPA，無公開 API）與 NDLTD（需 session）皆無法簡單 HT
 
 **收斂結論**：選項 (a)(b) 對 NDLTD 不可行；(c) 對 Google Scholar 不可行、對 Airiti 部分可行（僅書目核實，非系統性檢索）；GRB 待重測。**(d) 承認並改寫 METHOD 的必要性上升**——`METHOD.md` §4.2「系統性挖掘灰色文獻」的樂觀假設，實務上目前只能落地為「候選文獻書目核實」，尚無法做到「系統性掃描未索引材料」。下一步待 GRB 重測結果，若持續不可及，應正式修改 METHOD.md 這一節（T3 以下、非原民內容，可自主修改後 commit）。
 
+**2026-08-10 重測（連續第 2 輪）**：`grbsearch.stpi.narl.org.tw` 仍為 HTTP 503。同日 CIP、THCTS 查詢平台、中研院 tileserver 同樣 503（見 B-007 進度、JOURNAL 2026-08-10 §0.2），未追查是否有共同成因。距 CHARTER §6 的連續 3 次降級門檻只剩 1 輪——下一輪若仍 503，正式降級為 `status: broken` 並改寫 METHOD.md §4.2。
+
 ### B-002 — 完成噶瑪蘭族檢索的辯證探究　【結案 2026-08-08，見 JOURNAL 2026-08-08 §3 F7-F10】
 **軸**：B｜**來源**：JOURNAL 2026-08-06 §3 F2
 
@@ -73,9 +75,16 @@ GRB（Angular SPA，無公開 API）與 NDLTD（需 session）皆無法簡單 HT
 **軸**：A｜47 FAIL。但**真問題不是補 URL**——原 frontmatter 的 sources 只有機構名，沒指向任何具體文獻，「當初這句話根據什麼」的資訊已遺失。
 正解：全部降為 `status: seed` + 標注來源待補，而非假裝補個 URL 就合格。見 `NOT-DONE.md`。
 
-### B-007 — 建立實體 registry 骨架
+### B-007 — 建立實體 registry 骨架　【2026-08-10 進行中，見 JOURNAL 2026-08-10 §3 F14-F18】
 **軸**：跨軸｜依 `ENTITIES.md` P6，對齊中研院 THCTS 與原民會核定部落名冊，不自建。
 先做 `ENTITIES.md` §2.1 的七個高風險同名詞（都蘭／卑南／知本／長濱／大武／太麻里／成功）。
+
+**2026-08-10 進度**：`ops/REGISTRY/entities.yaml`（T3，見 PR）已建立骨架，27 個 entity。
+- [x] 都蘭／卑南／知本三組：已用維基百科消歧義頁交叉核實，發現原表遺漏（都蘭鄉、都蘭庄）與落差（卑南遺址/溪/社未見於卑南條目 hatnote），詳見 JOURNAL F14-F16
+- [ ] 長濱／大武／太麻里／成功四組：仍完全依賴 ENTITIES.md 原表，未做本輪同等核實，`confidence: inferred`
+- [ ] 27 個 entity 的 `authority_ref`（原民會部落代碼／THCTS 地名代碼）全部 `null`——CIP、THCTS 查詢平台今天皆 503，data.gov.tw dataset 7094（部落 GIS 點位）已下架。P6「對齊」暫時做不到，待權威來源恢復
+- [ ] 知本溫泉行政區歸屬矛盾（F17，`disputed`）待下一輪查原文核實
+- [ ] 下一輪應查 `data.cip.gov.tw/home/datamenu.aspx`（原民會開放資料平台）是否為 dataset 7094 的後繼來源
 
 ### B-008 — COVERAGE 矩陣初始化
 **軸**：B｜`[16 鄉鎮市 × 7 族群 × 主題軸 × 語言]`。目前 0% 覆蓋。

@@ -22,9 +22,13 @@ authorities:
     role: 地名權威檔（含臺灣地區地名查詢系統）
     covers: [地名, 歷史更名, 荷西/明鄭/清/日治/戰後分期圖層]
     tier: T1
-    status: unverified          # 只讀到平台說明，未實測 API/資料取得方式
+    status: partial
     license: unknown
-    todo: 確認資料取得方式（是否有 API／可下載／需授權）
+    finding: |
+      2026-08-10 實測：說明頁（本網址）可讀，但只有平台介紹（125字），無 API 或資料下載說明。
+      實際查詢平台 https://thcts.sinica.edu.tw/（說明頁內連結）回傳 HTTP 503，無法測試地名檢索。
+    checked: 2026-08-10
+    todo: 下一輪重測 thcts.sinica.edu.tw；確認資料取得方式（是否有 API／可下載／需授權）
 
   - id: auth.twhgis
     name: 臺灣百年歷史地圖
@@ -32,8 +36,11 @@ authorities:
     wmts: https://gis.sinica.edu.tw/tileserver/
     role: 地圖底圖（可直接接進網站地圖層）
     tier: T1
-    status: unverified
+    status: broken
     license: unknown
+    finding: "2026-08-10 實測：WMTS 網址（gis.sinica.edu.tw/tileserver/）回傳 HTTP 503。"
+    checked: 2026-08-10
+    todo: 下一輪重測
 
   - id: auth.cip-tribes
     name: 原民會核定部落名冊
@@ -41,17 +48,24 @@ authorities:
     role: 部落實體官方權威名冊
     note: 最新版 2018-04-17 刊登公報。解決「部落 ≠ 行政區」層級混淆
     tier: T1
-    status: unverified
+    status: broken
     license: unknown
+    finding: "2026-08-10 實測：連續 2 次請求皆回傳 HTTP 503。"
+    checked: 2026-08-10
+    todo: 下一輪重測；若持續失敗需評估是否有替代查詢入口
 
   - id: auth.cip-tribe-gis
     name: 原住民族部落調查／部落位置 GIS 點位
     url: https://data.gov.tw/dataset/7094
     role: 部落座標
     tier: T1
-    status: unverified
+    status: broken
     license: ogdl-1.0           # 待確認；若確認則適用 E13a 顯名聲明
-    todo: 確認授權與 顯名聲明 字串
+    finding: |
+      2026-08-10 實測：頁面可讀，但明確標示「此資料集已下架，現為歷史資料留存」，聯絡窗口為陳小姐。
+      這與先前 status:unverified（只讀到平台說明，未實測）不同——這次是實測後確認的下架狀態。
+    checked: 2026-08-10
+    todo: 確認是否有後繼資料集（原民會開放資料平台可能已改版遷移，見 pending_check 區塊）
 
   - id: auth.crgis
     name: 文化資源地理資訊系統 CRGIS（中研院）
@@ -76,8 +90,12 @@ grey_literature:
       2026-08-09 實測：正式網址回傳 HTTP 503（服務暫時不可用）。
       單次 503 無法判斷暫時性維護或結構性問題，需連續多輪重測。
       注意：www.grb.gov.tw（非本清冊網址，僅為誤測）顯示一則過期維護公告，與此網址無關，不可混為一談。
-    checked: 2026-08-09
-    todo: 下一輪重測；若連續 3 輪失敗，依 CHARTER §6 降級為 status:broken 並通知 BACKLOG（已在 B-001）
+      2026-08-10 重測（連續第 2 輪）：仍為 HTTP 503。同日另觀察到 cip.gov.tw、
+      gis.sinica.edu.tw/tileserver、thcts.sinica.edu.tw 亦回傳 503——無法判斷這是巧合
+      （多個獨立機構同日維護）還是共同基礎設施問題，未進一步查證（超出授權範圍，不追查外部網路成因）。
+      再 1 輪 503 即達 CHARTER §6 的連續 3 次降級門檻。
+    checked: 2026-08-10
+    todo: 下一輪重測；若第 3 輪仍 503，依 CHARTER §6 正式降級並更新 BACKLOG B-001
 
   - id: grey.ndltd
     name: 臺灣博碩士論文知識加值系統

@@ -54,4 +54,19 @@
     真正的意涵：這五篇文章的陳述目前無法被驗證，應全部降為 status: seed 並標注來源待補，
     而不是假裝補個 URL 就合格了。
   reversible_when: 逐篇重新做來源追溯（已列入 BACKLOG，B-003）
+
+- date: 2026-08-10
+  intended: |
+    為 ops/REGISTRY/entities.yaml 的 27 個 entity 補上官方權威代碼
+    （原民會核定部落名冊代碼、THCTS 地名代碼），依 ENTITIES.md P6「對齊既有權威檔，不自建」
+  not_done_because: |
+    非倫理理由——是方法理由（外部依賴不可用）。本輪實測：cip.gov.tw（原民會部落名冊）與
+    thcts.sinica.edu.tw（THCTS 查詢平台）皆回傳 HTTP 503；data.gov.tw dataset 7094
+    （部落 GIS 點位）已下架。四個目標權威來源，三個打不開、一個沒了，無從對齊。
+  harm_avoided: 不適用（此筆為方法性延後，非倫理性放棄）
+  cost: |
+    27 個 entity 的 authority_ref 全部是 null，registry 骨架目前只能靠維基百科等次要來源
+    支撐實體存在性，還不能作為真正權威對照。有一定機率下一輪核實後，部分 entity 需要修正
+    （例如與官方代碼對不上）。
+  reversible_when: CIP 或 THCTS 查詢平台任一恢復可用時，逐筆補上 authority_ref
 ```
