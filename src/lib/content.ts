@@ -59,6 +59,28 @@ export function getArticlesByLayer(layer: string): Article[] {
   );
 }
 
+/**
+ * 從內文取一段當作 meta description / OG description。
+ *
+ * 刻意「摘錄」而不是「生成摘要」——摘要是新寫的句子，等於憑空多出一段
+ * 沒有來源的文字，違反 HARD-RULES 的絕對禁令。摘錄只是把既有文字截斷。
+ */
+export function getExcerpt(content: string, maxLength = 155): string {
+  const plain = content
+    .replace(/^#{1,6}\s+/gm, "") // 標題符號
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, "") // 圖片
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1") // 連結留文字
+    .replace(/[*_`>]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (plain.length <= maxLength) return plain;
+  // 儘量斷在句尾，斷不了才硬切
+  const cut = plain.slice(0, maxLength);
+  const lastStop = Math.max(cut.lastIndexOf("。"), cut.lastIndexOf("，"));
+  return (lastStop > maxLength * 0.5 ? cut.slice(0, lastStop + 1) : cut) + "…";
+}
+
 export function getMapPoints(): MapPoint[] {
   return getAllArticles()
     .filter((a) => a.frontmatter.coordinates)

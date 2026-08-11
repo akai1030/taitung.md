@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getAllArticles, getArticleBySlug } from "@/lib/content";
+import { getAllArticles, getArticleBySlug, getExcerpt } from "@/lib/content";
 import { getLayerById } from "@/lib/layers";
+import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/site";
 import NavFloat from "@/components/NavFloat";
 import VoiceBlock from "@/components/VoiceBlock";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -10,6 +12,51 @@ import { VoiceType } from "@/lib/types";
 
 export function generateStaticParams() {
   return getAllArticles().map((a) => ({ slug: a.slug }));
+}
+
+/**
+ * 每篇故事的獨立 metadata。
+ *
+ * 在此之前所有故事頁都繼承 layout 的同一組標題與描述，
+ * 也就是說 Google 眼中這幾頁「標題完全相同」——會被判為重複內容，
+ * 通常只收錄其中一頁。這是全站最嚴重的 SEO 問題，比沒有 sitemap 更致命。
+ */
+export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+  const article = getArticleBySlug(params.slug);
+  if (!article) return { title: "找不到這篇故事" };
+
+  const { frontmatter, content } = article;
+  const description = getExcerpt(content);
+  const path = `/story/${article.slug}`;
+  const published = frontmatter.created;
+  const modified = frontmatter.updated || frontmatter.last_verified || published;
+
+  return {
+    title: frontmatter.title,
+    description,
+    keywords: [
+      ...(frontmatter.tags || []),
+      ...(frontmatter.township ? [frontmatter.township] : []),
+      "台東",
+    ],
+    alternates: { canonical: path },
+    openGraph: {
+      type: "article",
+      title: frontmatter.title,
+      description,
+      url: absoluteUrl(path),
+      siteName: SITE_NAME,
+      locale: "zh_TW",
+      publishedTime: published,
+      modifiedTime: modified,
+      tags: frontmatter.tags,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: frontmatter.title,
+      description,
+    },
+  };
 }
 
 export default function StoryPage({ params }: { params: { slug: string } }) {
@@ -41,8 +88,59 @@ export default function StoryPage({ params }: { params: { slug: string } }) {
     .filter((a) => a.frontmatter.layer?.some((l) => frontmatter.layer?.includes(l)))
     .slice(0, 2);
 
+  // ── Article 結構化資料
+  // author 只在 frontmatter 真的有署名時才填人名；沒有就掛站台，
+  // 不假造一個作者出來（HARD-RULES 絕對禁令：不得產生假的內容）。
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: frontmatter.title,
+    description: getExcerpt(content),
+    inLanguage: "zh-Hant-TW",
+    url: absoluteUrl(`/story/${article.slug}`),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": absoluteUrl(`/story/${article.slug}`),
+    },
+    datePublished: frontmatter.created,
+    dateModified: frontmatter.updated || frontmatter.last_verified || frontmatter.created,
+    author: frontmatter.author
+      ? { "@type": "Person", name: frontmatter.author }
+      : { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    isAccessibleForFree: true,
+    keywords: frontmatter.tags?.join(", "),
+    ...(frontmatter.township && {
+      spatialCoverage: {
+        "@type": "Place",
+        name: `臺東縣${frontmatter.township}`,
+        ...(frontmatter.coordinates && {
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: frontmatter.coordinates[0],
+            longitude: frontmatter.coordinates[1],
+          },
+        }),
+      },
+    }),
+    // 有 URL 的來源才列進 citation——沒 URL 的引用對機器沒有意義
+    ...(frontmatter.sources?.some((s) => s.url) && {
+      citation: frontmatter.sources
+        .filter((s) => s.url)
+        .map((s) => ({
+          "@type": "CreativeWork",
+          name: s.citation || s.title || s.name,
+          url: s.url,
+        })),
+    }),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <NavFloat />
       <main>
         {/* Hero */}

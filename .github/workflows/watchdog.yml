@@ -1,0 +1,121 @@
+name: watchdog
+
+# 每日巡查的看門狗。
+#
+# 為什麼需要它：daily-survey.md 步驟 7 要求 agent「發心跳通知，成功失敗都要發」，
+# 但排程 agent 的工具清單只有 Bash/Read/Write/Edit/Glob/Grep/WebSearch/WebFetch，
+# MCP 也刻意清空——它根本沒有任何管道可以通知任何人。
+# 那條規則是願望，不是規則。
+#
+# 所以改成：不要求犯錯的人自己舉手，由旁邊的人點名。
+# 這個 workflow 每天檢查昨天的 agent 到底有沒有交作業，沒交就讓 job 失敗，
+# GitHub 自動寄失敗信到 repo owner 信箱——通道是現成的，零額外設定。
+
+on:
+  schedule:
+    # 01:00 UTC = 台北 09:00。排程 agent 08:00 開始跑，實測約 11 分鐘收工，
+    # 留一小時緩衝，確保它有機會把東西寫完。
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # ── 1. 重建待審清單
+      #
+      # 這份檔案是 agent 的「昨天的我做了什麼」記憶。8/7 那輪把整包成果
+      # 開成 PR #1（含當天日誌），main 上看不到，結果 8/8 的 agent 以為自己是
+      # 第 1 輪，把噶瑪蘭那套四角度檢索整個重做了一次。
+      #
+      # 由 workflow 產生而不是由 agent 手寫，是因為手寫的清單一定會過期。
+      - name: 重建 ops/PENDING-REVIEW.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TODAY=$(TZ=Asia/Taipei date +%F)
+          {
+            echo "# PENDING REVIEW — 等你按確認的東西"
+            echo
+            echo "> **這份檔案由 \`.github/workflows/watchdog.yml\` 每天自動重建，不要手改。**"
+            echo ">"
+            echo "> agent 每輪執行前必須先讀這裡（\`daily-survey.md\` 步驟 1）。"
+            echo "> 開著的 PR 代表**已經做完但還沒進 main 的工作**——"
+            echo "> 不要重做，要在既有基礎上往前。"
+            echo
+            echo "更新時間：$TODAY（台北）"
+            echo
+          } > ops/PENDING-REVIEW.md
+
+          COUNT=$(gh pr list --state open --json number --jq 'length')
+          if [ "$COUNT" -eq 0 ]; then
+            echo "目前沒有等待審核的 PR。" >> ops/PENDING-REVIEW.md
+          else
+            echo "## 開著的 PR（$COUNT 件）" >> ops/PENDING-REVIEW.md
+            echo >> ops/PENDING-REVIEW.md
+            echo "| PR | 標題 | 開了幾天 | 動到的檔案 |" >> ops/PENDING-REVIEW.md
+            echo "|---|---|---|---|" >> ops/PENDING-REVIEW.md
+            gh pr list --state open --json number,title,createdAt,files \
+              --jq '.[] | "\(.number)\t\(.title)\t\(.createdAt)\t\(.files | map(.path) | join("<br>"))"' \
+            | while IFS=$'\t' read -r num title created files; do
+                AGE=$(( ( $(date +%s) - $(date -d "$created" +%s) ) / 86400 ))
+                echo "| [#$num](https://github.com/${{ github.repository }}/pull/$num) | $title | **$AGE 天** | $files |" >> ops/PENDING-REVIEW.md
+              done
+          fi
+
+      - name: commit 待審清單（有變動才 commit）
+        run: |
+          git config user.name  "taitung.md watchdog"
+          git config user.email "actions@github.com"
+          git add ops/PENDING-REVIEW.md
+          # 用 --cached 比對，才涵蓋「檔案第一次出現」的情況；
+          # git diff --quiet 對未追蹤檔案永遠回報無差異，首次執行會靜默跳過。
+          if git diff --cached --quiet ops/PENDING-REVIEW.md; then
+            echo "待審清單無變動，跳過 commit"
+          else
+            git commit -m "chore(watchdog): 更新待審清單"
+            git push
+          fi
+
+      # ── 2. 點名：今天的日誌交了沒
+      #
+      # HARD-RULES H19：每輪執行必須產出一篇 ops/JOURNAL/YYYY-MM-DD*.md。
+      # 缺日誌 = 那一輪對 repo 而言沒有發生 = 明天的 agent 會失憶。
+      - name: H19 — 今天的巡查日誌在不在
+        run: |
+          TODAY=$(TZ=Asia/Taipei date +%F)
+          if ls "ops/JOURNAL/$TODAY"*.md >/dev/null 2>&1; then
+            echo "✅ 今天（$TODAY）的日誌有交"
+          else
+            echo "::error::[看門狗] 今天（$TODAY）沒有 ops/JOURNAL/$TODAY*.md。"
+            echo "::error::排程 agent 可能沒跑、跑掛了、或把日誌開成 PR 沒進 main。"
+            echo "::error::查這裡 → https://claude.ai/code/routines/trig_01PdyWRaKsY3UdsyB9dsFmxA"
+            exit 1
+          fi
+
+      # ── 3. 點名：有沒有 PR 躺太久
+      #
+      # 「你只要收信按確認」成立的前提是你真的會按。PR 躺著沒人按，
+      # 整條產線就停在那裡——而且 agent 看得到卻不能動，只能空轉。
+      - name: 待審 PR 逾期檢查（超過 3 天）
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 注意：gh 的 --jq 不吃 --argjson，天數要用外部 jq 傳
+          gh pr list --state open --json number,title,createdAt > prs.json
+          STALE=$(jq --argjson d 3 \
+            '[.[] | select((now - (.createdAt | fromdateiso8601)) > ($d * 86400))]' prs.json)
+          N=$(echo "$STALE" | jq 'length')
+          if [ "$N" -eq 0 ]; then
+            echo "✅ 沒有逾期的待審 PR"
+          else
+            echo "$STALE" | jq -r '.[] | "::error::[看門狗] PR #\(.number)「\(.title)」已經開了超過 3 天沒人審"'
+            echo "::error::這些 PR 擋住的是自動化的出口。去 https://github.com/${{ github.repository }}/pulls 按 merge。"
+            exit 1
+          fi
