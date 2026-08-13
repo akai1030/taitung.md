@@ -6,12 +6,13 @@
 > 開著的 PR 代表**已經做完但還沒進 main 的工作**——
 > 不要重做，要在既有基礎上往前。
 
-更新時間：2026-08-12（台北）
+更新時間：2026-08-13（台北）
 
-## 開著的 PR（3 件）
+## 開著的 PR（4 件）
 
 | PR | 標題 | 開了幾天 | 動到的檔案 |
 |---|---|---|---|
-| [#3](https://github.com/akai1030/taitung.md/pull/3) | [內容] research(B-003): green-island.md 補完六筆真實來源 | **0 天** | content/green-island.md |
-| [#2](https://github.com/akai1030/taitung.md/pull/2) | [T3] research(B-007): 實體 registry 骨架——七個高風險同名詞 | **2 天** | ops/REGISTRY/entities.yaml |
-| [#1](https://github.com/akai1030/taitung.md/pull/1) | [T3] research(B-002): 噶瑪蘭族台東記載辯證探究——歷史層 gap 主張推翻 | **5 天** | ops/BACKLOG.md<br>ops/JOURNAL/2026-08-07.md<br>ops/METRICS.md |
+| [#4](https://github.com/akai1030/taitung.md/pull/4) | [T3] research(B-003): surfing.md 補完六筆真實來源 | **0 天** | content/surfing.md |
+| [#3](https://github.com/akai1030/taitung.md/pull/3) | [內容] research(B-003): green-island.md 補完六筆真實來源 | **1 天** | content/green-island.md |
+| [#2](https://github.com/akai1030/taitung.md/pull/2) | [T3] research(B-007): 實體 registry 骨架——七個高風險同名詞 | **3 天** | ops/REGISTRY/entities.yaml |
+| [#1](https://github.com/akai1030/taitung.md/pull/1) | [T3] research(B-002): 噶瑪蘭族台東記載辯證探究——歷史層 gap 主張推翻 | **6 天** | ops/BACKLOG.md<br>ops/JOURNAL/2026-08-07.md<br>ops/METRICS.md |
