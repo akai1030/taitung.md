@@ -105,7 +105,15 @@ grey_literature:
         非工具摘要層轉述，直接讀取原始 XML——依 METHOD.md §3 判 verified（官方目錄頁 + 實際檔案內容
         兩個獨立來源交叉支持存在性與可用性）。
       not_yet_done: 34 個年度未逐一掃描台東相關筆數；全文檔URL 是否可及未測試（見 BACKLOG）。
-    todo: 見 BACKLOG B-001（已轉為新方向：批次匯出系統性掃描）
+    scan_progress:
+      done: "8/34（82~115 年度中的 85、90、95、100、105、110、113、115 年度）"
+      round2_2026-08-17: |
+        新掃 85／90／95／105／110／113 六個年度，命中 83 筆候選（見 ops/CORPUS/2026-08-17-grb-ndltd-scan-candidates.md）。
+        發現：(1) XML schema 在較新年度從 `<GRB05>` 換成 `<row>` 標籤，第一輪（08-11）驗證的 115 年度
+        未覆核用的是哪個標籤，7 筆命中數字可能低估；(2) `ABSTRACT_C` 欄位是連到 grb.gov.tw 詳情頁的
+        URL，不是摘要全文本身；(3) 部分年度 XML 檔案有格式錯誤，需容錯解析（lxml recover=True）。
+      remaining: 26 個年度未掃（82-84、86-89、91-94、96-104、106-109、111-112、114；115 年度 schema 待覆核）
+    todo: 見 BACKLOG B-022（系統性掃描進行中，第 2 輪已完成）
 
   - id: grey.ndltd
     name: 臺灣博碩士論文知識加值系統
@@ -132,7 +140,15 @@ grey_literature:
       not_yet_done: |
         僅含書目 metadata，不含全文；論文網址（博碩士論文網址欄）指向的頁面是否需登入未測試。
         12 個學年度僅解析 1 個，其餘 11 個未逐一掃描台東相關筆數（見 BACKLOG）。
-    action_required: none        # 批次匯出已可直接使用，見 BACKLOG B-001 後續
+    scan_progress:
+      done: "4/12（105、108、110、113 學年度）"
+      round2_2026-08-17: |
+        新掃 105／108／110 三個學年度，論文題名命中「台東」／「臺東」216 筆（見
+        ops/CORPUS/2026-08-17-grb-ndltd-scan-candidates.md 與同目錄 full.csv）。另有 598 筆
+        僅「畢業學校＝國立臺東大學」但題名未命中——依 ENTITIES.md P1 判定為假陽性，未列入候選
+        （學校所在地不等於論文主題所在地）。
+      remaining: 8 個學年度未掃（102-104、106-107、109、111-113）
+    action_required: none        # 批次匯出已可直接使用，見 BACKLOG B-022 後續
 
   - id: grey.tpl
     name: 國家圖書館期刊文獻資訊網
