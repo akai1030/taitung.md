@@ -1,0 +1,79 @@
+id: corpus-0002
+collected: 2026-08-20
+collected_by: agent
+
+# B-027 第一筆核實：從 2026-08-19 GRB/NDLTD 批次掃描的 1370 筆候選中，
+# 挑選 F56 標記的高關聯度題目做逐筆核實（讀摘要/確認存在性，非僅題名）。
+# 這一筆是兩個獨立來源的並列，刻意不融合（ENTITIES.md P5、CORPUS/README 紀律 1）。
+
+sources:
+  - source_id: s-0001
+    tier: T5                      # 灰色文獻：政府研究計畫資料庫書目紀錄
+    type: grb-record
+    title: "花東地區噶瑪蘭人的歷史變遷（1874-1945年）"
+    executing_org: "中央研究院台灣史研究所籌備處"
+    keywords: ["花蓮地區", "噶瑪蘭人", "遷徙", "台東地區", "原住民"]
+    fiscal_year_roc: 89           # 民國89年（2000年）GRB年度目錄
+    grb_project_id: "529433"
+    identifier_url: "https://www.grb.gov.tw/search/planDetail?id=529433"
+    accessed: 2026-08-19            # 該筆存在性資訊來自 2026-08-19 批次匯出 CSV，非今日新查
+    license: unknown
+    reading_level: metadata-only    # 只讀到題名/關鍵詞/執行單位，GRB 詳細頁本輪仍不可存取（系統升級中，見下）
+    verification_note: |
+      今日（2026-08-20）嘗試直接存取 GRB 詳細頁確認主持人與摘要，
+      WebFetch 回傳「本系統將於 5/30(六) 8:00~20:00 進行系統升級作業，
+      期間將暫停所有對外服務」的維護通知頁，非計畫資料。無法核實主持人姓名、
+      執行期間、摘要內容。this 一筆維持 metadata-only，未升級為 abstract-only。
+
+  - source_id: s-0002
+    tier: T3                        # 機構頁面：中央研究院台灣史研究所研究人員介紹
+    type: institutional-bio
+    title: "詹素娟 | 兼任研究人員 | 中央研究院-臺灣史研究所"
+    url: "https://www.ith.sinica.edu.tw/members_faculty_look.php?l=c&no=2&id=71&page=1&ps=20"
+    accessed: 2026-08-20
+    license: unknown
+    reading_level: full-text
+    claim_text: |
+      詹素娟（國立臺灣師範大學歷史學博士，中央研究院台灣史研究所兼任副研究員）
+      博士論文題目為〈族群、歷史與地域──噶瑪蘭人的歷史變遷（從史前到1900年）〉
+      （1998），研究專長含「族群史、區域研究、原住民史」，並曾與施添福合編
+      《臺東縣史：人物篇》（2001）。
+    confidence: attested            # 單一機構來源，未交叉比對第二來源
+
+claims:
+  - claim_id: c-0002
+    text: |
+      GRB 候選 529433〈花東地區噶瑪蘭人的歷史變遷（1874-1945年）〉的執行機構
+      （中央研究院台灣史研究所籌備處）與研究主題，跟該所研究員詹素娟已知的
+      博士論文題目與研究專長（噶瑪蘭人歷史變遷、台東縣史）高度重疊。
+    confidence: inferred
+    inference_chain: |
+      (1) s-0001 記載 GRB 529433 的執行機構為「中央研究院台灣史研究所籌備處」，
+      主題含「噶瑪蘭人」「花蓮地區」「台東地區」「遷徙」。
+      (2) s-0002 記載該所研究員詹素娟的博士論文即為同一主題（噶瑪蘭人歷史變遷），
+      且她合編過《臺東縣史：人物篇》。
+      (3) 由(1)(2)機構與主題的重疊，推論 529433 這個計畫「可能」與詹素娟的
+      研究系譜有關——但 GRB 詳細頁本輪不可存取（見 s-0001 verification_note），
+      沒有任何一筆來源直接列出 529433 的主持人姓名。**這是推論，不是核實**，
+      不可寫成「詹素娟主持了這個計畫」這種確定語氣。
+    temporal: null
+    spatial_level: null
+
+entities:
+  - group.kavalan
+  - county.taitung
+
+indigenous: true
+tk_notice: "此筆記錄的是學術計畫書目資訊之存在，未涉及族人自述、儀式或禁忌知識；未收錄任何噶瑪蘭族當代生活的第一手描述。"
+pii: false
+
+related_backlog: B-027
+related_prior: B-002（已結案）、B-020（收斂後的辯證探究，尚未跑完）
+next_step: |
+  GRB 詳細頁目前系統升級中，需擇日重試。若升級後仍無法取得摘要／主持人，
+  改試中央研究院台灣史研究所出版品清單（ith.sinica.edu.tw 書目資料庫）
+  或詹素娟本人著作清單，看 1874-1945 這篇是否以期刊論文形式正式發表——
+  若有正式出版品，那才是 B-020「台東（相對花蓮）噶瑪蘭族當代生活第一人稱
+  記載」辯證探究可以引用的材料，且要注意這篇談的是歷史遷徙（1874-1945），
+  不直接回答 B-020 的「當代」缺口，充其量是佐證歷史層記載存在（呼應已結案
+  的 B-002），不能拿來聲稱當代缺口已被填補。
