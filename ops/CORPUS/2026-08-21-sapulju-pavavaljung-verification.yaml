@@ -1,0 +1,115 @@
+id: corpus-0003
+collected: 2026-08-21
+collected_by: agent
+
+# B-027 第二筆核實：JOURNAL 2026-08-20 §8「下一步」指定的優先候選之一
+# （107 學年度 NDLTD 候選：〈臺東縣金峰鄉sapulju部落pavavaljung巴法法瀧開拓者頭目家族遷移研究〉）。
+# 論文本身（NDLTD 詳細頁）本輪仍撞驗證碼硬關卡（B-001 已知限制，見 s-0002），
+# 無法讀到摘要或全文。本筆核實的是「論文主題所指涉的事實是否有獨立於論文之外的
+# 佐證」，不是核實論文本身的論點或結論——這個區分必須誠實寫清楚。
+# 三筆來源刻意並列、不融合（ENTITIES.md P5）。
+
+sources:
+  - source_id: s-0001
+    tier: T5                        # 灰色文獻：NDLTD 官方批次匯出書目紀錄
+    type: ndltd-record
+    title: "臺東縣金峰鄉sapulju部落pavavaljung巴法法瀧開拓者頭目家族遷移研究"
+    authors: ["李惠玉"]
+    advisor: "李玉芬"
+    container: "國立臺東大學進修部公共與文化事務碩士專班(假日)"
+    year_roc: 107                   # 107 學年度
+    identifier_url: "https://hdl.handle.net/11296/tvcq4y"
+    accessed: 2026-08-19            # 存在性資訊來自 2026-08-19 B-022 批次匯出 CSV，非今日新查
+    license: unknown
+    reading_level: metadata-only
+    confidence: verified            # B-022 已將官方批次匯出 CSV 本身的書目紀錄判定為可信（見 SOURCES.yaml）
+
+  - source_id: s-0002
+    tier: T5
+    type: ndltd-record
+    title: "同上（嘗試讀取論文詳細頁）"
+    url: "https://ndltd.ncl.edu.tw/r/tvcq4y"
+    accessed: 2026-08-21
+    license: unknown
+    reading_level: metadata-only
+    verification_note: |
+      今日重試論文詳細頁（經 hdl.handle.net/11296/tvcq4y 302 轉址），
+      回傳臺灣博碩士論文知識加值系統的圖形驗證碼頁面，非論文內容。
+      與 B-001（2026-08-09）記錄的 NDLTD 驗證碼硬關卡一致，非新發現，
+      是既有已知限制在具體個案上的再次確認。摘要、全文、頭目家族系譜細節
+      均未能核實。
+
+  - source_id: s-0003
+    tier: T3                        # 機構頁面：國立臺東大學山海部落遊憩教育中心
+    type: institutional-page
+    title: "新興（撒布優部落介紹）"
+    url: "https://outdoor.nttu.edu.tw/services/elementor-6011/"
+    accessed: 2026-08-21
+    license: unknown
+    reading_level: full-text
+    claim_text: |
+      該中心網頁記載：pavavalung 家族先人 camak 因居住環境不便與子女就學問題，
+      召集族人遷居；後計畫遷至北里溪右岸（北里部落傳統領域），經協商後在現地
+      開墾，「創建sapulju部落」。族人因感激其開拓貢獻，「族人認同pavavalung
+      家族為sapulju部落的傳統領袖」。現任領袖為李冠廷先生。頁面未標示發布或
+      更新日期。
+
+  - source_id: s-0004
+    tier: T5                        # 部落格／地方媒體，非機構或學術來源
+    type: blog-post
+    title: "【台東。金峰】撒布優部落 Sapulju Tribe。三面環山一面環海。東排灣原住民部落"
+    url: "https://1817box.tw/sapulju/"
+    accessed: 2026-08-21
+    license: unknown
+    reading_level: full-text
+    published: 2022-08-29
+    claim_text: |
+      文章記載撒布優部落「由四大部落、八大家族所組成」，其中「南大武山『舊賓茂
+      部落』分別有『巴法法瀧家族』、『古沙查家族』兩家族」。未涉及巴法法瀧家族
+      的開拓歷史說明（與 s-0003 的開拓敘事互補，非重複）。
+
+claims:
+  - claim_id: c-0003
+    text: |
+      NDLTD 候選論文（s-0001）標題所指涉的核心事實——sapulju 部落確實存在、
+      pavavaljung（巴法法瀧）確實是該部落的一個既有家族、且該部落確有「開拓者
+      頭目家族」的敘事框架——在論文之外有至少兩個獨立來源（s-0003 機構頁、
+      s-0004 部落格）交叉佐證。
+    confidence: attested
+    temporal: null
+    spatial_level: settlement
+
+  - claim_id: c-0004
+    text: |
+      論文本身的具體論點、系譜細節、遷移研究方法與結論**未能核實**——NDLTD
+      詳細頁本輪與前次（B-001, 2026-08-09）皆撞驗證碼硬關卡，無公開全文管道。
+    confidence: gap
+    temporal: null
+    spatial_level: null
+
+  - claim_id: c-0005
+    text: |
+      s-0003 與 s-0004 對巴法法瀧家族的開拓時間點與地緣描述**不完全一致**：
+      s-0003 敘事聚焦「camak 後人遷至北里溪右岸開墾建部落」，未提及南大武山
+      舊賓茂部落的起源；s-0004 則明確記載該家族源自「南大武山『舊賓茂部落』」。
+      兩者可能是同一遷移史的不同階段（先自舊賓茂部落遷出，後定居北里溪右岸），
+      但本輪未查證兩段敘事的時間銜接，不擅自合併成一條連貫時間線。
+    confidence: disputed
+    temporal: null
+    spatial_level: null
+
+entities:
+  - group.paiwan
+  - county.taitung
+
+indigenous: true
+tk_notice: "此筆記錄的是機構網頁與地方部落格已公開發表的部落遷移史與家族名稱，未涉及族人未公開發表的口述、儀式或禁忌知識。涉及頭目家族系譜與遷移史，屬 B-027 標注的敏感類別（見 BACKLOG.md B-027 附註），本筆僅並列既有公開發表內容，未新增未經同意的家族系譜細節，亦未收錄進 content/。"
+pii: false
+
+related_backlog: B-027
+related_prior: null
+next_step: |
+  論文全文管道仍不可及，下一輪若要進一步核實，可嘗試國立臺東大學機構典藏系統
+  （非 NDLTD 主站）是否有獨立於驗證碼硬關卡的存取路徑；或聯繫 outdoor.nttu.edu.tw
+  頁面所屬單位確認頁面發布日期與資料來源（本輪未做，屬機構聯繫非檢索範圍）。
+  c-0005 的敘事落差若要解決，需要能讀到論文全文或第三個獨立來源。

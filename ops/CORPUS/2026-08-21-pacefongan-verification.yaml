@@ -1,0 +1,109 @@
+id: corpus-0004
+collected: 2026-08-21
+collected_by: agent
+
+# B-027 第三筆核實：JOURNAL 2026-08-20 §8 指定的優先候選之二
+# （109 學年度 NDLTD 候選：〈填空之鏡：台東都歷部落 傳統領域Pacefongan 的正名之聲〉）。
+# 同 corpus-0003，論文詳細頁本輪仍撞 NDLTD 驗證碼硬關卡，核實的是論文標題所指涉
+# 主題的獨立佐證，不是論文本身的論點。三筆來源並列、不融合（ENTITIES.md P5）。
+
+sources:
+  - source_id: s-0001
+    tier: T5
+    type: ndltd-record
+    title: "填空之鏡：台東都歷部落 傳統領域Pacefongan 的正名之聲"
+    authors: ["葉之幸"]
+    advisor: "蔡政良"
+    container: "國立臺東大學公共與文化事務學系南島文化研究碩士班"
+    year_roc: 109                   # 109 學年度
+    ndltd_sysid: "109NTTU5749027"
+    identifier_url: "https://hdl.handle.net/11296/5z7s6e"
+    accessed: 2026-08-19            # 存在性資訊來自 2026-08-19 B-022 批次匯出 CSV，非今日新查
+    license: unknown
+    reading_level: metadata-only
+    confidence: verified            # 同 corpus-0003 s-0001，B-022 批次匯出書目紀錄本身判定可信
+
+  - source_id: s-0002
+    tier: T5
+    type: ndltd-record
+    title: "同上（嘗試讀取論文詳細頁）"
+    url: "https://ndltd.ncl.edu.tw/r/5z7s6e"
+    accessed: 2026-08-21
+    license: unknown
+    reading_level: metadata-only
+    verification_note: |
+      今日重試論文詳細頁（經 hdl.handle.net/11296/5z7s6e 302 轉址），
+      回傳圖形驗證碼頁面，非論文內容。與 corpus-0003 s-0002、B-001
+      （2026-08-09）記錄的限制一致，再次確認而非新發現。另嘗試以
+      NDLTD 登入版搜尋結果頁（`ndltd.ncl.edu.tw/cgi-bin/gs32/gsweb.cgi/
+      login?...id="109NTTU5749027"`）取得系統編號 `109NTTU5749027`，
+      此編號本身可確認論文書目紀錄確實存在於 NDLTD 系統，但頁面正文
+      未能讀取。
+
+  - source_id: s-0003
+    tier: T3                        # 政府機關官方網站：交通部觀光署東部海岸國家風景區管理處
+    type: government-site
+    title: "Pacefongan 巴茲風岸 (都歷沙灘)"
+    url: "https://www.eastcoast-nsa.gov.tw/zh-tw/attractions/detail/287/"
+    accessed: 2026-08-21
+    license: all-rights-reserved    # 頁尾 "Copyright © 2026 All Rights Reserved"，依 B-023 暫定處理方式標註
+    reading_level: full-text
+    updated: 2025-05-06
+    claim_text: |
+      頁面記載："Pacefongan"意思是「船下水的地方」，「由於此地容易產生裂流
+      (離岸流)，當地的都歷部落便選擇此地為每年舉行海祭的地方，利用裂流推筏
+      入水」。旅遊叮嚀明載："此景點為都歷部落傳統海域，請勿亂丟垃圾"，確認
+      Pacefongan 是阿美族都歷部落傳統海域。**未提及「正名」相關討論或爭議。**
+
+  - source_id: s-0004
+    tier: T4                        # 網路媒體報導
+    type: news-article
+    title: "《歡迎光臨花東小鎮》：台東都歷部落「天空之鏡」Pacefongan，希望遊客對待這片海域能如同自己家鄉般尊重"
+    url: "https://www.thenewslens.com/article/204466"
+    accessed: 2026-08-21
+    license: unknown
+    reading_level: metadata-only
+    verification_note: |
+      WebFetch 回傳 HTTP 403（阻擋非瀏覽器 User-Agent 或類似機制），本輪未能
+      讀取全文，僅由標題與 WebSearch 摘要層得知主旨為「希望遊客尊重這片傳統
+      海域」，與 s-0003 的旅遊叮嚀方向一致，但**未直接核對原文逐字**，不可
+      視為獨立於 WebSearch 摘要層的核實。
+
+claims:
+  - claim_id: c-0006
+    text: |
+      NDLTD 候選論文（s-0001）標題所指涉的核心事實——Pacefongan 確為都歷部落
+      傳統海域、地名有明確阿美族語意義（船下水的地方）、且該地當前存在遊客
+      使用與部落傳統領域之間的張力（觀光開發／垃圾／尊重呼籲）——在論文之外
+      有官方政府網站（s-0003）獨立佐證。
+    confidence: attested
+    temporal: null
+    spatial_level: settlement
+
+  - claim_id: c-0007
+    text: |
+      論文標題核心主張「正名之聲」（即該地名/傳統領域存在需要「正名」的訴求或
+      爭議）**未能被本輪任何獨立來源直接證實**——s-0003（官方觀光網站）完全未
+      提及正名或爭議，只講傳統海域用途與旅遊叮嚀；s-0004（媒體報導）方向接近
+      但未讀到全文核對。「正名」訴求的具體內容（要正什麼名？向誰訴求？）仍是
+      缺口，須讀到論文全文或找到直接報導「正名」運動本身的來源才能升級。
+    confidence: gap
+    temporal: null
+    spatial_level: null
+
+entities:
+  - group.amis
+  - settlement.dulan-atolan       # 暫用既有 entity id 標注都歷部落——若 registry 無對應 id 需於下一輪核對
+
+indigenous: true
+tk_notice: "此筆記錄的是政府觀光網站與媒體報導已公開發表的地名意義與傳統海域用途，未涉及族人未公開發表的祭儀細節或禁忌知識；'正名之聲'訴求本身的具體內容未經核實，未寫入任何未經證實的主張。"
+pii: false
+
+related_backlog: B-027
+related_prior: null
+next_step: |
+  下一輪若要核實「正名」訴求本身，應改查是否有地方媒體（非觀光旅遊類報導）
+  直接報導都歷部落對 Pacefongan／周邊地名的正名倡議，或查詢原住民族委員會
+  傳統領域劃設相關公告是否提及都歷部落。entities 欄位的
+  settlement.dulan-atolan 是否為都歷部落的正確 entity id，需下一輪對照
+  ops/REGISTRY/entities.yaml 確認（本輪未查該檔是否已有都歷部落條目）。
