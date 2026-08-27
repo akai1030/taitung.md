@@ -53,6 +53,8 @@ GRB（Angular SPA，無公開 API）與 NDLTD（需 session）皆無法簡單 HT
 
 **2026-08-11 重測（連續第 3 輪）確認 503，依 CHARTER §6 正式降級 `grbsearch.stpi.narl.org.tw`（搜尋介面）為 `status: degraded`。但同一輪意外發現：GRB／NDLTD 各自都有官方「批次資料匯出」（data.gov.tw dataset 18707／14024），完全不經過壞掉的搜尋介面或驗證碼，實測可下載、可解析、能命中台東相關筆數（GRB 115年度7筆、100年度65筆；NDLTD 113學年度16筆，見 SOURCES.yaml `alt_access` 與 JOURNAL 2026-08-11 F19-F21）。**「(d) 承認並改寫 METHOD」的必要性沒有上升，反而部分被繞過**——METHOD.md §4.2 已於本輪更新，記錄「搜尋介面故障 ≠ 資料不可及，應先查官方批次匯出」這個方法論教訓。**結案，轉為 B-022（見下）延續。**
 
+**2026-08-27 第三次驗證（見 JOURNAL 2026-08-27 F79）**：`nchdb.boch.gov.tw`（國家文化資產網）個案詳細頁同樣是前端 SPA（Next.js）空殼，WebFetch／curl 皆讀不到實際資料，與 GRB（Angular SPA）同構。但文化資產局在 `data.boch.gov.tw` 提供官方批次開放資料 JSON（data.gov.tw dataset 6965，OGDL-1.0，1788筆全國歷史建築案卷），下載後可直接解析取得目標案卷完整欄位。同一教訓在第三個網域（GRB → NDLTD → 文化資產局）成立：遇到政府 SPA 查詢介面打不開，第一直覺應是找官方批次開放資料，不是放棄或改用 headless browser。
+
 ### B-022 — GRB／NDLTD 開放資料批次匯出的系統性掃描　【結案 2026-08-19，見 JOURNAL 2026-08-11、08-17、08-18、08-19】
 **軸**：A｜**來源**：B-001 2026-08-11 轉折
 
