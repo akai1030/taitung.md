@@ -140,7 +140,9 @@ async function urlAlive(url: string): Promise<boolean> {
     const ctl = new AbortController();
     const t = setTimeout(() => ctl.abort(), 15000);
     let r = await fetch(url, { method: "HEAD", signal: ctl.signal, redirect: "follow" });
-    if (r.status === 405 || r.status === 501) {
+    if (r.status === 405 || r.status === 501 || r.status === 403) {
+      // 403 on HEAD 不必然代表連結失效——部分反爬蟲設定只擋 HEAD 動詞，GET 仍可正常回應
+      // （實測案例：ctee.com.tw，見 JOURNAL 2026-08-28）。用 GET 結果覆蓋，而非直接判死。
       r = await fetch(url, { method: "GET", signal: ctl.signal, redirect: "follow" });
     }
     clearTimeout(t);

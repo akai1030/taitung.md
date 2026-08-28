@@ -55,6 +55,17 @@ GRB（Angular SPA，無公開 API）與 NDLTD（需 session）皆無法簡單 HT
 
 **2026-08-27 第三次驗證（見 JOURNAL 2026-08-27 F79）**：`nchdb.boch.gov.tw`（國家文化資產網）個案詳細頁同樣是前端 SPA（Next.js）空殼，WebFetch／curl 皆讀不到實際資料，與 GRB（Angular SPA）同構。但文化資產局在 `data.boch.gov.tw` 提供官方批次開放資料 JSON（data.gov.tw dataset 6965，OGDL-1.0，1788筆全國歷史建築案卷），下載後可直接解析取得目標案卷完整欄位。同一教訓在第三個網域（GRB → NDLTD → 文化資產局）成立：遇到政府 SPA 查詢介面打不開，第一直覺應是找官方批次開放資料，不是放棄或改用 headless browser。
 
+### B-028 — 稽核腳本 H4 死連結誤判：HEAD 遭反爬蟲擋下時未重試 GET　【2026-08-28 發現並修正，見 JOURNAL 2026-08-28 F81】
+**軸**：跨軸（迴圈自身工具）｜**來源**：`content/taitung-engine-house.md` 補完過程
+
+`scripts/audit-content.ts` 的 `urlAlive()` 只在 HEAD 回傳 405／501 時才重試 GET。實測
+`ctee.com.tw` 對 HEAD 一律回傳 403（含完全不帶 User-Agent 的請求），但 GET 一律回傳 200——
+反爬蟲設定只擋 HEAD 這個動詞，不擋 GET。H4 因此把一個活著的連結誤判為死連結。已修正重試
+條件納入 403（見 `scripts/audit-content.ts` diff），修正後既有五篇內容的 baseline WARN 數
+從 34 降為 30（全域生效，非僅本輪新文章受益）。**未做**：逐一回溯是哪幾筆既有連結受益，
+留給下一輪查證，避免當下下不精確的結論。此修正依 CHARTER §3「修 build error、修失效連結」
+的自主維運授權，直接 commit 到 main，不走 PR。
+
 ### B-022 — GRB／NDLTD 開放資料批次匯出的系統性掃描　【結案 2026-08-19，見 JOURNAL 2026-08-11、08-17、08-18、08-19】
 **軸**：A｜**來源**：B-001 2026-08-11 轉折
 
