@@ -135,17 +135,27 @@ function hasNearbySource(body: string, needle: string, window = 220): boolean {
   );
 }
 
+async function fetchWithTimeout(url: string, method: string, ms: number) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), ms);
+  try {
+    return await fetch(url, { method, signal: ctl.signal, redirect: "follow" });
+  } finally {
+    clearTimeout(t);
+  }
+}
+
 async function urlAlive(url: string): Promise<boolean> {
   try {
-    const ctl = new AbortController();
-    const t = setTimeout(() => ctl.abort(), 15000);
-    let r = await fetch(url, { method: "HEAD", signal: ctl.signal, redirect: "follow" });
-    if (r.status === 405 || r.status === 501 || r.status === 403) {
-      // 403 on HEAD 不必然代表連結失效——部分反爬蟲設定只擋 HEAD 動詞，GET 仍可正常回應
-      // （實測案例：ctee.com.tw，見 JOURNAL 2026-08-28）。用 GET 結果覆蓋，而非直接判死。
-      r = await fetch(url, { method: "GET", signal: ctl.signal, redirect: "follow" });
+    let r = await fetchWithTimeout(url, "HEAD", 15000);
+    if (r.status === 405 || r.status === 501 || r.status === 403 || r.status === 503) {
+      // 403/503 on HEAD 不必然代表連結失效——部分伺服器只擋或誤判 HEAD 動詞，GET 仍可正常回應
+      // （實測案例：ctee.com.tw 403，見 JOURNAL 2026-08-28；ourisland.pts.org.tw 503，見 JOURNAL 2026-09-01）。
+      // 用 GET 結果覆蓋，而非直接判死。GET 用獨立的逾時額度，避免 HEAD 已耗盡共用逾時
+      // 導致 GET 被 abort（實測案例：ourisland.pts.org.tw 的 HEAD 503 回應本身接近 15 秒，
+      // 沿用同一個 AbortController 讓後續 GET 立刻被中止，見 JOURNAL 2026-09-01）。
+      r = await fetchWithTimeout(url, "GET", 15000);
     }
-    clearTimeout(t);
     return r.status < 400;
   } catch {
     return false;
