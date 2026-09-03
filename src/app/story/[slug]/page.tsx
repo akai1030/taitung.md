@@ -294,12 +294,26 @@ export default function StoryPage({ params }: { params: { slug: string } }) {
                 </ul>
               </div>
             )}
-            {frontmatter.ai_assisted && frontmatter.ai_assisted.length > 0 && (
+            {frontmatter.ai_in_methods && frontmatter.ai_in_methods.length > 0 && (
+              <p className="text-stone">
+                研究方法中使用 AI：{frontmatter.ai_in_methods.join("、")}
+              </p>
+            )}
+            {frontmatter.ai_in_acknowledgment && frontmatter.ai_in_acknowledgment.length > 0 && (
+              <p className="text-stone">
+                成文過程中使用 AI：{frontmatter.ai_in_acknowledgment.join("、")}
+              </p>
+            )}
+            {!frontmatter.ai_in_methods && !frontmatter.ai_in_acknowledgment &&
+              frontmatter.ai_assisted && frontmatter.ai_assisted.length > 0 && (
               <p className="text-stone">
                 AI 輔助：{frontmatter.ai_assisted.join("、")}
               </p>
             )}
-            {frontmatter.ai_generated === false && (
+            {frontmatter.ai_generated === false &&
+              !(frontmatter.ai_in_methods && frontmatter.ai_in_methods.length > 0) &&
+              !(frontmatter.ai_in_acknowledgment && frontmatter.ai_in_acknowledgment.length > 0) &&
+              !(frontmatter.ai_assisted && frontmatter.ai_assisted.length > 0) && (
               <p className="text-stone text-[0.75rem] mt-2">
                 本文內容非 AI 生成。
               </p>
