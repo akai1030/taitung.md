@@ -194,6 +194,25 @@ corpus-0003 的論文摘要本輪同樣讀到，但尚未轉為 claim 更新，�
 
 同時犯時間混淆、層級混淆、實體過度簡化三種錯。修正時須寫明 `as_of: 2002`、`spatial_level: county`、聚落層級另列。
 
+### B-030 — `ArticleFrontmatter`／`ArticleSource` 型別長期落後於 HARD-RULES 實際要求的欄位　【新增 2026-09-03，見 JOURNAL 2026-09-03-2、2026-09-03-3】
+**軸**：跨軸（規則體系）｜**來源**：Codex bot 在 PR #13、PR #8 上各自獨立發現的兩則 P1
+
+`audit-content.ts` 只檢查 frontmatter 欄位**存在**，從未檢查前端是否**真的渲染出來**——
+稽核工具與前端渲染各自獨立地符合各自的檢查標準，合起來卻沒有真正滿足對應 HARD-RULE
+的意圖。已確認的兩個實例：
+
+1. `attribution_statement`（H15，OGDL 顯名聲明）——`src/lib/types.ts` 的 `ArticleSource`
+   介面原本沒有宣告 `license`／`attribution_statement`，前端從未渲染。main 上
+   `gongdong-chapel.md`、`taitung-engine-house.md` 兩篇在違規狀態下上線超過一週才被
+   發現。**已修（df57952，2026-09-03 第2輪）。**
+2. `ai_in_methods`／`ai_in_acknowledgment`（H17／`ETHICS.md` E19）——`page.tsx` 只讀取
+   已淘汰的 `ai_assisted`。**已修（PR #8 分支，2026-09-03 第3輪）。**
+
+**尚未核對的欄位**：`ArticleFrontmatter` 型別裡還沒有宣告，但 frontmatter 實際會寫入的
+欄位——`indigenous`、`tk_notice`、`as_of`、`spatial_level` 至少四個。這些欄位有沒有
+對應的「audit 檢查存在、但從未真正渲染給讀者看」的合規落差，本輪未系統性核對，值得
+下一輪逐一檢查型別宣告與前端渲染邏輯，而不是等下一個外部 bot 發現才處理。
+
 ---
 
 ## 🟡 中優先
