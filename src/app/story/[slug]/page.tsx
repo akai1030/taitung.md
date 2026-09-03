@@ -294,7 +294,18 @@ export default function StoryPage({ params }: { params: { slug: string } }) {
                 </ul>
               </div>
             )}
-            {frontmatter.ai_assisted && frontmatter.ai_assisted.length > 0 && (
+            {frontmatter.ai_in_methods && frontmatter.ai_in_methods.length > 0 && (
+              <p className="text-stone">
+                方法中的 AI 使用：{frontmatter.ai_in_methods.join("、")}
+              </p>
+            )}
+            {frontmatter.ai_in_acknowledgment && frontmatter.ai_in_acknowledgment.length > 0 && (
+              <p className="text-stone">
+                致謝中的 AI 使用：{frontmatter.ai_in_acknowledgment.join("、")}
+              </p>
+            )}
+            {!frontmatter.ai_in_methods && !frontmatter.ai_in_acknowledgment &&
+              frontmatter.ai_assisted && frontmatter.ai_assisted.length > 0 && (
               <p className="text-stone">
                 AI 輔助：{frontmatter.ai_assisted.join("、")}
               </p>
