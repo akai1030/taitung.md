@@ -66,6 +66,25 @@ GRB（Angular SPA，無公開 API）與 NDLTD（需 session）皆無法簡單 HT
 留給下一輪查證，避免當下下不精確的結論。此修正依 CHARTER §3「修 build error、修失效連結」
 的自主維運授權，直接 commit 到 main，不走 PR。
 
+### B-029 — 前端型別／渲染落後於 HARD-RULES 現行 frontmatter 欄位　【新增 2026-09-03，見 JOURNAL 2026-09-03-2】
+**軸**：跨軸（迴圈自身工具）｜**來源**：PR #13 review，chatgpt-codex-connector[bot] P1 發現
+
+Codex 在 PR #13 標記：`attribution_statement` 寫進 frontmatter 不代表真的顯示在頁面上——
+`src/app/story/[slug]/page.tsx` 的來源清單只渲染 `citation || title || name`。查證後發現
+問題比 bot 指出的更深：`src/lib/types.ts` 的 `ArticleSource` 介面**根本沒有宣告** `license`、
+`attribution_statement` 兩個欄位（靠 `data as ArticleFrontmatter` 型別斷言在執行時繞過）。
+已修正這兩個欄位並讓 OGDL 來源正確渲染顯名聲明（commit df57952，直接進 main，見 JOURNAL
+2026-09-03-2），已影響到兩篇已上線內容（`gongdong-chapel.md`、`taitung-engine-house.md`）
+違反 H15 超過一週後才被發現。
+
+**未做，留給下一輪或有意願的 session**：這次只修了 P1 指出的兩個欄位，`ArticleFrontmatter`／
+`ArticleSource` 型別裡至少還缺 `indigenous`、`tk_notice`、`ai_in_methods`、
+`ai_in_acknowledgment`、`as_of`、`spatial_level` 六個 HARD-RULES 現行要求的欄位（型別未宣告，
+但 `audit-content.ts` 會檢查其存在），`ai_assisted` 則是型別裡唯一仍在、但已被 H17 淘汰的舊
+欄位名。這代表「`audit-content.ts` 通過」與「前端真的把這些欄位渲染/使用給讀者看」之間可能
+還有其他未被發現的落差，值得系統性核對一次每個 HARD-RULE 涉及的欄位是否真的走到頁面上，
+而不是被動等下一個外部 review 發現。
+
 ### B-022 — GRB／NDLTD 開放資料批次匯出的系統性掃描　【結案 2026-08-19，見 JOURNAL 2026-08-11、08-17、08-18、08-19】
 **軸**：A｜**來源**：B-001 2026-08-11 轉折
 
