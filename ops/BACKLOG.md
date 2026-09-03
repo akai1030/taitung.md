@@ -333,6 +333,8 @@ CI（Node 20 / npm 10）`npm ci` 失敗：`Missing: @swc/helpers@0.5.23 from loc
 因為稽核只掃 `content/*.md`。與 B-014（不掃 ops/）、B-017（不掃 DB）是同一個病。
 → 稽核範圍需擴及：`quotes.yaml`、資料庫內容、`src/` 元件內的硬編碼內容資料。
 
+**2026-09-03 澄清（推翻一個差點被重犯的誤判）**：本輪原本打算把 `ops/CORPUS/**` 也納入 `.github/workflows/audit.yml` 的 H10 檢查範圍（CORPUS 內確實有多筆 `indigenous: true` 檔案，如 `2026-08-20-grb-529433-verification.yaml`、`2026-08-22-kavalan-changbin-contemporary-verification.yaml` 等，均以一般 commit 直接進了 main，未走 PR）。**動手前查證發現這不是漏洞，是既有設計**：`GOVERNANCE.md` §3 的分級表明確把「新增 CORPUS 條目」列為 **T1（素材）**，權限欄寫「❌ 自動 commit」，與 T3「原民相關內容（無例外）」是分開的兩格——T3 的「無例外」指的是 `content/` 發布層級的文章／引述，不是 T1 的原始素材蒐集。`CHARTER.md` §3 也明確把「把材料寫進 `ops/CORPUS/`」列在「✅ 迴圈可以自己做，不必問」。**若真的把 H10 擴大到 `ops/CORPUS/**`，會讓過去一個月所有 T1 CORPUS 提交的既定工作流程在 CI 上全部紅燈**，這才是真正的風險。此項就此結案，不再視為稽核缺口——留這筆記錄是為了讓下一輪不要重犯同一個「動手前沒查 GOVERNANCE 分級表」的錯誤（本輪本身也是重犯者：見 2026-08-07 舊 PR #1，這筆記錄同源於那次的誤判）。
+
 ### B-020 — 收斂後的辯證探究：台東（相對花蓮）噶瑪蘭族當代生活第一人稱記載　【結案 2026-08-22，見 JOURNAL 2026-08-22、`ops/CORPUS/2026-08-22-kavalan-changbin-contemporary-verification.yaml`（corpus-0005）】
 **軸**：B｜**來源**：JOURNAL 2026-08-08 §3 F8
 
