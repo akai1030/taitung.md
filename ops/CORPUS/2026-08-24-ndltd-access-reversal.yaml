@@ -1,0 +1,83 @@
+id: corpus-0006
+collected: 2026-08-24
+collected_by: agent
+
+# B-027 後續：重測 corpus-0003、corpus-0004 兩筆 NDLTD 論文詳細頁的可及性。
+# 2026-08-21 日誌（F62）曾把 NDLTD 詳細頁的驗證碼收斂為「結構性存取控制，非暫時性故障，
+# 後續核實不應再排入重試待辦，直接假設不可讀」。本筆記錄的是這個收斂被今天的實測推翻。
+# 三筆來源刻意並列、不融合（ENTITIES.md P5）。
+
+sources:
+  - source_id: s-0001
+    tier: T3
+    type: ndltd-record
+    title: "填空之鏡：台東都歷部落 傳統領域Pacefongan 的正名之聲（corpus-0004 s-0002 同一筆論文詳細頁）"
+    url: "https://hdl.handle.net/11296/5z7s6e"
+    accessed: 2026-08-24
+    license: all-rights-reserved   # 頁尾「國家圖書館著作權聲明 Copyright © 2010 All rights reserved.」
+    reading_level: abstract-only   # 讀到官方頁面 meta description 呈現的摘要全文，非論文正文82頁
+    verification_note: |
+      今日以 WebFetch 直接讀取，並另以 curl（顯式瀏覽器 User-Agent）重複驗證，
+      兩種管道皆取得完整論文詳細資料頁（研究生、指導教授、系所、學年度、關鍵詞、
+      中文摘要全文），HTML 原始碼中無「驗證碼」字樣，非登入/驗證碼頁。與
+      2026-08-21（corpus-0004 s-0002）、2026-08-19（B-022 批次匯出核對時）記錄的
+      驗證碼硬關卡狀態不同。
+
+  - source_id: s-0002
+    tier: T3
+    type: ndltd-record
+    title: "臺東縣金峰鄉sapulju部落pavavaljung巴法法瀧開拓者頭目家族遷移研究（corpus-0003 s-0002 同一筆論文詳細頁）"
+    url: "https://hdl.handle.net/11296/tvcq4y"
+    accessed: 2026-08-24
+    license: all-rights-reserved
+    reading_level: abstract-only
+    verification_note: |
+      同上方法重測，同樣取得完整中文摘要全文（非先前記錄的驗證碼頁）。兩筆獨立
+      論文（不同年度、不同系統編號、不同 URL slug）同一天皆可讀，非單一連結的偶然。
+
+claims:
+  - claim_id: c-0010
+    text: |
+      2026-08-24 重測結果：corpus-0003、corpus-0004 兩筆論文的 NDLTD 詳細頁皆可
+      直接讀取中文摘要全文，與 2026-08-19～2026-08-21 三輪（分別由不同筆論文測試，
+      合計 4 次）皆命中驗證碼硬關卡的記錄不同。**推翻 2026-08-21 F62 的收斂**：
+      NDLTD 詳細頁驗證碼不是穩定的結構性存取控制，至少在存取模式上有間歇性——
+      具體成因（時段、請求頻率、User-Agent、或 NDLTD 系統本身的防護策略變動）
+      本輪未查證，僅能確認「今天兩次獨立測試皆可讀」這個事實。
+    confidence: attested
+    temporal: { as_of: 2026-08-24 }
+    spatial_level: null
+    inference_chain: null
+
+  - claim_id: c-0011
+    text: |
+      corpus-0004 claim c-0007（原標記 confidence: gap——「填空之鏡」論文標題核心
+      主張「正名之聲」未能被任何獨立來源直接證實）**本輪由論文官方摘要本身直接
+      證實，升級為 attested**：摘要明載「Pacefongan於2015年開始被外界取名為
+      『天空之鏡』並在短短兩三年內爆紅⋯⋯進而引發青年族人試圖為Pacefongan發出
+      正名之聲」，且研究者自陳「我身為也投身到正名行動的其中一員」。這是論文
+      作者的第一人稱陳述，非本站的推論轉述。
+      注意：這仍只是論文摘要，不是論文正文——「正名」訴求的具體內容（要正什麼名、
+      向誰訴求、行動的具體形式）摘要未寫明，摘要之外的細節仍是 gap。
+    confidence: attested
+    temporal: { as_of: 2026-08-24 }
+    spatial_level: settlement
+    inference_chain: null
+
+entities:
+  - group.amis
+  - group.paiwan
+  - county.taitung
+
+indigenous: true
+tk_notice: "此筆記錄的是國家圖書館公開系統上論文作者自行撰寫並公開發表的摘要文字，未涉及族人未公開發表的口述、儀式或禁忌知識。已寫入 content/pacefongan.md 的部分僅限摘要中關於地名能見度與正名行動存在性的陳述，未使用摘要之外未讀到的論文正文內容。"
+pii: false
+
+related_backlog: B-027
+related_prior: [corpus-0003, corpus-0004]
+next_step: |
+  B-027、B-001 的「NDLTD 詳細頁視為不可讀」預設判斷需要修正——不應再直接假設
+  不可讀，應該重試。下一輪可系統性重測 B-027 候選清單中先前因驗證碼而放棄的
+  項目，紀錄命中率（幾次可讀／幾次仍撞驗證碼），才能判斷這是間歇性還是本輪
+  的僥倖。corpus-0003 sapulju/pavavaljung 論文的摘要全文本輪雖已讀到但尚未
+  轉為 claim 更新，下一輪可比照本筆做法補上。

@@ -54,6 +54,8 @@ export interface ArticleSource {
   author?: string;
   accessed?: string;
   verified?: boolean;
+  license?: string;
+  attribution_statement?: string;
 }
 
 export interface ArticleFrontmatter {

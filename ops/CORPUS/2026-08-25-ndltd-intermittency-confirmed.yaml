@@ -1,0 +1,76 @@
+id: corpus-0007
+collected: 2026-08-25
+collected_by: agent
+
+# B-027 延續：08-24（corpus-0006）用兩篇論文（corpus-0003 s-0002、corpus-0004 s-0002）
+# 交叉確認 NDLTD 詳細頁「今天可讀」，推翻了 08-21 的「結構性存取控制、不必再試」收斂，
+# 但當時明白留下未解問題：「具體成因未查⋯⋯下一輪應系統性重測，記錄命中率，才能判斷
+# 是間歇性還是今天的僥倖」。本筆是那個重測。
+#
+# 方法：重試昨天成功讀取的同兩個 URL（同一個 hash，非新論文），今天分別各測一次，
+# WebFetch 與 curl（顯式瀏覽器 UA）各一。刻意用「昨天成功過的同一把鑰匙」而非新樣本，
+# 是為了把「這把鑰匙今天還開得開嗎」跟「換一把新鑰匙會怎樣」分開，避免混淆變因。
+
+sources:
+  - source_id: s-0001
+    tier: T5
+    type: ndltd-record
+    title: "臺東縣金峰鄉sapulju部落pavavaljung巴法法瀧開拓者頭目家族遷移研究（corpus-0003 同一篇論文）"
+    url: "https://ndltd.ncl.edu.tw/r/tvcq4y"
+    accessed: 2026-08-25
+    license: unknown
+    reading_level: metadata-only
+    verification_note: |
+      WebFetch：回傳圖形驗證碼頁面（明確文字：「由於目前系統使用人數眾多，為維護較佳的
+      服務品質，敬請輸入畫面中的圖形驗證碼」），非論文內容。
+      curl（顯式瀏覽器 UA，HTTP 200）：頁面原始碼含「驗證碼」字樣，同樣是驗證碼頁。
+      昨天（2026-08-24）同一 URL 用同樣兩種管道皆讀到完整摘要全文，今天兩種管道皆被擋。
+
+  - source_id: s-0002
+    tier: T5
+    type: ndltd-record
+    title: "填空之鏡：台東都歷部落 傳統領域Pacefongan 的正名之聲（corpus-0004 同一篇論文）"
+    url: "https://ndltd.ncl.edu.tw/r/5z7s6e"
+    accessed: 2026-08-25
+    license: unknown
+    reading_level: metadata-only
+    verification_note: |
+      curl（顯式瀏覽器 UA，HTTP 200）：頁面原始碼含「驗證碼」字樣，驗證碼頁。
+      昨天同一 URL 讀到完整摘要全文（見 content/pacefongan.md 引用的來源），今天被擋。
+
+claims:
+  - claim_id: c-0012
+    text: |
+      NDLTD 論文詳細頁的可及性**在同一天內、同一組 URL 上，不是穩定狀態**——08-19 至
+      08-21 三天合計 4 次全數命中驗證碼；08-24 用同兩篇論文的同兩個 URL 兩種管道全數
+      讀到全文摘要；08-25（今天）同兩個 URL 用同兩種管道全數又被擋。樣本雖小（n=2
+      URL×2 天×2 管道），但「同一把鑰匙前一天開得開、隔天開不開」這個模式本身就足以
+      排除「今天恆定可讀」與「恆定不可讀」兩種極端結論。
+    confidence: attested
+    temporal: "2026-08-19~2026-08-25"
+    spatial_level: null
+
+  - claim_id: c-0013
+    text: |
+      具體觸發變因（時段、請求頻率、NDLTD 系統本身的間歇性防護策略、IP／出口位置差異等）
+      本輪仍未逐一排除——沒有做到能分離變因的對照實驗（例如同一天不同時段各測一次）。
+      這是方法論限制，不是新結論。
+    confidence: gap
+    temporal: null
+    spatial_level: null
+
+entities: []
+
+indigenous: false
+tk_notice: "本筆記錄的是系統存取行為（驗證碼觸發與否），未新增或變動任何族群/部落相關的實質內容主張。"
+pii: false
+
+related_backlog: B-027
+related_prior: corpus-0006
+next_step: |
+  已累積 3 個時間點的樣本（08-19~21 全擋／08-24 全通／08-25 全擋），方向上支持「間歇性」
+  而非「已解除」或「仍然結構性」。**方法論結論（可寫入 METHOD.md）**：NDLTD 詳細頁的
+  可讀性應視為每次請求時才能知道的間歇狀態，不能沿用前一輪（甚至前一天）的可讀/不可讀
+  判定——每一輪核實都必須當場重試，不能假設昨天讀到的今天還讀得到，也不能假設昨天讀不到
+  的以後都讀不到。下一輪若要進一步逼近觸發條件，建議同一天內分早中晚三個時段各測一次
+  同一 URL，而非分散在不同天。
