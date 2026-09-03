@@ -276,11 +276,19 @@ export default function StoryPage({ params }: { params: { slug: string } }) {
             {frontmatter.sources && frontmatter.sources.length > 0 && (
               <div className="mb-6">
                 <p className="font-semibold text-ink-soft mb-2">資料來源</p>
-                <ul className="list-none space-y-1">
+                <ul className="list-none space-y-2">
                   {frontmatter.sources.map((s, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-stone mt-0.5">[{i + 1}]</span>
-                      <span>{s.citation || s.title || s.name}</span>
+                    <li key={i} className="flex flex-col gap-0.5">
+                      <span className="flex items-start gap-2">
+                        <span className="text-stone mt-0.5">[{i + 1}]</span>
+                        <span>{s.citation || s.title || s.name}</span>
+                      </span>
+                      {/* H15：ogdl-1.0 來源必須渲染完整顯名聲明，未標示視為自始未取得授權 */}
+                      {s.license === "ogdl-1.0" && s.attribution_statement && (
+                        <span className="pl-5 text-[0.72rem] text-stone italic">
+                          {s.attribution_statement}
+                        </span>
+                      )}
                     </li>
                   ))}
                 </ul>
