@@ -202,16 +202,17 @@ entities:
   - id: hot-spring.zhiben
     type: hot-spring
     names: { zh: "知本溫泉" }
-    location_disputed: true
+    location_disputed: false
     note: |
-      本輪 WebFetch 摘要顯示維基百科消歧義頁描述「知本溫泉」位於卑南鄉，
-      與一般認知（知本溫泉位於台東市知本里）不一致。未能判斷是 WebFetch 摘要層誤讀，
-      還是頁面原文確有此陳述（例如溫泉區跨鄉界，或摘要抓錯了鄰近的「悟饕炮仗花節」等其他地名）。
-      依 CHARTER §0「查證 > 推論 > 誠實缺口 > 空白 > 編造」，不確定的地理歸屬**不寫入**，
-      待下一輪直接查證原文（非透過工具摘要層）後再定。
+      2026-09-03（第 28 輪）直接查證 `zh.wikipedia.org/wiki/知本溫泉` 原文解開 08-10 記錄的矛盾：
+      條目逐字載明「知本溫泉位於臺灣臺東縣卑南鄉溫泉村」（狹義／溫泉商圈本身，因溫泉區位於知本溪下游），
+      但廣義的「知本地區」跨兩個行政區，包括「台東市利嘉溪以東的建農里、知本里、建業里、建和里、建興里
+      以及卑南鄉的溫泉村」。08-10 記錄的「與一般認知不一致」並非 WebFetch 摘要層誤讀，
+      是**狹義（溫泉商圈，卑南鄉）與廣義（知本地區，跨台東市／卑南鄉）兩種空間尺度的落差**——
+      兩者皆為維基原文明載，非互相矛盾，是本輪推翻 08-10「待查」判斷、直接查原文後的解方。
     indigenous: false
-    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/知本", accessed: 2026-08-10 }
-    confidence: disputed
+    source: { type: wikipedia-article, url: "https://zh.wikipedia.org/wiki/知本溫泉", accessed: 2026-09-03 }
+    confidence: attested
 
   - id: landmark.zhiben-station
     type: train-station
@@ -230,62 +231,68 @@ entities:
 
   # ═══════════════════════════════════════════
   # 長濱／大武／太麻里／成功
-  # 本輪僅完成前三組（都蘭／卑南／知本）的維基百科消歧義核實。
-  # 以下四組沿用 ENTITIES.md §2.1 既有表列，尚未重複本輪對前三組做的核實程序——
-  # 誠實標記為 inferred，不是假裝已經核實過。
+  # 2026-08-10 骨架僅完成前三組（都蘭／卑南／知本）的維基百科消歧義核實，
+  # 這四組當時沿用 ENTITIES.md §2.1 原表，標記 inferred。
+  # 2026-09-03（第 28 輪）補做本輪同等程序，逐一升級，見各筆 source/confidence。
   # ═══════════════════════════════════════════
   - id: admin.changbin-township
     type: administrative-division
     names: { zh: "長濱鄉" }
+    note: "位於台灣台東縣最北端臨海的鄉。維基百科「長濱」消歧義頁列出的其餘同名條目（長濱市、多個長濱町/長濱站等）皆位於日本滋賀縣等地，與台灣行政區無混淆風險，但構成一個全球語料庫層級的同名詞（P1）。"
     indigenous: false
-    source: { type: entities-md-table, accessed: 2026-08-06 }
-    confidence: inferred
-    inference_chain: "ENTITIES.md 原表列出，未於本輪獨立以維基百科消歧義頁核實，待下一輪。"
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/長濱", accessed: 2026-09-03 }
+    confidence: attested
 
   - id: archaeological-culture.changbin-culture
     type: archaeological-culture
     names: { zh: "長濱文化" }
-    note: "舊石器時代考古文化，代表遺址為八仙洞。與長濱鄉行政區層次不同，ENTITIES.md 特別注記混淆會很難看。"
+    note: "舊石器時代考古文化，代表遺址為八仙洞，與長濱鄉行政區層次不同（ENTITIES.md 特別注記的陷阱）。"
     indigenous: false
-    source: { type: entities-md-table, accessed: 2026-08-06 }
-    confidence: inferred
-    inference_chain: "同上。"
+    source: { type: wikipedia-article, url: "https://zh.wikipedia.org/wiki/長濱文化", accessed: 2026-09-03 }
+    confidence: attested
+    temporal: { as_of: "距今約3萬年至1萬5千年前（2016年研究修正版）" }
 
   - id: admin.dawu-township
     type: administrative-division
     names: { zh: "大武鄉" }
-    note: "臺東縣"
+    note: |
+      臺東縣。維基百科「大武鄉」消歧義提示逐字列出三項：「大武鄉 (台灣)，中華民國臺灣省臺東縣下轄鄉」
+      「大武乡 (商水县)，中華人民共和國河南省商水县下辖乡」「大武乡 (玛沁县)，中華人民共和國青海省玛沁县下辖乡」。
+      與同名河南／青海鄉鎮構成跨國同名詞，非台灣島內混淆風險，但屬全球語料庫層級的 P1 陷阱，
+      與「長濱」的日本同名情形同構。
     indigenous: false
-    source: { type: entities-md-table, accessed: 2026-08-06 }
-    confidence: inferred
-    inference_chain: "ENTITIES.md 原表列出，未於本輪獨立核實，待下一輪。"
+    source: { type: wikipedia-disambiguation, url: "https://zh.wikipedia.org/wiki/大武鄉", accessed: 2026-09-03 }
+    confidence: attested
 
   - id: mountain.dawu-mountain
     type: mountain
     names: { zh: "大武山" }
-    note: "屏東台東交界，不在大武鄉——ENTITIES.md 特別注記的陷阱"
+    note: "屏東台東交界，不在大武鄉——ENTITIES.md 特別注記的陷阱。本輪查證大武鄉消歧義頁未涵蓋此山獨立條目，未直接核實，維持待查。"
     indigenous: false
     source: { type: entities-md-table, accessed: 2026-08-06 }
     confidence: inferred
-    inference_chain: "同上。"
+    inference_chain: "ENTITIES.md 原表列出，本輪查大武鄉消歧義頁未見連結，待下一輪直接查證 zh.wikipedia.org/wiki/大武山。"
 
   - id: settlement.dawu-tribe
     type: settlement
     names: { zh: "大武部落" }
     indigenous: true
-    tk_notice: "族群歸屬待核實（ENTITIES.md 原表未註明），下一輪查證時應一併確認並補上 tk_notice 細節。"
+    tk_notice: "族群歸屬待核實（本輪查證未直接確認），下一輪查證時應一併確認並補上 tk_notice 細節。"
     disambiguation_status: unresolved
     source: { type: entities-md-table, accessed: 2026-08-06 }
     confidence: inferred
-    inference_chain: "ENTITIES.md 原表列出但未註明族群歸屬，未於本輪獨立核實，待下一輪。"
+    inference_chain: "ENTITIES.md 原表列出但未註明族群歸屬，本輪查大武鄉消歧義頁未涵蓋聚落層級條目，待下一輪直接查證。"
 
   - id: admin.taimali-township
     type: administrative-division
     names: { zh: "太麻里鄉" }
+    note: |
+      臺東縣南段沿海鄉，北鄰知本溪、南鄰大竹溪。「太麻里」直接對應此鄉條目本身（非消歧義頁），
+      與都蘭／卑南／知本三組不同——同名詞風險本身不高，這點與長濱／大武（皆為消歧義頁）形成對照。
+      名稱源自排灣族語「Tjavualji」，意為「太陽照耀的肥沃土地」，清代文獻曾稱「大貓狸」或「大麻里」。
     indigenous: false
-    source: { type: entities-md-table, accessed: 2026-08-06 }
-    confidence: inferred
-    inference_chain: "ENTITIES.md 原表列出，未於本輪獨立核實，待下一輪。"
+    source: { type: wikipedia-article, url: "https://zh.wikipedia.org/wiki/太麻里", accessed: 2026-09-03 }
+    confidence: attested
 
   - id: river.taimali
     type: river
@@ -293,25 +300,30 @@ entities:
     indigenous: false
     source: { type: entities-md-table, accessed: 2026-08-06 }
     confidence: inferred
-    inference_chain: "同上。"
+    inference_chain: "ENTITIES.md 原表列出，太麻里鄉條目本輪查證確認以知本溪為北界、大竹溪為南界，太麻里溪本身未見獨立段落核實，待下一輪。"
 
   - id: settlement.taimali-tribe
     type: settlement
     names: { zh: "太麻里部落" }
     indigenous: true
-    tk_notice: "族群歸屬待核實（ENTITIES.md 原表未註明），下一輪查證時應一併確認並補上 tk_notice 細節。"
+    tk_notice: "族群歸屬待核實（太麻里鄉條目載明鄉內原住民以排灣族與阿美族為主，約占人口三分之一，但未指明特定「太麻里部落」單一對應族群），下一輪查證時應一併確認並補上 tk_notice 細節。"
     disambiguation_status: unresolved
     source: { type: entities-md-table, accessed: 2026-08-06 }
     confidence: inferred
-    inference_chain: "同大武部落，ENTITIES.md 原表未註明族群歸屬，待下一輪。"
+    inference_chain: "ENTITIES.md 原表列出但未註明族群歸屬，太麻里鄉條目本輪僅提供鄉層級人口組成（排灣族／阿美族合占約三分之一），未見「太麻里部落」聚落層級獨立條目，待下一輪直接查證是否有此正式聚落名或應改用族語名。"
 
   - id: admin.chenggong-township
     type: administrative-division
     names: { zh: "成功鎮" }
+    note: |
+      臺東縣東北沿海鎮，面積約144平方公里，全臺第四大鎮，人口以阿美族為主、阿美語為在地通行語。
+      原名「麻荖漏」，日治時期改稱「新港」，1946年因與他處同名「新港」重複而改稱「成功」。
+      「成功」本身在維基百科不是地名消歧義頁（`zh.wikipedia.org/wiki/成功` 是關於「成功」概念本身的條目，
+      非同名地點列表），地名層級的同名詞風險低，但作為常見詞彙，構成一般文字檢索／語料庫層級的雜訊風險，
+      與太麻里同構（皆非維基地名消歧義頁），但風險性質不同（詞彙常見度 vs 地名重複）。
     indigenous: false
-    source: { type: entities-md-table, accessed: 2026-08-06 }
-    confidence: inferred
-    inference_chain: "ENTITIES.md 原表列出，未於本輪獨立核實，待下一輪。"
+    source: { type: wikipedia-article, url: "https://zh.wikipedia.org/wiki/成功鎮", accessed: 2026-09-03 }
+    confidence: attested
 
   - id: landmark.chenggong-fishing-port
     type: landmark
@@ -319,7 +331,7 @@ entities:
     indigenous: false
     source: { type: entities-md-table, accessed: 2026-08-06 }
     confidence: inferred
-    inference_chain: "同上。"
+    inference_chain: "ENTITIES.md 原表列出，成功鎮條目本輪查證聚焦行政/歷史/人口概況，未見漁港獨立段落核實，待下一輪。"
 
   - id: school.chenggong-commercial-marine
     type: school
@@ -327,21 +339,30 @@ entities:
     indigenous: false
     source: { type: entities-md-table, accessed: 2026-08-06 }
     confidence: inferred
-    inference_chain: "同上。"
+    inference_chain: "同上，待下一輪。"
 
 # ─────────────────────────────────────────────
 # 進度統計（B-007 / METRICS「已消歧義的高風險同名詞」欄位用）
 # ─────────────────────────────────────────────
 progress:
   total_homonym_clusters: 7
-  clusters_with_wikipedia_cross_check: 3   # 都蘭／卑南／知本
-  clusters_pending_cross_check: 4          # 長濱／大武／太麻里／成功
-  entities_total: 27
-  entities_authority_verified: 0           # CIP／THCTS 皆不可及，見上方「本輪權威檔查證狀態」
+  clusters_with_wikipedia_cross_check: 7   # 都蘭／卑南／知本（08-10）＋長濱／大武／太麻里／成功（09-03，第28輪）
+  clusters_pending_cross_check: 0
+  entities_total: 30                       # 09-03 更正：08-10 版本標示 27，但實際 entries 逐筆點算為 30，此前的「27」是統計誤差，非本輪新增條目
+  entities_authority_verified: 0           # CIP／THCTS 未於本輪重測，見 BACKLOG B-007 待辦：查 data.cip.gov.tw 是否為 dataset 7094 後繼來源
   entities_indigenous_flagged: 6
   new_findings_not_in_original_entities_md:
     - "都蘭鄉（歷史行政區，東河鄉舊名）"
     - "都蘭庄（日治時期行政區）"
+    - "大武鄉與中國河南省商水縣、青海省瑪沁縣的同名鄉鎮構成跨國同名詞（P1，09-03）"
+    - "成功鎮「麻荖漏→新港→成功」的三段更名史，1946年改名成功是為避免與他處「新港」重複，非因「成功」本身重複（09-03）"
   discrepancies_flagged_not_resolved:
-    - "知本溫泉行政區歸屬（卑南鄉 vs 台東市知本里）——來源摘要矛盾，未寫入定論"
     - "卑南遺址／卑南溪／卑南社未出現在「卑南」條目的消歧義提示中（ENTITIES.md 原表列了，維基未連結，不代表不存在，待獨立核實）"
+  discrepancies_resolved_this_round:
+    - "09-03（第28輪）：知本溫泉行政區歸屬——08-10 記為 disputed，本輪直接查原文確認非摘要層誤讀，是狹義（卑南鄉溫泉村）與廣義（跨台東市／卑南鄉知本地區）兩種空間尺度並存，已改列 attested，見該筆 note"
+  cluster_structure_finding_2026-09-03: |
+    七組同名詞中，都蘭／卑南／知本／長濱／大武五組在維基百科上確實是消歧義頁或需要 hatnote 澄清的重定向頁，
+    太麻里／成功兩組則直接對應單一條目（非消歧義頁）——顯示「同名詞風險」在這七組內部並不均質，
+    後兩組的主要風險不是「維基百科內部有多個同名條目」，而是行政區更名史本身的複雜度（成功鎮三段式更名）
+    或詞彙常見度（「成功」為常用詞）。此結構性差異先前未被 ENTITIES.md §2.1 的表列方式呈現，
+    下一輪若擴充 ENTITIES.md 可考慮補記。
