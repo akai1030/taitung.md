@@ -75,9 +75,18 @@ export interface ArticleFrontmatter {
   // v2 fields
   source_type?: string[];
   ai_generated?: boolean;
+  /** @deprecated 拆成 ai_in_methods 與 ai_in_acknowledgment（ICMJE 2024 分位置揭露），見 HARD-RULES H17 */
   ai_assisted?: string[];
+  ai_in_methods?: string[];
+  ai_in_acknowledgment?: string[];
   status?: ContentStatus;
   last_verified?: string;
+  as_of?: string;
+  spatial_level?: "county" | "township" | "village" | "settlement";
+  indigenous?: boolean;
+  tk_notice?: string;
+  tk_label?: string;
+  tk_label_by?: string;
 }
 
 export interface Article {
