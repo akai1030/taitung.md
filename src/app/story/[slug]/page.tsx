@@ -79,6 +79,7 @@ export default function StoryPage({ params }: { params: { slug: string } }) {
     "field-note": "田野筆記",
     "youth-action": "青年行動",
     visitor: "旅人觀察",
+    media: "機構媒體報導",
   };
 
   // Related articles
@@ -286,7 +287,18 @@ export default function StoryPage({ params }: { params: { slug: string } }) {
                 </ul>
               </div>
             )}
-            {frontmatter.ai_assisted && frontmatter.ai_assisted.length > 0 && (
+            {frontmatter.ai_in_methods && frontmatter.ai_in_methods.length > 0 && (
+              <p className="text-stone">
+                AI 於研究方法中的角色：{frontmatter.ai_in_methods.join("、")}
+              </p>
+            )}
+            {frontmatter.ai_in_acknowledgment && frontmatter.ai_in_acknowledgment.length > 0 && (
+              <p className="text-stone">
+                AI 於寫作協助中的角色：{frontmatter.ai_in_acknowledgment.join("、")}
+              </p>
+            )}
+            {!frontmatter.ai_in_methods && !frontmatter.ai_in_acknowledgment &&
+              frontmatter.ai_assisted && frontmatter.ai_assisted.length > 0 && (
               <p className="text-stone">
                 AI 輔助：{frontmatter.ai_assisted.join("、")}
               </p>

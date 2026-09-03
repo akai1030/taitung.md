@@ -8,6 +8,7 @@ const voiceColors: Record<string, string> = {
   "field-note": "#3A6B42",
   "youth-action": "#5BAD6F",
   visitor: "#4A90B8",
+  media: "#8B6F47",
 };
 
 const voiceLabels: Record<string, string> = {
@@ -16,6 +17,7 @@ const voiceLabels: Record<string, string> = {
   "field-note": "田野",
   "youth-action": "青年",
   visitor: "旅人",
+  media: "媒體",
 };
 
 interface StoryCardProps {

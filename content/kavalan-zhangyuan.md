@@ -1,9 +1,9 @@
 ---
 title: "台東噶瑪蘭族：樟原部落的當代聲音"
 slug: kavalan-zhangyuan
-layer: [people, community]
+layer: [people, living]
 township: 長濱鄉
-coordinates: [23.233, 121.418]
+coordinates: [23.398, 121.476]
 locale: zh-tw
 voices:
   - type: media

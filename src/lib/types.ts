@@ -17,7 +17,8 @@ export type VoiceType =
   | "oral-history"
   | "field-note"
   | "youth-action"
-  | "visitor";
+  | "visitor"
+  | "media";
 
 export type Season = "spring" | "summer" | "autumn" | "winter";
 
@@ -75,7 +76,9 @@ export interface ArticleFrontmatter {
   // v2 fields
   source_type?: string[];
   ai_generated?: boolean;
-  ai_assisted?: string[];
+  ai_assisted?: string[]; // 已淘汰（v1.0），僅為舊內容保留渲染相容
+  ai_in_methods?: string[];
+  ai_in_acknowledgment?: string[];
   status?: ContentStatus;
   last_verified?: string;
 }
