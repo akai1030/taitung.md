@@ -55,6 +55,23 @@ GRB（Angular SPA，無公開 API）與 NDLTD（需 session）皆無法簡單 HT
 
 **2026-08-27 第三次驗證（見 JOURNAL 2026-08-27 F79）**：`nchdb.boch.gov.tw`（國家文化資產網）個案詳細頁同樣是前端 SPA（Next.js）空殼，WebFetch／curl 皆讀不到實際資料，與 GRB（Angular SPA）同構。但文化資產局在 `data.boch.gov.tw` 提供官方批次開放資料 JSON（data.gov.tw dataset 6965，OGDL-1.0，1788筆全國歷史建築案卷），下載後可直接解析取得目標案卷完整欄位。同一教訓在第三個網域（GRB → NDLTD → 文化資產局）成立：遇到政府 SPA 查詢介面打不開，第一直覺應是找官方批次開放資料，不是放棄或改用 headless browser。
 
+### B-030 — `voices.type: institutional` 不在 `VoiceType` 定義裡，已影響一篇已上線內容　【2026-09-03 發現，見 PR #15 Codex review】
+**軸**：跨軸（迴圈自身工具）｜**來源**：`content/dulan-traditional-territory.md` PR review
+
+與 B-029（同日、另一輪次發現）同一類病灶的第二個獨立案例——這次是 Codex 在 PR #15 抓到的
+`voices.type` 值與 `VoiceType` 型別不符，B-029 是 PR #13 抓到的 `ArticleSource` 缺欄位宣告。
+兩者共同指向 B-029 §「未做」段落已經點出的系統性問題：`audit-content.ts` 通過 ≠ 前端真的把
+欄位渲染出來，值得系統性核對一次，而不是繼續被動等下一個外部 review 逐一發現。
+
+`src/lib/types.ts` 的 `VoiceType` 只定義了 `academic`／`oral-history`／`field-note`／`youth-action`／`visitor` 五種，不含 `institutional`。但至少三篇內容的 frontmatter 用了 `voices: institutional`：`content/luye-balloon-festival.md`（**已合併到 main，目前線上就是壞的**）、`content/pacefongan.md`（PR #9，仍待審）、以及本輪新增的 `content/dulan-traditional-territory.md`（已在 PR #15 修正為 `academic`）。
+
+實際影響：`VoiceBlock.tsx` 的 `voiceConfig[type] || voiceConfig.academic` 會 fallback，但 `StoryCard` 沒有對應 fallback，會直接顯示未轉換的英文原始值、圓點無顏色。`audit-content.ts` 目前不檢查 `voices.type` 是否落在 `VoiceType` 列舉內，所以這類錯誤完全沒被稽核腳本攔到，是規則體系「只檢查 H1-H21 明文列出的項目、不檢查前端型別是否吻合」的又一個具體案例（同類病灶見 B-014／B-017／B-019）。
+
+**待辦**：
+1. 稽核腳本應新增一條檢查：`voices[].type` 必須是 `VoiceType` 列舉的合法值之一（讀 `src/lib/types.ts` 或維護一份同步的詞彙表）。
+2. `content/luye-balloon-festival.md`（main 上已上線）需要修正——這是本項優先權最高的部分，因為線上內容目前渲染有問題，且該檔屬非 T3、依 CHARTER §3 可直接 commit 修正，不必開 PR。
+3. `content/pacefongan.md`（PR #9，T3）待該 PR 合併前一併修正，或在 PR 上留言提醒。
+
 ### B-028 — 稽核腳本 H4 死連結誤判：HEAD 遭反爬蟲擋下時未重試 GET　【2026-08-28 發現並修正，見 JOURNAL 2026-08-28 F81】
 **軸**：跨軸（迴圈自身工具）｜**來源**：`content/taitung-engine-house.md` 補完過程
 
