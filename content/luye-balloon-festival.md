@@ -6,7 +6,7 @@ township: 鹿野鄉
 coordinates: [22.9700, 121.1469]
 locale: zh-tw
 voices:
-  - type: institutional
+  - type: academic
 tags: [鹿野高台, 熱氣球, 觀光節慶, 縱谷]
 season: summer
 related: []

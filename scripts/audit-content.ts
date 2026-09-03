@@ -53,6 +53,11 @@ const add = (f: Finding) => findings.push(f);
 const AI_METHODS_VOCAB = ["來源蒐集", "連結查證", "結構整理", "實體比對", "資料格式轉換"];
 const AI_ACK_VOCAB = ["格式轉換", "翻譯初稿", "摘要", "程式碼"];
 
+/** E11/B-030 —— 必須與 src/lib/types.ts 的 VoiceType 手動同步。
+ *  不合法的值會讓 VoiceBlock.tsx fallback 成 academic 樣式、StoryCard.tsx
+ *  直接顯示未翻譯的原始字串——這類錯誤 audit 過去完全沒攔到（見 ops/BACKLOG.md B-030）。 */
+const VALID_VOICE_TYPES = ["academic", "oral-history", "field-note", "youth-action", "visitor", "media"];
+
 /** H9 —— 台東七族 + 常見族語/部落詞。命中即須 indigenous: true */
 const INDIGENOUS_TERMS = [
   "阿美", "排灣", "布農", "卑南", "魯凱", "達悟", "雅美", "噶瑪蘭",
@@ -406,6 +411,15 @@ async function auditArticle(file: string) {
       message: "voices 含 field-note 但無 fieldwork 紀錄——沒有人真的去過那個地方",
       fix: "補上 fieldwork（含日期、地點、記錄者），或移除 field-note 聲道",
     });
+  }
+  for (const vt of vtypes) {
+    if (vt && !VALID_VOICE_TYPES.includes(vt)) {
+      add({
+        rule: "B-030", severity: "FAIL", file: rel,
+        message: `voices.type「${vt}」不在支援的類型清單內（${VALID_VOICE_TYPES.join("/")}）`,
+        fix: "改用既有支援的類型，或在 src/lib/types.ts 的 VoiceType、VoiceBlock.tsx 的 voiceConfig、StoryCard.tsx 的 voiceColors/voiceLabels 三處一併新增這個值，並同步更新這裡的 VALID_VOICE_TYPES",
+      });
+    }
   }
 
   // ── H4 連結存在性（選用）

@@ -55,6 +55,36 @@ GRB（Angular SPA，無公開 API）與 NDLTD（需 session）皆無法簡單 HT
 
 **2026-08-27 第三次驗證（見 JOURNAL 2026-08-27 F79）**：`nchdb.boch.gov.tw`（國家文化資產網）個案詳細頁同樣是前端 SPA（Next.js）空殼，WebFetch／curl 皆讀不到實際資料，與 GRB（Angular SPA）同構。但文化資產局在 `data.boch.gov.tw` 提供官方批次開放資料 JSON（data.gov.tw dataset 6965，OGDL-1.0，1788筆全國歷史建築案卷），下載後可直接解析取得目標案卷完整欄位。同一教訓在第三個網域（GRB → NDLTD → 文化資產局）成立：遇到政府 SPA 查詢介面打不開，第一直覺應是找官方批次開放資料，不是放棄或改用 headless browser。
 
+### B-030 — `voices.type: institutional` 不在 `VoiceType` 定義裡，已影響一篇已上線內容　【2026-09-03 發現，見 PR #15 Codex review】
+**軸**：跨軸（迴圈自身工具）｜**來源**：`content/dulan-traditional-territory.md` PR review
+
+與 B-029（同日、另一輪次發現）同一類病灶的第二個獨立案例——這次是 Codex 在 PR #15 抓到的
+`voices.type` 值與 `VoiceType` 型別不符，B-029 是 PR #13 抓到的 `ArticleSource` 缺欄位宣告。
+兩者共同指向 B-029 §「未做」段落已經點出的系統性問題：`audit-content.ts` 通過 ≠ 前端真的把
+欄位渲染出來，值得系統性核對一次，而不是繼續被動等下一個外部 review 逐一發現。
+
+`src/lib/types.ts` 的 `VoiceType` 只定義了 `academic`／`oral-history`／`field-note`／`youth-action`／`visitor` 五種，不含 `institutional`。但至少三篇內容的 frontmatter 用了 `voices: institutional`：`content/luye-balloon-festival.md`（**已合併到 main，目前線上就是壞的**）、`content/pacefongan.md`（PR #9，仍待審）、以及本輪新增的 `content/dulan-traditional-territory.md`（已在 PR #15 修正為 `academic`）。
+
+實際影響：`VoiceBlock.tsx` 的 `voiceConfig[type] || voiceConfig.academic` 會 fallback，但 `StoryCard` 沒有對應 fallback，會直接顯示未轉換的英文原始值、圓點無顏色。`audit-content.ts` 目前不檢查 `voices.type` 是否落在 `VoiceType` 列舉內，所以這類錯誤完全沒被稽核腳本攔到，是規則體系「只檢查 H1-H21 明文列出的項目、不檢查前端型別是否吻合」的又一個具體案例（同類病灶見 B-014／B-017／B-019）。
+
+**待辦**：
+1. ~~稽核腳本應新增一條檢查：`voices[].type` 必須是 `VoiceType` 列舉的合法值之一~~ **已做**
+   （見下方 2026-09-03 進度）。
+2. ~~`content/luye-balloon-festival.md`（main 上已上線）需要修正~~ **已做**（commit `ad6acfb`，
+   改為 `academic`，本輪核對確認）。
+3. ~~`content/pacefongan.md`（PR #9，T3）待該 PR 合併前一併修正~~ **已做**（該 PR 分支本輪
+   核對已是 `academic`，非本 session 所改，可能是 PR 作者自行修正或另一輪次處理，未查證是誰做的）。
+
+**2026-09-03 進度（第3輪，PR #8 事件回應期間順手處理，見 JOURNAL 2026-09-03-3）**：核對後
+發現三個待辦其實都已被解決（`luye-balloon-festival.md`／`pacefongan.md` 皆已改用
+`academic`，不再是 `institutional`），只剩待辦 1（稽核腳本本身）真的還沒做。已在
+`scripts/audit-content.ts` 新增 `VALID_VOICE_TYPES` 常數與對應檢查（新規則代號沿用
+`B-030`，非正式 HARD-RULE 編號，只是稽核輸出裡標明來源），任何 `voices[].type` 不在
+`academic`／`oral-history`／`field-note`／`youth-action`／`visitor`／`media` 六個值之內
+會直接 FAIL，而不是靜默 fallback 成學術樣式。`media` 是本輪（PR #8）新增的第六個合法值
+（見 B-029 進度）。**本項結案**——B-029 仍留著「系統性核對其餘欄位」的待辦，B-030 這個
+具體案例已無殘留問題。
+
 ### B-028 — 稽核腳本 H4 死連結誤判：HEAD 遭反爬蟲擋下時未重試 GET　【2026-08-28 發現並修正，見 JOURNAL 2026-08-28 F81】
 **軸**：跨軸（迴圈自身工具）｜**來源**：`content/taitung-engine-house.md` 補完過程
 
@@ -84,6 +114,18 @@ Codex 在 PR #13 標記：`attribution_statement` 寫進 frontmatter 不代表�
 欄位名。這代表「`audit-content.ts` 通過」與「前端真的把這些欄位渲染/使用給讀者看」之間可能
 還有其他未被發現的落差，值得系統性核對一次每個 HARD-RULE 涉及的欄位是否真的走到頁面上，
 而不是被動等下一個外部 review 發現。
+
+**2026-09-03 第3輪進度（見 JOURNAL 2026-09-03-3）**：`ai_in_methods`／`ai_in_acknowledgment`
+兩欄已修——同一天，Codex 在 PR #8（`kavalan-zhangyuan.md`）上獨立發現同一類問題（這次是
+H17／`ETHICS.md` E19，而非 PR #13 那次的 H15），查證後確認 `page.tsx` 只讀取已淘汰的
+`ai_assisted`，兩個新欄位從未被消費。已在 `types.ts` 補上型別宣告、`page.tsx` 補上渲染
+邏輯（保留 `ai_assisted` 渲染作為舊格式 fallback），修正留在 PR #8 分支，隨該 PR 一併
+合併，理由見 JOURNAL 2026-09-03-3 §3。**仍未做**：`indigenous`、`tk_notice`、`as_of`、
+`spatial_level` 四個欄位的型別宣告與渲染核對，留給下一輪。
+
+（**自我更正**：本項原本一度被誤寫成獨立的「B-030」條目——第3輪一開始沒注意到 B-029
+早就是同一個項目，重複建了一個新編號。發現後已把內容併回這裡，刪除重複的 B-030 區塊，
+不留兩個編號指向同一件事。）
 
 ### B-022 — GRB／NDLTD 開放資料批次匯出的系統性掃描　【結案 2026-08-19，見 JOURNAL 2026-08-11、08-17、08-18、08-19】
 **軸**：A｜**來源**：B-001 2026-08-11 轉折
