@@ -76,6 +76,8 @@ export interface ArticleFrontmatter {
   source_type?: string[];
   ai_generated?: boolean;
   ai_assisted?: string[];
+  ai_in_methods?: string[];
+  ai_in_acknowledgment?: string[];
   status?: ContentStatus;
   last_verified?: string;
 }

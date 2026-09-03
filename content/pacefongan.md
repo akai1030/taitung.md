@@ -1,12 +1,11 @@
 ---
-title: "都歷部落 Pacefongan：一個地名與一場正在進行的正名"
+title: "都歷部落 Pacefongan：一個地名與一段正名之聲"
 slug: pacefongan
 layer: [land, people]
 township: 成功鎮
 coordinates: [23.0210156912312, 121.334136868674]
 locale: zh-tw
 voices:
-  - type: institutional
   - type: academic
 tags: [都歷部落, 阿美族, 成功鎮, 傳統領域, 地名]
 season: all
@@ -35,10 +34,10 @@ spatial_level: settlement
 nttu: true
 author: ""
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-09-03
 ---
 
-台11線124.5K，成功鎮都歷部落外的一片黑沙灘，官方觀光網頁上的名字是「天空之鏡」。這篇文章想寫的是它另一個名字——Pacefongan，以及這個名字這幾年發生的事。
+台11線124.5K，成功鎮都歷部落外的一片黑沙灘，官方觀光網頁上寫的正式名稱是「Pacefongan 巴茲風岸」。這幾年它多了一個外界取的別稱——「天空之鏡」，連官方觀光網頁自己都收錄了這個別稱的由來：「由於這裡能拍出鏡面倒影般的夢幻美照⋯⋯故有天空之鏡的美名。」（來源：東部海岸國家風景區管理處，更新日期2025-05-06，2026-08-24存取）這篇文章想寫的是，這個後來才有的別稱，怎麼影響了原本這個名字。
 
 ## 「船下水的地方」
 
