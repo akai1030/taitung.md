@@ -141,6 +141,15 @@ H17／`ETHICS.md` E19，而非 PR #13 那次的 H15），查證後確認 `page.t
 早就是同一個項目，重複建了一個新編號。發現後已把內容併回這裡，刪除重複的 B-030 區塊，
 不留兩個編號指向同一件事。）
 
+### B-032 — `ArticleFrontmatter.township`／`coordinates` 是單一純量欄位，無法正確表示橫跨多鄉鎮的文章　【2026-09-05 發現，見 PR #18 Codex review】
+**軸**：跨軸（迴圈自身工具）｜**來源**：`content/zhiben-site.md`（PR #18）Codex review
+
+`src/lib/types.ts` 的 `ArticleFrontmatter.township` 與 `coordinates` 皆為單一純量值，`src/app/story/[slug]/page.tsx` 直接把 `township` 塞進 schema.org 的 `spatialCoverage`（`臺東縣${township}`），`getMapPoints()` 也只用單一座標標一個地圖點。這對「整篇文章談的就是一個地方」的內容沒問題，但 `zhiben-site.md` 的核心主題正是「知本」底下七個實體橫跨臺東市／卑南鄉兩個鄉鎮——`township: 臺東市` 讓 schema.org metadata 與地圖點都只呈現臺東市，讀者與搜尋引擎因此拿到不完整的地理範圍資訊，這是與 B-029／B-030 同一類「`audit-content.ts` 通過≠前端正確呈現」的病灶，差別在這次是欄位本身的資料模型限制，不是漏寫欄位。
+
+本輪未在這篇內容 PR 裡動 `src/lib/types.ts`／`page.tsx`／`content.ts`——這是跨檔案的 schema 變更（`township` 改成陣列或新增 `townships[]` 欄位、`spatialCoverage` 改成多地點結構、地圖改成可能顯示多個點或一個涵蓋範圍），影響所有既有文章的既有渲染邏輯，風險與範圍都超出單篇內容 PR，且需要決定新舊 schema 如何相容（既有文章的 `township` 皆為單一字串）。已在 PR #18 該則 review comment 下回覆說明，未標記為已解決。
+
+**待辦**：下一輪或有意願的 session 評估是否要幫 `ArticleFrontmatter` 新增可選的 `townships?: string[]`（保留舊的 `township` 供單一地點文章使用，向後相容），並讓 `page.tsx`／`getMapPoints()` 在存在 `townships` 時改用多地點渲染。這是程式碼變更，非內容變更，依 CHARTER §3「修 build error」的精神屬迴圈可自主範疇，但因為改動面較廣，建議先在一個不影響既有文章的分支上驗證 `npm run build` 與既有 9 篇內容渲染皆正常，再決定是否直接進 main。
+
 ### B-022 — GRB／NDLTD 開放資料批次匯出的系統性掃描　【結案 2026-08-19，見 JOURNAL 2026-08-11、08-17、08-18、08-19】
 **軸**：A｜**來源**：B-001 2026-08-11 轉折
 
