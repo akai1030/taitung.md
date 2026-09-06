@@ -150,6 +150,17 @@ H17／`ETHICS.md` E19，而非 PR #13 那次的 H15），查證後確認 `page.t
 
 **待辦**：下一輪或有意願的 session 評估是否要幫 `ArticleFrontmatter` 新增可選的 `townships?: string[]`（保留舊的 `township` 供單一地點文章使用，向後相容），並讓 `page.tsx`／`getMapPoints()` 在存在 `townships` 時改用多地點渲染。這是程式碼變更，非內容變更，依 CHARTER §3「修 build error」的精神屬迴圈可自主範疇，但因為改動面較廣，建議先在一個不影響既有文章的分支上驗證 `npm run build` 與既有 9 篇內容渲染皆正常，再決定是否直接進 main。
 
+### B-033 — `src/app/story/[slug]/page.tsx` 不解析 Markdown，內文若用 `**粗體**`／條列清單會顯示成字面符號　【2026-09-06 發現，見 PR #19 Codex review】
+**軸**：跨軸（迴圈自身工具）｜**來源**：`content/changbin-site.md`（PR #19）Codex review
+
+`page.tsx` 目前的內文渲染邏輯只是把文章依 `\n## ` 切段、再逐行包進 `<p>`（見該檔案 206-236 行），完全沒有呼叫任何 Markdown／MDX 解析器。`## 標題` 這個語法能正常運作是因為切段邏輯本身就是找 `\n## `，但除此之外的 Markdown 語法（`**粗體**`、`- 條列清單`、連結等）都不會被解析，會直接把星號、連字號等符號原樣顯示給讀者看。
+
+本輪（`changbin-site.md`）原文用了 `**粗體**` 標記關鍵地名／文化名稱，以及一個三點式條列清單呈現三種學界主張，被 Codex review 抓到並在同一輪修正為純散文寫法（移除全部粗體標記、條列清單改寫成三個獨立句子）。核對後確認**這不是本篇獨有的疏失**——`content/zhiben-site.md`（PR #18）與 `content/beinan-site.md`（PR #17）的正文也使用了 `**粗體**` 標記（例如「知本溫泉」「卡大地布部落」等專有名詞），兩篇都還沒被外部 review 抓到，代表這兩篇文章合併上線後，讀者看到的也會是帶著字面星號的文字，非本站原意。
+
+**待辦**：
+1. 下一輪或有意願的 session 評估兩個方向：(a) 幫 `page.tsx` 加一個輕量 Markdown 解析（例如 `remark`／`marked`），讓既有與未來文章都能正常使用粗體與清單；(b) 維持現狀「內文只能用純散文與 `## ` 標題」的限制，回頭把 `zhiben-site.md`／`beinan-site.md` 兩篇 PR 分支裡的 `**粗體**` 標記也清掉，並在 `ops/METHOD.md` 或寫作規範裡明確記下這個限制，避免未來每篇文章都重複踩到同一個坑。
+2. 若選 (a)，需同時確認 `articleJsonLd` 的 `description`／`getExcerpt` 等衍生欄位在解析 Markdown 後是否需要跟著調整（避免摘要裡混進解析後的 HTML 標籤或殘留符號）。
+
 ### B-022 — GRB／NDLTD 開放資料批次匯出的系統性掃描　【結案 2026-08-19，見 JOURNAL 2026-08-11、08-17、08-18、08-19】
 **軸**：A｜**來源**：B-001 2026-08-11 轉折
 
