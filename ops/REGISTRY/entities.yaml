@@ -302,11 +302,24 @@ entities:
     type: settlement
     names: { zh: "大武部落" }
     indigenous: true
-    tk_notice: "族群歸屬待核實（本輪查證未直接確認），下一輪查證時應一併確認並補上 tk_notice 細節。"
+    tk_notice: "族群歸屬未經確認——2026-09-07 查證發現本條目可能與行政區「大武村」被混為一談，見 inference_chain。下一輪若要標記為確認的原住民部落，須先解決這個混淆，不能沿用本欄舊有『族群歸屬待核實』的措辭直接補資料。"
     disambiguation_status: unresolved
     source: { type: entities-md-table, accessed: 2026-08-06, license: internal }
     confidence: inferred
-    inference_chain: "ENTITIES.md 原表列出但未註明族群歸屬，本輪查大武鄉消歧義頁未涵蓋聚落層級條目，待下一輪直接查證。"
+    inference_chain: |
+      ENTITIES.md 原表列出但未註明族群歸屬，2026-08-10 骨架建立時未查證即預設為待查的原住民聚落。
+      2026-09-07（見 JOURNAL 2026-09-07 F121、content/dawu-site.md）直接查證維基百科〈大武村
+      (臺東縣)〉條目全文，發現大武鄉底下唯一名為「大武」的行政村，記載的建村史是「約一百年前由
+      恆春車城一帶居民」遷入建立的漁業聚落，條目全文未記載其為原住民部落或提供族群比例——這與
+      本條目「大武部落＝待查的原住民聚落」的預設不吻合。兩種可能都還沒被排除：(a) 「大武部落」
+      本身就是誤植，實際指的就是這個非原住民部落身分記載的大武村，本條目應合併或改記為
+      `indigenous: unresolved`；(b) 「大武部落」是大武鄉境內另一個獨立於行政村「大武村」之外的
+      原住民聚落（例如某個部落內的分支或舊部落名），本條目與大武村是兩個不同實體，只是恰好同名。
+      本輪未查到任何獨立來源證實 (b)，也未能排除 (a)，維持 `inferred`，`disambiguation_status`
+      維持 `unresolved`。下一輪查證方向：查是否存在獨立於「大武村」之外、確實名為「大武部落」的
+      原住民聚落條目或官方部落名冊記錄（例如原民會核定部落名冊），若查無獨立記載，應考慮把本條目
+      標記為與 settlement.dawu-village（若日後新增）合併，或直接註記「查無獨立於大武村的『大武
+      部落』記載，此名稱可能是對大武村的誤稱」。
 
   - id: admin.taimali-township
     type: administrative-division
