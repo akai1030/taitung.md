@@ -356,11 +356,17 @@ entities:
     note: |
       臺東縣東北沿海鎮，面積約144平方公里，全臺第四大鎮，人口以阿美族為主、阿美語為在地通行語。
       原名「麻荖漏」，日治時期改稱「新港」，1946年因與他處同名「新港」重複而改稱「成功」。
-      「成功」本身在維基百科不是地名消歧義頁（`zh.wikipedia.org/wiki/成功` 是關於「成功」概念本身的條目，
-      非同名地點列表），地名層級的同名詞風險低，但作為常見詞彙，構成一般文字檢索／語料庫層級的雜訊風險，
-      與太麻里同構（皆非維基地名消歧義頁），但風險性質不同（詞彙常見度 vs 地名重複）。
+      【2026-09-09 更正】本欄位09-03原記錄「成功地名層級同名詞風險低（維基百科無消歧義頁）」——
+      本輪查證發現此判斷有誤：`zh.wikipedia.org/wiki/成功_(消歧义)` 這個獨立消歧義頁確實存在，
+      列出人名／地名（含成功鎮）／教育機構（含多所台灣與中國大陸同名學校）／醫療機構／日本古代
+      制度／道路名稱／訓練中心／車站／軍艦等至少9類同名條目。09-03記錄查詢的可能是未加消歧義
+      後綴的 `zh.wikipedia.org/wiki/成功`（談「成功」概念本身），與加了`(消歧義)`後綴的獨立頁面
+      是不同網址——本輪未能確認是查詢遺漏還是頁面在09-03之後才建立，但無論成因，「風險低」的
+      結論本身不成立，教育機構一類橫跨多所同名學校，跨校名檢索雜訊風險比原記錄更高。詳見
+      `content/chenggong-site.md`（PR，2026-09-09）與 JOURNAL 2026-09-09 F127。
     indigenous: false
     source: { type: wikipedia-article, url: "https://zh.wikipedia.org/wiki/成功鎮", accessed: 2026-09-03, license: cc-by-sa-4.0 }
+    correction_source: { type: wikipedia-article, url: "https://zh.wikipedia.org/wiki/成功_(消歧义)", accessed: 2026-09-09, license: cc-by-sa-4.0, note: "確認〈成功(消歧義)〉頁面存在，更正09-03「風險低」的判斷" }
     confidence: attested
 
   - id: landmark.chenggong-fishing-port
