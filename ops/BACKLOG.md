@@ -110,7 +110,7 @@ GRB（Angular SPA，無公開 API）與 NDLTD（需 session）皆無法簡單 HT
 留給下一輪查證，避免當下下不精確的結論。此修正依 CHARTER §3「修 build error、修失效連結」
 的自主維運授權，直接 commit 到 main，不走 PR。
 
-### B-029 — 前端型別／渲染落後於 HARD-RULES 現行 frontmatter 欄位　【新增 2026-09-03，見 JOURNAL 2026-09-03-2】
+### B-029 — 前端型別／渲染落後於 HARD-RULES 現行 frontmatter 欄位　【結案 2026-09-12，見 JOURNAL 2026-09-12】
 **軸**：跨軸（迴圈自身工具）｜**來源**：PR #13 review，chatgpt-codex-connector[bot] P1 發現
 
 Codex 在 PR #13 標記：`attribution_statement` 寫進 frontmatter 不代表真的顯示在頁面上——
@@ -136,6 +136,30 @@ H17／`ETHICS.md` E19，而非 PR #13 那次的 H15），查證後確認 `page.t
 邏輯（保留 `ai_assisted` 渲染作為舊格式 fallback），修正留在 PR #8 分支，隨該 PR 一併
 合併，理由見 JOURNAL 2026-09-03-3 §3。**仍未做**：`indigenous`、`tk_notice`、`as_of`、
 `spatial_level` 四個欄位的型別宣告與渲染核對，留給下一輪。
+
+**2026-09-12 進度（結案）**：補完剩餘四個欄位的型別宣告（`src/lib/types.ts`
+`ArticleFrontmatter` 新增 `indigenous`／`tk_notice`／`tk_label`／`as_of`／`spatial_level`），
+並額外發現一個同類但先前未記錄的缺口——`VoiceType` 只有五個值，不含
+`scripts/audit-content.ts` `VALID_VOICE_TYPES` 早在 09-03（B-030）就已核可的第六個值
+`media`，導致 `VoiceBlock.tsx` 落回 `academic` 樣式、`StoryCard.tsx` 的
+`voiceColors`/`voiceLabels` 無對應項（顏色 `undefined`、標籤顯示原始英文字串
+`media`）。已補上 `media` 的型別值與兩個元件的渲染設定。**這不是假設性風險**：
+待審 PR #8（`kavalan-zhangyuan.md`）frontmatter 正是 `voices: type: media`，一旦人類
+合併即會立即曝露此問題，本輪在合併前先行修正。
+
+同時補上 `indigenous: true` 內容的 `tk_notice`（Local Contexts Notice，`ETHICS.md`
+§1.4／H11）渲染區塊——修正前這個欄位**完全沒有任何消費邏輯**，H11 稽核只檢查欄位
+存在，讀者在頁面上從未看過這個標記，這與 CHARTER 的 CARE 原則（Authority to
+control）在實作層面完全脫節。目前 10 件待審 T3 PR（皆為 `indigenous: true`）一旦
+合併即會曝露這個落差，本輪同樣搶在合併前修正。
+
+範圍刻意限縮於型別宣告與其消費邏輯，未動 `content/` 本身、未動
+`scripts/audit-content.ts` 既有規則。`npx tsc --noEmit`、`npm run build` 皆通過，
+`npx tsx scripts/audit-content.ts` 結果與修改前一致（0 新 FAIL／20 baseline／
+18 WARN，`src/` 不在稽核掃描範圍）。屬非內容的程式碼修正，依 `CHARTER.md` §3
+「修 build error」精神與 B-029 前兩輪（09-03）的既有先例，直接 commit 到 main
+（commit `e25e3a4`），未走 PR。**B-029 結案**——`ArticleFrontmatter`／`VoiceType`
+與 HARD-RULES 現行欄位、`audit-content.ts` 現行合法值之間，目前已無已知落差。
 
 （**自我更正**：本項原本一度被誤寫成獨立的「B-030」條目——第3輪一開始沒注意到 B-029
 早就是同一個項目，重複建了一個新編號。發現後已把內容併回這裡，刪除重複的 B-030 區塊，
