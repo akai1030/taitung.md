@@ -17,7 +17,8 @@ export type VoiceType =
   | "oral-history"
   | "field-note"
   | "youth-action"
-  | "visitor";
+  | "visitor"
+  | "media";
 
 export type Season = "spring" | "summer" | "autumn" | "winter";
 
@@ -82,6 +83,12 @@ export interface ArticleFrontmatter {
   ai_in_acknowledgment?: string[];
   status?: ContentStatus;
   last_verified?: string;
+  // H6／H9-H12：量化陳述基準與原住民族內容標記（Local Contexts Notice/Label，見 ETHICS.md §1.4）
+  as_of?: string;
+  spatial_level?: "county" | "township" | "village" | "settlement";
+  indigenous?: boolean;
+  tk_notice?: string;
+  tk_label?: string | null;
 }
 
 export interface Article {

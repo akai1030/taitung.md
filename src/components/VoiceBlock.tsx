@@ -43,6 +43,12 @@ const voiceConfig: Record<VoiceType, {
     label: "旅人觀察",
     labelEn: "Visitor",
   },
+  media: {
+    color: "#8A6D9E",
+    bg: "#F3EFF6",
+    label: "媒體報導",
+    labelEn: "Media Report",
+  },
 };
 
 export default function VoiceBlock({ type, children, speaker, meta }: VoiceBlockProps) {
@@ -115,6 +121,29 @@ export default function VoiceBlock({ type, children, speaker, meta }: VoiceBlock
         <p className="font-accent text-[0.68rem] tracking-[0.2em] uppercase mb-4" style={{ color: config.color }}>
           {config.label}
         </p>
+        <div className="prose-taitung font-body">
+          {children}
+        </div>
+        {speaker && (
+          <p className="mt-4 font-accent text-[0.82rem]" style={{ color: config.color }}>
+            — {speaker}
+          </p>
+        )}
+      </div>
+    );
+  }
+
+  if (type === "media") {
+    return (
+      <div className="relative py-8 pl-6" style={{ borderLeft: `3px solid ${config.color}` }}>
+        <p className="font-accent text-[0.68rem] tracking-[0.2em] uppercase mb-2" style={{ color: config.color }}>
+          {config.label}
+        </p>
+        {meta && (
+          <p className="font-accent text-[0.65rem] text-smoke tracking-[0.1em] mb-4">
+            {meta}
+          </p>
+        )}
         <div className="prose-taitung font-body">
           {children}
         </div>

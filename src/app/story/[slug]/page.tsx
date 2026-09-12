@@ -195,6 +195,19 @@ export default function StoryPage({ params }: { params: { slug: string } }) {
           </div>
         </section>
 
+        {/* TK Notice — Local Contexts（ETHICS.md §1.4、H11）。indigenous:true 內容必須讓讀者看到，不能只存在 frontmatter 裡 */}
+        {frontmatter.indigenous === true && (
+          <div className="bg-[#F3EFF6] border-b border-ink/[0.06] py-4 px-8">
+            <p className="max-w-[800px] mx-auto text-[0.78rem] text-ink-soft">
+              <span className="font-semibold">Local Contexts Notice：</span>
+              {frontmatter.tk_notice === "open-to-collaborate"
+                ? "本站尚未聯繫上相關部落／族人，先行標記此內容涉及原住民族文化與權益歸屬。如您代表相關社群，歡迎與我們聯繫，共同標註或指正。"
+                : frontmatter.tk_notice || "此內容涉及原住民族文化與權益歸屬。"}
+              {frontmatter.tk_label && <> ｜ TK Label：{frontmatter.tk_label}</>}
+            </p>
+          </div>
+        )}
+
         {/* Source notice */}
         {frontmatter.sources && frontmatter.sources.length > 0 && (
           <div className="bg-cream border-b border-ink/[0.06] py-4 px-8">
