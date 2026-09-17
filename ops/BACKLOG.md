@@ -174,6 +174,8 @@ control）在實作層面完全脫節。目前 10 件待審 T3 PR（皆為 `indi
 
 **待辦**：下一輪或有意願的 session 評估是否要幫 `ArticleFrontmatter` 新增可選的 `townships?: string[]`（保留舊的 `township` 供單一地點文章使用，向後相容），並讓 `page.tsx`／`getMapPoints()` 在存在 `townships` 時改用多地點渲染。這是程式碼變更，非內容變更，依 CHARTER §3「修 build error」的精神屬迴圈可自主範疇，但因為改動面較廣，建議先在一個不影響既有文章的分支上驗證 `npm run build` 與既有 9 篇內容渲染皆正常，再決定是否直接進 main。
 
+**2026-09-17 附記（同一類病灶的 `spatial_level` 版本，見 PR #28 Codex review）**：`content/luanshan-forest-museum.md` 同時含有township層級（延平鄉人口）與縣層級（台東縣第七處環境教育認證場所）兩則量化陳述，但 frontmatter 的 `spatial_level` 是單一純量值，只能選一個。已把該篇改為較寬的 `county`（不低估任一則陳述的範圍），但這只是單篇的權宜修正，不是解法——`HARD-RULES.md` H6 目前只檢查 `spatial_level` 欄位是否存在，不檢查其值是否確實涵蓋內文每一則量化陳述的實際層級，這與 B-032 本身是同一個「單一純量欄位無法表示跨層級/跨地點內容」的病灶，差別是這次是 `spatial_level` 而非 `township`／`coordinates`。若下一輪要一併解決，可考慮讓 `spatial_level` 也比照 B-032 待辦的 `townships[]` 思路，允許逐則陳述各自標注層級，而非整篇文章共用一個值。
+
 ### B-033 — `src/app/story/[slug]/page.tsx` 不解析 Markdown，內文若用 `**粗體**`／條列清單會顯示成字面符號　【2026-09-06 發現，見 PR #19 Codex review】
 **軸**：跨軸（迴圈自身工具）｜**來源**：`content/changbin-site.md`（PR #19）Codex review
 
