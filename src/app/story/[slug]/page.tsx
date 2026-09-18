@@ -212,7 +212,7 @@ export default function StoryPage({ params }: { params: { slug: string } }) {
         {frontmatter.sources && frontmatter.sources.length > 0 && (
           <div className="bg-cream border-b border-ink/[0.06] py-4 px-8">
             <p className="max-w-[800px] mx-auto text-[0.78rem] text-smoke">
-              本文引述來自公開學術資料與田野訪談，完整來源見文末。
+              本文引述來自公開資料，完整來源見文末。
             </p>
           </div>
         )}
@@ -221,10 +221,10 @@ export default function StoryPage({ params }: { params: { slug: string } }) {
         <section className="bg-cream py-16 px-8">
           <div className="max-w-[800px] mx-auto">
             {paragraphs.map((para, i) => {
-              // Assign voice type based on available voices, cycling through them
-              const voiceType = voiceTypes.length > 0
-                ? voiceTypes[i % voiceTypes.length]
-                : "academic";
+              // 只用第一個聲道，不用 index 對聲道數取模去猜每段對應哪個聲道——
+              // frontmatter 的 voices 沒有紀錄「第幾段對應哪個聲道」，用 i % voiceTypes.length
+              // 等於幫每段內容編造一個沒有查證過的來源類型標籤（見 PR #29 Codex review）。
+              const voiceType = voiceTypes[0] || "academic";
 
               const isFirstPara = i === 0;
               const cleanPara = isFirstPara ? para : para;
