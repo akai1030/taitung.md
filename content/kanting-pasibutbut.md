@@ -3,7 +3,6 @@ title: "崁頂部落：Pasibutbut 發現地與海端鄉的布農山村"
 slug: kanting-pasibutbut
 layer: [people, land, knowledge]
 township: 海端鄉
-coordinates: [23.0533, 121.0675]
 locale: zh-tw
 voices:
   - type: academic
