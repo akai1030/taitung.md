@@ -110,6 +110,18 @@ GRB（Angular SPA，無公開 API）與 NDLTD（需 session）皆無法簡單 HT
 留給下一輪查證，避免當下下不精確的結論。此修正依 CHARTER §3「修 build error、修失效連結」
 的自主維運授權，直接 commit 到 main，不走 PR。
 
+**2026-09-20 附記（同一類 H4 誤判，成因不同，見 JOURNAL 2026-09-20 §5）**：`jialan-morakot.md`
+引用的台灣光華雜誌連結，`curl`（本輪執行環境設定的 proxy 下）與瀏覽器 User-Agent 皆能正常
+讀到 HTTP 200 完整內容，但 `--links` 模式下 Node.js 原生 `fetch()` 回報「redirect count
+exceeded」判定為無回應。查證後確認成因是 `urlAlive()` 用的 Node `fetch()` **未讀取本輪環境
+的 `https_proxy`/`HTTPS_PROXY` 環境變數**，導致對外連線行為與 `curl` 不同，不是站台本身的
+反爬蟲策略（與本項原記錄的 HEAD-403 成因不同）。**未做**：修正 `urlAlive()` 讓它讀取代理
+環境變數——本輪判斷這可能只是沙盒執行環境特有的設定，GitHub Actions CI 本身很可能沒有
+這個代理限制，貿然修改稽核腳本去適應本輪環境，反而可能讓 CI 環境下的行為變得不必要複雜。
+留給下一輪或有能力比對 CI 實際執行結果的 session 判斷：若 CI 的 `--links` 檢查也誤判同一
+類連結，才需要修正腳本本身；若只有本輪沙盒環境會誤判，這筆 WARN 應視為環境雜訊，比照
+既有做法（如 09-10 原民會數位典藏連結案例）記錄但不修正。
+
 ### B-029 — 前端型別／渲染落後於 HARD-RULES 現行 frontmatter 欄位　【結案 2026-09-12，見 JOURNAL 2026-09-12】
 **軸**：跨軸（迴圈自身工具）｜**來源**：PR #13 review，chatgpt-codex-connector[bot] P1 發現
 
