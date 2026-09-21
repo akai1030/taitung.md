@@ -59,7 +59,7 @@
 
 | 鄉鎮市 | 已涵蓋內容（主體） | 對應族群（主體） | 提及未成篇 |
 |---|---|---|---|
-| **臺東市** | `amis.md`(main,seed)／`gongdong-chapel.md`(main)／`taitung-engine-house.md`(main)／`return-home.md`(main)／`taitung-tianhou-temple.md`(PR#13)／`taitung-chinese-association-hall.md`(PR#14)／`beinan-site.md`(PR#17)／`zhiben-site.md`(PR#18) ＝ **8 篇，全縣最多** | 阿美族／卑南族 | — |
+| **臺東市** | `amis.md`(main,seed)／`gongdong-chapel.md`(main)／`taitung-engine-house.md`(main)／`return-home.md`(main)／`taitung-tianhou-temple.md`(PR#13)／`taitung-chinese-association-hall.md`(PR#14)／`beinan-site.md`(PR#17)／`zhiben-site.md`(PR#18)／`nanwang-village.md`（新開 PR，09-21，南王部落陳建年／紀曉君第一人稱材料）＝ **9 篇，全縣最多** | 阿美族／卑南族 | — |
 | **東河鄉** | `surfing.md`(main,seed)／`dulan-traditional-territory.md`(PR#15)／`dulan-site.md`(PR#21) ＝ 3 篇 | 阿美族 | — |
 | **長濱鄉** | `kavalan-zhangyuan.md`(PR#8)／`changbin-site.md`(PR#19) ＝ 2 篇 | 噶瑪蘭族／史前人群（族群歸屬`disputed`，見 F117） | — |
 | **成功鎮** | `pacefongan.md`(PR#9)／`chenggong-site.md`(PR#22) ＝ 2 篇 | 阿美族 | — |
@@ -80,6 +80,8 @@
 
 **2026-09-20 更新**：金峰鄉由「0 篇」改為「1 篇」（`jialan-morakot.md`，新開 PR，嘉蘭村莫拉克風災敘事），至此 16 鄉鎮市理論上皆有至少 1 篇主體內容（含待審 PR）。**但這個「填滿」需要但書**：金峰鄉境內僅嘉蘭村一村有內容，其餘四村（新興、正興、賓茂、歷坵）與達仁鄉境內排灣族部落仍完全未觸及，讀者不應把「鄉層級格子填上」誤讀為「鄉境內系統性記載」，見 JOURNAL 2026-09-20 F157/F158。
 
+**2026-09-21 更新**：臺東市新增 `nanwang-village.md`（新開 PR）——本輪刻意不再填新的鄉鎮／族群零格（16 鄉鎮市已全數至少 1 篇），改回頭處理 §六指出的更根本問題：卑南族既有兩篇（`beinan-site.md`／`zhiben-site.md`）皆考古／地名層次，沒有一篇卑南族人自述當代生活。本篇用南王部落陳建年、紀曉君（2000 年台灣光華雜誌報導）的具名第一人稱引言填補這個 Tier 缺口，是本矩陣第一篇卑南族「族人自述」材料。**但材料年代（2000 年，26 年前）本身是需要老實承認的限制，不宜視為「當代」第一人稱記載已解決**，見該篇「誠實的侷限」與 JOURNAL 2026-09-21。
+
 ---
 
 ## 四、族群覆蓋分析
@@ -87,7 +89,7 @@
 | 族群 | 已涵蓋內容（主體） | 狀態 |
 |---|---|---|
 | **阿美族** | `amis.md`／`surfing.md`／`pacefongan.md`／`dulan-traditional-territory.md`／`dulan-site.md`／`chenggong-site.md`（源流部分）＝ **6 篇** | 七族中涵蓋最多，與 `docs/CLAUDE.md`「台東最大原住民族群」的分布一致 |
-| **卑南族** | `beinan-site.md`／`zhiben-site.md`（皆為考古/地名消歧義主題）／`taimali-site.md`（次要）／`beinan-katratripulr-voices.md`(PR#27，卡大地布部落巴拉冠當代傳承與傳統領域碳權爭議) ＝ **3-4 篇** | 09-16 新增的 `beinan-katratripulr-voices.md` 是第一篇以卑南族**當代**生活與當代爭議（而非遺址／地名層次）為主體的內容，部分解除本表先前「沒有一篇是卑南族當代生活」的判定，但本輪未逐篇核對其是否含族人第一人稱引述，留給下一輪確認是否也解除「第一人稱」子缺口 |
+| **卑南族** | `beinan-site.md`／`zhiben-site.md`（皆為考古/地名消歧義主題）／`taimali-site.md`（次要）／`beinan-katratripulr-voices.md`(PR#27，卡大地布部落巴拉冠當代傳承與傳統領域碳權爭議)／`nanwang-village.md`（新開 PR，09-21，南王部落陳建年／紀曉君第一人稱材料）＝ **4-5 篇** | 09-16 新增的 `beinan-katratripulr-voices.md` 是第一篇以卑南族**當代**生活與當代爭議（而非遺址／地名層次）為主體的內容；09-21 新增的 `nanwang-village.md` 進一步是第一篇含**具名族人第一人稱直接引言**的卑南族內容（陳建年、紀曉君等，來源：2000 年台灣光華雜誌報導），部分解除本表先前「沒有一篇是卑南族人自述當代生活」的判定。**但書**：材料年代是 2000 年（26 年前），不是真正意義的「當代」記載，且主題集中在南王部落音樂世家，卑南族其餘聚落（下賓朗、知本、建和、寶桑、利嘉、初鹿等）仍無族人自述材料，見該篇「誠實的侷限」 |
 | **噶瑪蘭族** | `kavalan-zhangyuan.md` ＝ **1 篇**（辯證探究後才找到，見 B-020 結案紀錄） | 唯一有「當代生活第一人稱記載」性質的族群內容 |
 | **排灣族** | `jialan-morakot.md`(新開 PR，09-20，金峰鄉嘉蘭村莫拉克風災與災後自我組織) ＝ **1 篇（與魯凱族共享，見下方但書）** | 09-20 解除主體零覆蓋，但查證後發現：報導中四位具名嘉蘭村民（吳榮金、戴秀英、宋仙璋、賴淑芳）的引言，原始報導**未逐一標註**各自的族群身分（嘉蘭村是排灣族與魯凱族混居聚落），本站因此**無法把這些具名第一人稱引言精確歸給排灣族或魯凱族其中一族**。格子填上了，但支撐材料本身帶著未解決的族群歸屬缺口，見 JOURNAL 2026-09-20 F158，不宜視為「排灣族當代生活缺口已解決」 |
 | **布農族** | `luanshan-forest-museum.md`(PR#28，延平鄉鸞山部落阿力曼舉債護林)／`kanting-pasibutbut.md`(PR#29，海端鄉崁頂部落Pasibutbut八部合音發現地) ＝ **2 篇** | 09-17／09-18 兩輪解除主體零覆蓋，但兩篇合計仍是外部敘事（機構、學者、媒體、訪客）為主，沒有一段布農族人自述第一人稱材料，「族人自述」子缺口未解除，見 JOURNAL 2026-09-18 F153 |
@@ -134,7 +136,7 @@ B-001／B-022 遇到的灰色文獻更差，這是查證前就該預期的困難
 |---|---|---|
 | 地名／同名詞消歧義 | 6 | `beinan-site.md`／`zhiben-site.md`／`changbin-site.md`／`dawu-site.md`／`dulan-site.md`／`chenggong-site.md`／`taimali-site.md`（B-007 七組叢集，實際 7 篇） |
 | 歷史建築／文化資產 | 3 | `gongdong-chapel.md`／`taitung-engine-house.md`／`taitung-tianhou-temple.md` |
-| 族群當代生活／第一人稱敘事 | 2 | `amis.md`（seed，內容仍偏一般性描述而非第一人稱）／`kavalan-zhangyuan.md` |
+| 族群當代生活／第一人稱敘事 | 3 | `amis.md`（seed，內容仍偏一般性描述而非第一人稱）／`kavalan-zhangyuan.md`／`nanwang-village.md`（新增，09-21，材料年代 2000 年） |
 | 土地爭議／傳統領域 | 2 | `dulan-traditional-territory.md`／`taitung-chinese-association-hall.md`（性質不同：前者原民傳統領域，後者華僑土地權屬，並列不合併） |
 | 產業經濟 | 1 | `chishang-rice.md` |
 | 自然地理 | 1 | `green-island.md` |
