@@ -130,6 +130,15 @@ exceeded」判定為無回應。查證後確認成因是 `urlAlive()` 用的 Nod
 死鏈。**仍未做**：修正 `urlAlive()`；累計三次獨立案例後，若下一輪有能力比對 GitHub
 Actions CI 的實際執行結果，值得優先處理，避免這個已知的假陽性繼續逐輪重複記錄而不解決。
 
+**2026-09-23 第四次附記（同一成因，第四個獨立案例，連續四天）**：`chulu-village.md`
+引用的維基百科〈馬智禮〉條目與 `catalog.digitalarchives.tw` 林秀玉口述紀錄頁，同樣被
+`--links` 模式判定「無回應」，本輪用 `curl`（帶瀏覽器 User-Agent，經沙盒代理）獨立驗證
+兩者皆為 HTTP 200。連續四天、四個不同網域（台灣光華雜誌、維基百科、digitalarchives.tw）
+命中同一模式，累計樣本已足夠支持這是沙盒環境（Node `fetch()` 未讀取 `https_proxy`）的
+系統性問題，非個別站台死鏈。**建議下一輪優先評估修正 `urlAlive()`**（例如讀取
+`process.env.HTTPS_PROXY`／`https_proxy` 並透過代理發送請求，或改用 `curl` 子行程），
+不宜再無限期延後——每多一輪不修，就多一輪的 WARN 數字失真，且需要人工逐篇記錄排除。
+
 ### B-029 — 前端型別／渲染落後於 HARD-RULES 現行 frontmatter 欄位　【結案 2026-09-12，見 JOURNAL 2026-09-12】
 **軸**：跨軸（迴圈自身工具）｜**來源**：PR #13 review，chatgpt-codex-connector[bot] P1 發現
 
